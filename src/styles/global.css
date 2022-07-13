@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+
+@tailwind utilities;
+
+@font-face {
+  font-family: 'SctoGroteskA';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('/fonts/SctoGroteskA-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'SctoGroteskA';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url('/fonts/SctoGroteskA-Medium.otf') format('opentype');
+}
+
+body {
+  font-family: SctoGroteskA;
+  font-size: 18px;
+  line-height: 29px;
+  font-weight: 400;
+  color: #1f1f1f;
+  background-color: #f4f4f4;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.0125rem;
+}
+
+.swiper-wrapper {
+  padding-left: 30px;
+}
+
+.swiper-slide {
+  box-sizing: border-box;
+}
+
+.slide-card {
+  width: calc(100vw - 60px) !important;
+}
+
+.last-card {
+  width: 100px !important;
+}
+
+@media only screen and (min-width: 600px) {
+  .swiper-wrapper {
+    padding-left: calc((100vw - 1200px) / 2);
+  }
+  .slide-card {
+    width: 350px !important;
+  }
+}
