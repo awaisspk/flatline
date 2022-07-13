@@ -7,14 +7,19 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 const SimpleSlider = () => {
   return (
     <Swiper
-      spaceBetween={20}
+      spaceBetween={10}
+      breakpoints={{
+        500: {
+          spaceBetween: 30,
+        },
+      }}
       slidesPerView="auto"
       centeredSlides
       centeredSlidesBounds
       wrapperClass="swiper-wrapper"
     >
       {[...Array(10)].map((_, i) => (
-        <SwiperSlide key={i} className="slide-card">
+        <SwiperSlide key={i} className="blog-card">
           <div>
             <figure className="h-[200px] sm:h-[370px]">
               <div className="h-full w-full bg-gray-600"></div>
