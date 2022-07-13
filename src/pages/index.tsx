@@ -13,7 +13,7 @@ const Index = () => {
     <Main
       meta={
         <Meta
-          title="Custom development, Challenge the status quo"
+          title="Flatline Agency - Custom development, Challenge the status quo"
           description=""
         />
       }

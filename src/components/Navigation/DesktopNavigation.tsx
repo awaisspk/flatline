@@ -28,7 +28,7 @@ export const DesktopNavigation = () => {
                 <a>{link.label}</a>
               </Link>
               <span
-                className="block h-0.5 w-0 bg-gray-600 duration-300 group-hover:w-full"
+                className="-mt-1 block h-0.5 w-0 bg-gray-600 duration-300 group-hover:w-full"
                 style={{
                   width: router.pathname === link.url ? '100%' : '0%',
                 }}

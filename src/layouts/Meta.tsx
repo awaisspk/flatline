@@ -51,7 +51,6 @@ const Meta = (props: IMetaProps) => {
         title={props.title}
         description={props.description}
         canonical={props.canonical}
-        titleTemplate={`${AppConfig.site_name} - %s`}
         defaultTitle={AppConfig.site_name}
         twitter={{
           handle: '@handle',

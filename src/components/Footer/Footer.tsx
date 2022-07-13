@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 const offices = [
   {
     city: 'New York',
-    time: '10: 30 AM',
+    time: '10: 30 AM', // temp
     location: ['447 Broadway 2nd floor', '10013 NYC'],
     email: 'ny@flatlineagency.com',
   },
@@ -79,8 +79,8 @@ export const Footer = () => {
   //   }),
   // };
   return (
-    <footer className="min-h-screen w-full bg-black text-white" ref={ref}>
-      <div className="mx-auto max-w-flat p-[90px_25px_90px] sm:p-[150px_45px_90px]">
+    <footer className=" w-full bg-black text-white" ref={ref}>
+      <div className="mx-auto flex min-h-screen max-w-flat flex-col justify-between p-[90px_25px_90px] sm:p-[150px_45px_90px]">
         <div className="grid gap-7 sm:grid-cols-[3fr_1fr] md:grid-cols-[5fr_1fr]">
           <div>
             <h2 className="text-4xl">
@@ -103,7 +103,7 @@ export const Footer = () => {
           </div>
           <div>
             <h3 className="text-xs">Pages</h3>
-            <motion.ul className="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-1">
+            <motion.ul className="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-1 md:whitespace-nowrap">
               {pages.map((page, i) => (
                 <motion.li
                   key={i}

@@ -3,7 +3,7 @@ export const AppConfig = {
   title: 'Custom development, Challenge the status quo',
   description:
     'Amsterdam-based development agency specializing in custom development. We collaborate on strategy, design, development, and infrastructure.',
-  locale: 'en_US',
+  locale: 'en_us',
 };
 
 export const mainNavigation = [
