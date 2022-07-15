@@ -19,6 +19,10 @@
   src: url('/fonts/SctoGroteskA-Medium.otf') format('opentype');
 }
 
+* {
+  outline: none !important;
+}
+
 body {
   font-family: SctoGroteskA;
   font-size: 18px;
@@ -60,4 +64,10 @@ body {
   .slide-card {
     width: 350px !important;
   }
+}
+.intl-tel-input .flag-container .selected-flag {
+  left: 7px;
+}
+.intl-tel-input.allow-dropdown .flag-container:hover .selected-flag {
+  background-color: transparent !important;
 }

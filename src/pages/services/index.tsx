@@ -63,6 +63,15 @@ const Services = () => {
             </Fragment>
           ))}
         </section>
+        <section className="mx-auto max-w-flat px-10 pt-28 pb-52 md:pl-40">
+          <h2 className="text-5xl leading-[50px] md:text-[100px] md:leading-[100px]">
+            <span>So,</span>
+            <br />
+            <a href="" className="cursor-pointer underline hover:no-underline">
+              Challenge us.
+            </a>
+          </h2>
+        </section>
       </main>
     </Main>
   );

@@ -25,13 +25,13 @@ const Index = () => {
             <br />
             <span className="text-neutral-500/80">We make you pulse</span>
           </h1>
-          <div className="mt-8 flex space-x-6 pb-28">
+          <div className="mt-8 flex space-x-2 pb-28 sm:space-x-6">
             <Link href="cases">
-              <a className="flex w-full cursor-pointer items-center justify-center rounded-[100px] border-[1px]   border-[#dedede] bg-transparent py-4 text-sm leading-4 text-black duration-300 hover:bg-black hover:text-white sm:w-max sm:py-5 sm:px-10">
+              <a className="flex w-max cursor-pointer items-center justify-center rounded-[100px]   border-[1px] border-[#dedede] bg-transparent py-5 px-8 text-sm leading-4 text-black duration-300 hover:bg-black hover:text-white sm:px-10">
                 Learn more
               </a>
             </Link>
-            <button className="flex w-full cursor-pointer items-center justify-center rounded-[100px] border-[1px] border-gray-500/50 bg-black  py-4 text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black sm:w-max sm:py-5 sm:px-10">
+            <button className="flex w-max cursor-pointer items-center justify-center rounded-[100px] border-[1px] border-gray-500/50 bg-black py-5 px-8 text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black sm:px-10">
               Plan a call
             </button>
           </div>
@@ -43,6 +43,7 @@ const Index = () => {
             layout="fill"
             objectFit="cover"
             className="h-full w-full"
+            alt=""
           />
         </section>
         <OurWork />

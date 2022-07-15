@@ -1,45 +1,130 @@
-import 'swiper/css';
+import cx from 'classnames';
+import AutoHeight from 'embla-carousel-auto-height';
+import useEmblaCarousel from 'embla-carousel-react';
+import Image from 'next/image';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+const services = [
+  {
+    imgUrl:
+      'https://www.flatlineagency.com/wp-content/uploads/2021/11/Schermafbeelding-2021-11-10-om-15.45-348x433.jpg',
+    title: 'Ecommerce',
+    description:
+      " Proud partner of Shopify, WooCommerce, and end-to-end production partner of large players within the e-commerce industry. We don't simply build your webshop, we set up your entire digital architecture.",
+  },
+  {
+    imgUrl:
+      'https://www.flatlineagency.com/wp-content/uploads/2021/11/Screenshot-2021-12-10-at-13.29-2-348x433.jpg',
+    title: 'Custom development',
+    description:
+      " Building something from scratch is just the beginning. The real 'game' starts, as soon as you start to scale and grow beyond your comfort zone. We can help you achieve your goals!",
+  },
+  {
+    imgUrl:
+      'https://www.flatlineagency.com/wp-content/uploads/2021/11/Screenshot-2021-12-10-at-13.27-1-348x433.jpg',
+    title: 'Apps',
+    description:
+      ' Hoping to increase your brand recognition & loyalty? We are here to help you build an app to achieve this, prioritising your users needs.',
+  },
+  {
+    imgUrl:
+      'https://www.flatlineagency.com/wp-content/uploads/2021/11/image-39-348x433.jpg',
+    title: 'Sites & Platforms',
+    description:
+      ' The best in class, automated websites and platforms. Ready to scale out of the box and mind-blowing far beyond the status quo.',
+  },
+  {
+    imgUrl:
+      'https://www.flatlineagency.com/wp-content/uploads/2021/11/Screenshot-2021-12-10-at-13.29-2-348x433.jpg',
+    title: 'Web 3.0',
+    description:
+      ' From augmented reality, and artificial intelligence to machine learning and blockchain, these technologies have allowed new possibilities for innovation around the globe! Elevate your brand to the next digital generation with Flatline Agency.',
+  },
+];
 
-const SimpleSlider = () => {
+const ServicesCarousal = () => {
+  const [viewportRef, embla] = useEmblaCarousel(
+    {
+      slidesToScroll: 1,
+      align: 'start',
+      containScroll: 'trimSnaps',
+    },
+    [AutoHeight()]
+  );
+
+  const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
+  const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
+
+  const scrollPrev = useCallback(() => embla && embla.scrollPrev(), [embla]);
+  const scrollNext = useCallback(() => embla && embla.scrollNext(), [embla]);
+
+  const onSelect = useCallback(() => {
+    if (!embla) return;
+    setPrevBtnEnabled(embla.canScrollPrev());
+    setNextBtnEnabled(embla.canScrollNext());
+  }, [embla]);
+
+  useEffect(() => {
+    if (!embla) return;
+    embla.on('select', onSelect);
+    onSelect();
+  }, [embla, onSelect]);
+
   return (
-    <Swiper
-      spaceBetween={10}
-      breakpoints={{
-        500: {
-          spaceBetween: 30,
-        },
-      }}
-      slidesPerView="auto"
-      centeredSlides
-      centeredSlidesBounds
-      wrapperClass="swiper-wrapper"
-    >
-      {[...Array(9)].map((_, i) => (
-        <SwiperSlide key={i} className="slide-card">
-          <div>
-            <figure>
-              <div className="min-h-[430px] bg-gray-600"></div>
-            </figure>
-            <figcaption className="mt-10">
-              <h3 className="my-5 text-3xl text-white sm:text-4xl">
-                <span className="mr-2 text-lg">0{i + 1}</span>
-                Ecommerce
-              </h3>
-              <p className="text-sm leading-5 text-[#8b8b8b]">
-                Lorem ipsum dolor sit amet, qui minim labore minim sint cillum
-                sint consectetur cupidatat.
-              </p>
-            </figcaption>
-          </div>
-        </SwiperSlide>
-      ))}
-      <SwiperSlide className="last-card">
-        <div className="h-full w-full" />
-      </SwiperSlide>
-    </Swiper>
+    <div className="relative">
+      <div className="relative right-14 mb-6 flex justify-end space-x-10 text-sm text-white">
+        <button
+          onClick={scrollPrev}
+          disabled={!prevBtnEnabled}
+          className={cx({
+            'opacity-0 transition-opacity duration-300': !prevBtnEnabled,
+            'opacity-100 transition-opacity duration-300': prevBtnEnabled,
+          })}
+        >
+          Prev
+        </button>
+        <button
+          onClick={scrollNext}
+          disabled={!nextBtnEnabled}
+          className={cx({
+            'opacity-0 transition-opacity duration-300': !nextBtnEnabled,
+            'opacity-100 transition-opacity duration-300': nextBtnEnabled,
+          })}
+        >
+          Next
+        </button>
+      </div>
+      <div className="w-full overflow-x-hidden" ref={viewportRef}>
+        <div className="ml-10 flex select-none md:ml-[calc((100vw-1200px)/2)]">
+          {services.map((service, index) => (
+            <div
+              className="relative mr-4 shrink-0 grow-0 basis-[90%] sm:mr-14 sm:basis-[330px]"
+              key={index}
+            >
+              <div>
+                <figure className="relative min-h-[450px] w-full bg-gray-800">
+                  <Image
+                    src={service.imgUrl}
+                    layout="fill"
+                    objectFit="cover"
+                    alt=""
+                  />
+                </figure>
+                <figcaption className="mt-10">
+                  <h3 className="my-5 text-3xl text-white">
+                    <span className="mr-3 text-lg">0{index + 1}</span>
+                    {service.title}
+                  </h3>
+                  <p className="h-[calc(16px*3)] overflow-hidden text-sm leading-4 text-[#8b8b8b]">
+                    {service.description}
+                  </p>
+                </figcaption>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -51,7 +136,7 @@ export const Services = () => {
           Services
         </h2>
         <div className="mt-20">
-          <SimpleSlider />
+          <ServicesCarousal />
         </div>
       </div>
     </section>

@@ -16,7 +16,8 @@ export const Logo = () => {
         scale: direction === 'down' ? (isMobile ? 0.9 : 0.6) : 1,
         originX: 'left',
         transition: {
-          duration: 0.5,
+          duration: 0.6,
+          ease: [0.16, 1, 0.3, 1],
         },
       }}
     >

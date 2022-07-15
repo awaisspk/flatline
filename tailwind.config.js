@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
@@ -36,6 +38,7 @@ module.exports = {
         'flat-gray': '#6c757d',
         'flat-gray-dark': '#343a40',
         primary: '#5533ff',
+        body: '#f4f4f4',
         secondary: '#6c757d',
         success: '#28a745',
         info: '#17a2b8',
@@ -52,5 +55,8 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+    require('tailwindcss-radix')(),
+  ],
 };

@@ -12,12 +12,13 @@ export const DesktopNavigation = () => {
   return (
     <>
       <motion.nav
-        className="ml-20 hidden grow md:block"
+        className="visible ml-20 hidden grow md:block"
         initial={{ opacity: 1 }}
         animate={{
           opacity: direction === 'down' ? 0 : 1,
+          transitionTimingFunction: 'ease',
           transition: {
-            duration: 0.5,
+            duration: 0.6,
           },
         }}
       >
