@@ -1,10 +1,13 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import cx from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 
 import { CrossIcon } from './icons';
+
+const Player = dynamic(() => import('react-player'), { ssr: false });
 
 interface Props {
   url: string;
@@ -48,7 +51,22 @@ const Dialog = ({ url, children }: Props) => {
                   duration: 0.6,
                 }}
               >
-                <video autoPlay src={url} controls />
+                <Player
+                  playing={true}
+                  mutated
+                  controls
+                  url={url}
+                  playsinline
+                  width="100%"
+                  height="100%"
+                  config={{
+                    file: {
+                      attributes: {
+                        preload: 'true',
+                      },
+                    },
+                  }}
+                />
               </motion.div>
             </DialogPrimitive.Content>
           </DialogPrimitive.Portal>

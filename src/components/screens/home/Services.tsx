@@ -1,8 +1,10 @@
 import cx from 'classnames';
 import AutoHeight from 'embla-carousel-auto-height';
 import useEmblaCarousel from 'embla-carousel-react';
+import type { Variants } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 const services = [
   {
@@ -52,6 +54,23 @@ const ServicesCarousal = () => {
     [AutoHeight()]
   );
 
+  const variants: Variants = {
+    initial: {
+      opacity: 0,
+      translateX: 130,
+    },
+    animate: (i) => ({
+      opacity: 1,
+      translateX: 0,
+      transition: {
+        duration: 0.3 * i,
+        ease: 'easeInOut',
+      },
+    }),
+  };
+  const ref = useRef(null);
+  const isInView = useInView(ref);
+
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
 
@@ -95,10 +114,17 @@ const ServicesCarousal = () => {
         </button>
       </div>
       <div className="w-full overflow-x-hidden" ref={viewportRef}>
-        <div className="ml-10 flex select-none md:ml-[calc((100vw-1200px)/2)]">
+        <div
+          className="ml-10 flex select-none md:ml-[calc((100vw-1200px)/2)]"
+          ref={ref}
+        >
           {services.map((service, index) => (
-            <div
+            <motion.div
               className="relative mr-4 shrink-0 grow-0 basis-[90%] sm:mr-14 sm:basis-[330px]"
+              variants={variants}
+              initial="initial"
+              animate={isInView ? 'animate' : 'initial'}
+              custom={index + 1}
               key={index}
             >
               <div>
@@ -120,7 +146,7 @@ const ServicesCarousal = () => {
                   </p>
                 </figcaption>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
