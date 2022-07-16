@@ -3,9 +3,9 @@ import React from 'react';
 
 import { Faqs } from '@/components/screens/customDevelopment/Faqs';
 import { OurCases } from '@/components/screens/customDevelopment/OurCases';
+import { BrandsList } from '@/components/ui/BrandsList';
 import { Check } from '@/components/ui/icons/Check';
 import { Main, Meta, PageLayout } from '@/layouts';
-import { brands } from '@/utils/data/brands';
 
 const services = [
   'We build websites and web apps.',
@@ -19,9 +19,11 @@ const CustomDevelopment = () => {
   return (
     <Main meta={<Meta title="Custom Development" description="Flatline" />}>
       <main>
-        <section className="mx-auto flex max-w-flat justify-between px-8 sm:px-12">
-          <div className="max-w-xl pt-10 pb-32">
-            <h1 className="text-5xl">Custom development</h1>
+        <section className="mx-auto flex max-w-flat flex-col justify-between  px-8 sm:px-12 lg:flex-row">
+          <div className="max-w-xl pt-10 pb-20 sm:pb-32 ">
+            <h1 className="text-4xl leading-10 sm:text-5xl">
+              Custom development
+            </h1>
             <p className="mt-14 mb-8 text-neutral-500">
               Our partners and clients consist of Fortune 500 companies, SMEs,
               the Dutch government, and non-profit organizations, leveraging us
@@ -29,49 +31,34 @@ const CustomDevelopment = () => {
             </p>
             <ul className="space-y-3">
               {services.map((service, i) => (
-                <li key={i} className="flex items-center space-x-2">
+                <li
+                  key={i}
+                  className="flex items-start space-x-2 text-neutral-500"
+                >
                   <Check />
-                  <span>{service}</span>
+                  <span className="-mt-2">{service}</span>
                 </li>
               ))}
             </ul>
-            <button className="mt-10 flex w-full cursor-pointer items-center justify-center rounded-[100px] border-[1px] border-gray-500/50 bg-black  py-4 text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black sm:w-max sm:py-5 sm:px-10">
+            <button className="mt-10 flex cursor-pointer items-center justify-center rounded-[100px] border-[1px] border-gray-500/50 bg-black  py-5 px-10 text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black sm:w-max">
               Have a chat
             </button>
           </div>
-          <div className="relative mt-10 h-[500px] w-[400px] ">
+          <div className="relative h-[230px] w-full sm:h-[500px] lg:mt-10 lg:w-[400px] ">
             <Image
               src="https://www.flatlineagency.com/wp-content/uploads/2021/12/pexels-photo-5875844-1.jpg"
               layout="fill"
+              objectFit="cover"
               alt=""
             />
           </div>
         </section>
         <section className="mx-auto max-w-flat px-8 sm:px-12">
-          <div className="flex flex-wrap">
-            {brands.slice(0, 5).map((brand, i) => (
-              <div
-                key={i}
-                className="group relative flex h-[150px] w-1/2 flex-col items-center justify-center overflow-hidden sm:w-1/3 md:w-1/5"
-              >
-                <p className="absolute translate-y-[-100%] text-center text-xs leading-4 opacity-0 transition-all delay-75 duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-[0%] group-hover:opacity-100">
-                  {brand.description}
-                </p>
-                <div className="absolute h-[50px] w-full max-w-[150px] text-xs transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-[100%] group-hover:opacity-0 ">
-                  <Image
-                    src={brand.url}
-                    objectFit="contain"
-                    layout="fill"
-                    alt=""
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
+          <BrandsList half />
         </section>
         <section className="mx-auto max-w-flat space-y-10 py-32 px-8 sm:px-12">
-          <h2 className="text-4xl">Why build it custom</h2>
-          <div className="flex gap-20 pb-32">
+          <h2 className="text-4xl leading-10">Why build it custom</h2>
+          <div className="flex flex-col gap-20 pb-32 sm:flex-row sm:gap-10 md:gap-20">
             <p>
               Building custom means building it exactly the way you want. Making
               it lean, fast, UX or UI focussed, and therefore creating the
@@ -97,7 +84,7 @@ const CustomDevelopment = () => {
           </div>
         </section>
         <OurCases />
-        <section className="mx-auto flex max-w-flat gap-20 space-y-10 py-32 px-8 sm:px-12">
+        <section className="mx-auto flex max-w-flat flex-col gap-10 space-y-10 py-32 px-8 sm:px-12 md:flex-row md:gap-20">
           <div className="basis-1/2 space-y-10">
             <h2 className="text-4xl ">Services</h2>
             <p className="text-neutral-500">
@@ -106,19 +93,20 @@ const CustomDevelopment = () => {
               help you to set your future goals and create success as a service.
             </p>
           </div>
-          <div className="self-end">
-            <ul className="grid grid-cols-2 gap-5">
-              <li className="text-3xl">
-                <span className="mr-5 text-[16px]">01</span>Web
+          <div className="md:self-end">
+            <ul className="grid grid-cols-2 gap-y-5 sm:gap-5">
+              <li className="text-xl sm:text-3xl">
+                <span className="mr-2 text-[16px] sm:mr-5">01</span>Web
               </li>
-              <li className="text-3xl">
-                <span className="mr-5 text-[16px]">02</span>App
+              <li className="text-xl sm:text-3xl">
+                <span className="mr-2 text-[16px] sm:mr-5">02</span>App
               </li>
-              <li className="text-3xl">
-                <span className="mr-5 text-[16px]">02</span>Software
+              <li className="text-xl sm:text-3xl">
+                <span className="mr-2 text-[16px] sm:mr-5">03</span>Software
               </li>
-              <li className="text-3xl">
-                <span className="mr-5 text-[16px]">02</span>E-commerce
+              <li className="text-xl sm:text-3xl">
+                <span className="mr-2 text-[16px] sm:mr-5">04</span>
+                <span>E-commerce</span>
               </li>
             </ul>
           </div>

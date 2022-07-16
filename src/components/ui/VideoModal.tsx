@@ -23,9 +23,16 @@ const Dialog = ({ url, children }: Props) => {
       <AnimatePresence>
         {isOpen && (
           <DialogPrimitive.Portal forceMount>
-            <DialogPrimitive.Close className="absolute top-0 right-0 h-10 w-10 bg-black">
-              <CrossIcon />
-            </DialogPrimitive.Close>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4, ease: 'easeInOut' }}
+            >
+              <DialogPrimitive.Close className="fixed top-10 right-[calc((100vw-1300px)/2)] z-[51] flex h-14 w-14 items-center justify-center rounded-full bg-neutral-700">
+                <CrossIcon />
+              </DialogPrimitive.Close>
+            </motion.div>
             <DialogPrimitive.Overlay forceMount>
               <motion.div
                 className="fixed inset-0 z-50 cursor-pointer bg-black/50 backdrop-blur-[10px]"

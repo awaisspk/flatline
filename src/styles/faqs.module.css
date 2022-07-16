@@ -1,0 +1,19 @@
+.container {
+  @apply py-10 space-y-8 text-neutral-400;
+}
+
+.container h2 {
+  @apply mb-3 text-3xl text-black;
+}
+
+.container h3 {
+  @apply mb-3 text-3xl text-black;
+}
+
+.container li {
+  @apply flex items-center;
+}
+
+.container li span {
+  @apply mr-2 block h-1.5 w-1.5 rounded-full bg-neutral-400;
+}

@@ -33,7 +33,7 @@ const Card = ({ videoUrl, imgUrl, title }: ICard) => {
         {title}
       </p>
       <motion.div
-        className="relative h-full w-full cursor-pointer"
+        className="relative h-full w-full cursor-pointer bg-black"
         onHoverStart={() => {
           setIsHovered(true);
         }}
@@ -43,6 +43,7 @@ const Card = ({ videoUrl, imgUrl, title }: ICard) => {
       >
         <Player
           playing={isHovered}
+          light
           muted
           ref={ref}
           url={videoUrl}
@@ -67,7 +68,11 @@ const Card = ({ videoUrl, imgUrl, title }: ICard) => {
           <Image src={imgUrl} layout="fill" objectFit="cover" alt="" />
         </motion.div>
       </motion.div>
-      <motion.div className="absolute right-5 bottom-5 z-50 cursor-pointer rounded-full">
+      <motion.div
+        className="absolute right-5 bottom-5 z-50 cursor-pointer rounded-full"
+        onMouseEnter={() => setCursorVariant('dot')}
+        onMouseLeave={() => setCursorVariant('view')}
+      >
         <Dialog url={videoUrl}>
           <Expand isHovered={isHovered} />
         </Dialog>
@@ -98,7 +103,7 @@ export const OurWork = () => {
         </h2>
         <div className="mt-20 flex flex-wrap justify-end gap-5 md:mt-32">
           <motion.div
-            className="min-h-[230px] w-full md:w-[800px]"
+            className="h-[230px] w-full sm:h-[430px] md:w-[800px]"
             variants={variants}
             initial="initial"
             whileInView="animate"
@@ -111,7 +116,7 @@ export const OurWork = () => {
             />
           </motion.div>
           <motion.div
-            className="min-h-[230px] w-full md:w-1/2 md:max-w-[425px]"
+            className="mb-auto h-[230px] w-full sm:h-[430px] md:h-[250px] md:w-1/2 md:max-w-[425px]"
             variants={variants}
             initial="initial"
             whileInView="animate"
@@ -124,7 +129,7 @@ export const OurWork = () => {
             />
           </motion.div>
           <motion.div
-            className="min-h-[230px] w-full md:w-1/2 md:max-w-[660px]"
+            className="h-[230px] w-full sm:h-[430px] md:h-[350px] md:w-1/2 md:max-w-[660px]"
             variants={variants}
             initial="initial"
             whileInView="animate"

@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import React, { useCallback, useEffect } from 'react';
 
+import { useCursorVariant } from '@/utils/context/cursorContext';
+
 const data = [
   {
     location: 'Amsterdam',
@@ -30,6 +32,7 @@ const data = [
 ];
 
 const Carousel = () => {
+  const { setCursorVariant } = useCursorVariant();
   const [viewportRef, embla] = useEmblaCarousel(
     {
       slidesToScroll: 1,
@@ -67,7 +70,11 @@ const Carousel = () => {
   return (
     <div className="relative">
       <div className="w-full overflow-x-hidden" ref={viewportRef}>
-        <div className="ml-5 flex select-none items-start sm:ml-10 md:ml-[calc((100vw-1200px)/2)]">
+        <div
+          className="ml-5 flex select-none items-start sm:ml-10 md:ml-[calc((100vw-1200px)/2)]"
+          onMouseEnter={() => setCursorVariant('carousal')}
+          onMouseLeave={() => setCursorVariant('default')}
+        >
           {data.map((office, index) => (
             <motion.div
               className="relative mr-5 shrink-0 grow-0 basis-[90%] md:basis-[85%]"

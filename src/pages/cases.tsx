@@ -47,91 +47,93 @@ const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
   const ref = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLElement>(null);
   return (
-    <motion.section
-      ref={containerRef}
-      initial={false}
-      style={{
-        translateX: x,
-        translateY: y,
-      }}
-      className={cx('relative mx-auto max-w-3xl')}
-    >
-      <div className="absolute inset-x-0 flex justify-center">
-        <motion.h2
-          className="absolute -mt-16 w-max text-[100px]"
-          initial={{ scale: 0.8, opacity: 0 }}
-          transition={{
-            delay: 0.15,
-            duration: 1,
-            ease: [0, 0.55, 0.45, 1],
-          }}
-          animate={{
-            scale: isHovered && isDesktop ? 1 : 0.8,
-            opacity: isHovered && isDesktop ? 1 : 0,
-          }}
-        >
-          {title}
-        </motion.h2>
-      </div>
-      <motion.div
-        ref={cardRef}
-        className="relative cursor-pointer"
-        onHoverStart={() => {
-          setIsHovered(true);
-          resetMousePosition();
-          ref.current?.play();
+    <div>
+      <motion.section
+        ref={containerRef}
+        initial={false}
+        style={{
+          translateX: x,
+          translateY: y,
         }}
-        onHoverEnd={() => {
-          setIsHovered(false);
-          resetMousePosition();
-          ref.current?.pause();
-        }}
-        initial={{
-          scale: 1,
-          clipPath: 'polygon(100% 0,100% 100%,100% 100%,0 100%,0 0%,0% 0)',
-        }}
-        animate={{
-          scale: isHovered ? 0.9 : 1,
-          transition: {
-            ease: [0, 0.55, 0.45, 1],
-          },
-        }}
-        whileHover={{
-          clipPath: 'polygon(100% 0,100% 75%,82% 100%,0 100%,0 25%,18% 0)',
-          transition: {
-            delay: 0.3,
-            type: 'tween',
-            duration: 0.4,
-          },
-        }}
-        onPointerMove={(e) => {
-          mouseX.set(e.clientX - bounds.x - bounds.width / 2);
-          mouseY.set(e.clientY - bounds.y - bounds.height / 2);
-        }}
+        className={cx('relative mx-auto max-w-3xl')}
       >
-        <motion.video
-          ref={ref}
-          autoPlay={false}
-          className="w-full"
-          src="https://www.flatlineagency.com/wp-content/uploads/2022/05/videoplayback.mp4"
-          playsInline
-          loop
-          muted
-        />
+        <div className="absolute inset-x-0 flex justify-center">
+          <motion.h2
+            className="absolute -mt-16 w-max text-[100px]"
+            initial={{ scale: 0.8, opacity: 0 }}
+            transition={{
+              delay: 0.15,
+              duration: 1,
+              ease: [0, 0.55, 0.45, 1],
+            }}
+            animate={{
+              scale: isHovered && isDesktop ? 1 : 0.8,
+              opacity: isHovered && isDesktop ? 1 : 0,
+            }}
+          >
+            {title}
+          </motion.h2>
+        </div>
         <motion.div
-          initial={{ opacity: 1 }}
+          ref={cardRef}
+          className="relative cursor-pointer"
+          onHoverStart={() => {
+            setIsHovered(true);
+            resetMousePosition();
+            ref.current?.play();
+          }}
+          onHoverEnd={() => {
+            setIsHovered(false);
+            resetMousePosition();
+            ref.current?.pause();
+          }}
+          initial={{
+            scale: 1,
+            clipPath: 'polygon(100% 0,100% 100%,100% 100%,0 100%,0 0%,0% 0)',
+          }}
           animate={{
-            opacity: isHovered ? 0 : 1,
+            scale: isHovered ? 0.9 : 1,
+            transition: {
+              ease: [0, 0.55, 0.45, 1],
+            },
+          }}
+          whileHover={{
+            clipPath: 'polygon(100% 0,100% 75%,82% 100%,0 100%,0 25%,18% 0)',
+            transition: {
+              delay: 0.3,
+              type: 'tween',
+              duration: 0.4,
+            },
+          }}
+          onPointerMove={(e) => {
+            mouseX.set(e.clientX - bounds.x - bounds.width / 2);
+            mouseY.set(e.clientY - bounds.y - bounds.height / 2);
           }}
         >
-          <Image
-            src="https://www.flatlineagency.com/wp-content/uploads/2022/05/justeattakeaway-579x320.jpg"
-            layout="fill"
-            objectFit="cover"
-            alt=""
+          <motion.video
+            ref={ref}
+            autoPlay={false}
+            className="w-full"
+            src="https://www.flatlineagency.com/wp-content/uploads/2022/05/videoplayback.mp4"
+            playsInline
+            loop
+            muted
           />
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{
+              opacity: isHovered ? 0 : 1,
+            }}
+          >
+            <Image
+              src="https://www.flatlineagency.com/wp-content/uploads/2022/05/justeattakeaway-579x320.jpg"
+              layout="fill"
+              objectFit="cover"
+              alt=""
+            />
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </motion.section>
       <div className="mt-5 space-y-3">
         <h3 className="text-3xl">{subtitle}</h3>
         <p className="flex items-center space-x-2">
@@ -140,9 +142,47 @@ const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
           <span>{creation.join(' ,')}</span>
         </p>
       </div>
-    </motion.section>
+    </div>
   );
 };
+
+const data = [
+  {
+    title: 'Just Eat Takeaway',
+    subtitle: "Europe's leading food delivery service",
+    creation: ['Development', 'Design'],
+  },
+  {
+    title: 'Bud',
+    subtitle: 'King of beers',
+    creation: ['Development', 'Design'],
+  },
+  {
+    title: 'Mystic',
+    subtitle: 'Brutal action sports',
+    creation: ['PIM', 'ERP', 'E-commerce'],
+  },
+  {
+    title: 'Vanilla',
+    subtitle: 'Fashion,redefined',
+    creation: ['UX', 'animations', 'flow'],
+  },
+  {
+    title: 'MG motor',
+    subtitle: 'Iconic cars',
+    creation: ['Coding', 'Design'],
+  },
+  {
+    title: 'Hugo Boss',
+    subtitle: 'Welcome to metaverse',
+    creation: ['Metaverse', 'Web 3.0', 'AR', 'VR'],
+  },
+  {
+    title: 'Kingdom OS',
+    subtitle: '',
+    creation: ['Development', 'Design', 'Animation'],
+  },
+];
 
 const Cases = () => {
   return (
@@ -160,57 +200,18 @@ const Cases = () => {
             Our work
           </h1>
         </section>
-        <section className="mx-auto grid min-h-[2500px] max-w-flat auto-rows-fr grid-cols-1 px-8 sm:gap-32 lg:grid-cols-11 lg:gap-0">
-          <div className="h-[400px] lg:col-span-5">
-            <WorkCard
-              title="Just Eat Takeaway"
-              subtitle="Europe's leading food delivery service"
-              creation={['Development', 'Design']}
-            />
-          </div>
-          <div className="h-[400px] lg:col-start-7 lg:col-end-12 lg:translate-y-52">
-            <WorkCard
-              title="Bud"
-              subtitle="King of beers"
-              creation={['Development', 'Design']}
-            />
-          </div>
-
-          <div className="h-[400px] lg:col-span-5">
-            <WorkCard
-              title="Mystic"
-              subtitle="Brutal action sports"
-              creation={['PIM', 'ERP', 'E-commerce']}
-            />
-          </div>
-          <div className="relative h-[400px] lg:col-start-7  lg:col-end-12 lg:translate-y-48">
-            <WorkCard
-              title="Vanilla"
-              subtitle="Fashion,redefined"
-              creation={['UX', 'animations', 'flow']}
-            />
-          </div>
-          <div className="h-[400px] lg:col-span-5">
-            <WorkCard
-              title="MG motor"
-              subtitle="Iconic cars"
-              creation={['Coding', 'Design']}
-            />
-          </div>
-          <div className="h-[400px] lg:col-start-7  lg:col-end-12 lg:translate-y-48">
-            <WorkCard
-              title="Hugo Boss"
-              subtitle="Welcome to metaverse"
-              creation={['Metaverse', 'Web 3.0', 'AR', 'VR']}
-            />
-          </div>
-          <div className="h-[400px] lg:col-span-5">
-            <WorkCard
-              title="Kingdom OS"
-              subtitle=""
-              creation={['Development', 'Design', 'Animation']}
-            />
-          </div>
+        <section className="mx-auto grid min-h-[2500px] max-w-flat grid-cols-2 px-8 sm:gap-32 lg:gap-10">
+          {data.map((d, i) => {
+            return (
+              <div key={i} className={cx('relative', {})}>
+                <WorkCard
+                  title={d.title}
+                  subtitle={d.subtitle}
+                  creation={d.creation}
+                />
+              </div>
+            );
+          })}
         </section>
       </main>
     </Main>

@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { useCursorVariant } from '@/utils/context/cursorContext';
+
 const images = [
   'https://www.flatlineagency.com/wp-content/uploads/2021/12/Amsterdam-office-655x409.jpg',
   'https://www.flatlineagency.com/wp-content/uploads/2021/12/NYC-Club135-Lounge-1230x820-1-655x409.jpg',
@@ -14,6 +16,7 @@ type Props = {
 };
 
 export const OfficeCarousal = ({ btnPosition = 'bottom' }: Props) => {
+  const { setCursorVariant } = useCursorVariant();
   const [viewportRef, embla] = useEmblaCarousel(
     {
       slidesToScroll: 1,
@@ -61,6 +64,8 @@ export const OfficeCarousal = ({ btnPosition = 'bottom' }: Props) => {
         style={{
           order: btnPosition === 'top' ? 3 : 1,
         }}
+        onMouseEnter={() => setCursorVariant('carousal')}
+        onMouseLeave={() => setCursorVariant('default')}
       >
         <div className="flex select-none items-start">
           {images.map((image, index) => (

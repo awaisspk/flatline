@@ -14,8 +14,14 @@ export const Cursor = () => {
 
   useEffect(() => {
     const moveCursor = (e: any) => {
-      const offset =
-        cursorVariant === 'view' ? 40 : cursorVariant === 'carousal' ? 60 : 13;
+      let offset = 13;
+      if (cursorVariant === 'view') {
+        offset = 40;
+      } else if (cursorVariant === 'carousal') {
+        offset = 60;
+      } else if (cursorVariant === 'dot') {
+        offset = 5;
+      }
       cursorX.set(e.clientX - offset);
       cursorY.set(e.clientY - offset);
     };
@@ -62,6 +68,12 @@ export const Cursor = () => {
       height: 80,
       fontSize: '20px',
       color: '#ffffff',
+    },
+    dot: {
+      width: 2,
+      height: 2,
+      border: '0.3px solid #ffffff',
+      mixBlendMode: 'difference',
     },
   };
 

@@ -7,8 +7,9 @@ import { brands } from '@/utils/data/brands';
 
 type Props = {
   color?: 'dark' | 'light';
+  half?: boolean;
 };
-export const BrandsList = ({ color = 'light' }: Props) => {
+export const BrandsList = ({ color = 'light', half = false }: Props) => {
   const variants: Variants = {
     initial: {
       translateY: 150,
@@ -25,10 +26,11 @@ export const BrandsList = ({ color = 'light' }: Props) => {
       },
     }),
   };
+  const list = half ? brands.slice(0, 5) : brands;
   return (
     <div>
-      <div className="flex flex-wrap">
-        {brands.map((brand, i) => (
+      <div className="flex flex-wrap justify-center">
+        {list.map((brand, i) => (
           <motion.div
             key={i}
             className="group relative flex h-[150px] w-1/2 flex-col items-center justify-center overflow-hidden sm:w-1/3 md:w-1/5"
