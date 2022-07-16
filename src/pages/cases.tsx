@@ -24,15 +24,13 @@ const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
   const x = useTransform(
     mouseX,
     [-bounds.width / 2, bounds.width / 2],
-    [-10, 10],
-    { clamp: false }
+    [-10, 10]
   );
 
   const y = useTransform(
     mouseY,
     [-bounds.height / 2, bounds.height / 2],
-    [-10, 10],
-    { clamp: false }
+    [-5, 5]
   );
 
   const isDesktop = useMediaQuery({
@@ -92,7 +90,7 @@ const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
             clipPath: 'polygon(100% 0,100% 100%,100% 100%,0 100%,0 0%,0% 0)',
           }}
           animate={{
-            scale: isHovered ? 0.9 : 1,
+            scale: isHovered ? 0.95 : 1,
             transition: {
               ease: [0, 0.55, 0.45, 1],
             },
@@ -135,11 +133,13 @@ const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
         </motion.div>
       </motion.section>
       <div className="mt-5 space-y-3">
-        <h3 className="text-3xl">{subtitle}</h3>
-        <p className="flex items-center space-x-2">
-          <span>Creation</span>
-          <span className="block h-2 w-2 rounded-full bg-black" />
-          <span>{creation.join(' ,')}</span>
+        <h3 className="text-2xl sm:text-3xl">{subtitle}</h3>
+        <p className="flex items-start space-x-2">
+          <div className="flex items-center space-x-2">
+            <span>Creation</span>
+            <span className="block h-2 w-2 rounded-full bg-black" />
+          </div>
+          <span>{creation.join(', ')}</span>
         </p>
       </div>
     </div>
@@ -200,10 +200,19 @@ const Cases = () => {
             Our work
           </h1>
         </section>
-        <section className="mx-auto grid min-h-[2500px] max-w-flat grid-cols-2 px-8 sm:gap-32 lg:gap-10">
+        <section className="mx-auto  flex max-w-flat flex-wrap justify-between gap-10 px-8 pb-24">
           {data.map((d, i) => {
             return (
-              <div key={i} className={cx('relative', {})}>
+              <div
+                key={i}
+                className={cx(
+                  'relative basis-full pb-10 md:pb-0 md:basis-[45%]',
+                  {
+                    'md:mt-24': i % 2 !== 0,
+                    'md:-mt-10': i % 2 === 0,
+                  }
+                )}
+              >
                 <WorkCard
                   title={d.title}
                   subtitle={d.subtitle}
