@@ -6,6 +6,8 @@ import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { useCursorVariant } from '@/utils/context/cursorContext';
+
 const services = [
   {
     imgUrl:
@@ -45,6 +47,7 @@ const services = [
 ];
 
 const ServicesCarousal = () => {
+  const { setCursorVariant } = useCursorVariant();
   const [viewportRef, embla] = useEmblaCarousel(
     {
       slidesToScroll: 1,
@@ -115,8 +118,10 @@ const ServicesCarousal = () => {
       </div>
       <div className="w-full overflow-x-hidden" ref={viewportRef}>
         <div
-          className="ml-10 flex select-none md:ml-[calc((100vw-1200px)/2)]"
+          className="ml-10 flex cursor-pointer select-none md:ml-[calc((100vw-1200px)/2)]"
           ref={ref}
+          onMouseEnter={() => setCursorVariant('carousal')}
+          onMouseLeave={() => setCursorVariant('default')}
         >
           {services.map((service, index) => (
             <motion.div

@@ -1,7 +1,9 @@
-import { motion } from 'framer-motion';
+import cx from 'classnames';
+import { motion, useMotionValue, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
+import useMeasure from 'react-use-measure';
 
 import { Main, Meta, PageLayout } from '@/layouts';
 
@@ -12,13 +14,48 @@ type IWorkCard = {
 };
 
 const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
+  const [cardRef, bounds] = useMeasure({
+    scroll: false,
+    debounce: 0,
+  });
   const [isHovered, setIsHovered] = useState(false);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const x = useTransform(
+    mouseX,
+    [-bounds.width / 2, bounds.width / 2],
+    [-10, 10],
+    { clamp: false }
+  );
+
+  const y = useTransform(
+    mouseY,
+    [-bounds.height / 2, bounds.height / 2],
+    [-10, 10],
+    { clamp: false }
+  );
+
   const isDesktop = useMediaQuery({
     query: '(min-width : 986px)',
   });
+
+  const resetMousePosition = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
   const ref = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
   return (
-    <section className="relative mx-auto max-w-3xl">
+    <motion.section
+      ref={containerRef}
+      initial={false}
+      style={{
+        translateX: x,
+        translateY: y,
+      }}
+      className={cx('relative mx-auto max-w-3xl')}
+    >
       <div className="absolute inset-x-0 flex justify-center">
         <motion.h2
           className="absolute -mt-16 w-max text-[100px]"
@@ -37,23 +74,39 @@ const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
         </motion.h2>
       </div>
       <motion.div
+        ref={cardRef}
         className="relative cursor-pointer"
         onHoverStart={() => {
           setIsHovered(true);
+          resetMousePosition();
           ref.current?.play();
         }}
         onHoverEnd={() => {
           setIsHovered(false);
+          resetMousePosition();
           ref.current?.pause();
         }}
         initial={{
           scale: 1,
+          clipPath: 'polygon(100% 0,100% 100%,100% 100%,0 100%,0 0%,0% 0)',
         }}
         animate={{
           scale: isHovered ? 0.9 : 1,
           transition: {
             ease: [0, 0.55, 0.45, 1],
           },
+        }}
+        whileHover={{
+          clipPath: 'polygon(100% 0,100% 75%,82% 100%,0 100%,0 25%,18% 0)',
+          transition: {
+            delay: 0.3,
+            type: 'tween',
+            duration: 0.4,
+          },
+        }}
+        onPointerMove={(e) => {
+          mouseX.set(e.clientX - bounds.x - bounds.width / 2);
+          mouseY.set(e.clientY - bounds.y - bounds.height / 2);
         }}
       >
         <motion.video
@@ -62,7 +115,6 @@ const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
           className="w-full"
           src="https://www.flatlineagency.com/wp-content/uploads/2022/05/videoplayback.mp4"
           playsInline
-          // webkitPlaysInline
           loop
           muted
         />
@@ -88,7 +140,7 @@ const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
           <span>{creation.join(' ,')}</span>
         </p>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

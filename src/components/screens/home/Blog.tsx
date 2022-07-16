@@ -5,7 +5,10 @@ import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useRef } from 'react';
 
+import { useCursorVariant } from '@/utils/context/cursorContext';
+
 const BlogCarousal = () => {
+  const { setCursorVariant } = useCursorVariant();
   const [viewportRef, embla] = useEmblaCarousel(
     {
       slidesToScroll: 1,
@@ -46,8 +49,10 @@ const BlogCarousal = () => {
     <div className="relative">
       <div className="w-full overflow-x-hidden" ref={viewportRef}>
         <div
-          className="ml-4 flex select-none items-start md:ml-[calc((100vw-1200px)/2)]"
+          className="ml-4 flex cursor-pointer select-none items-start md:ml-[calc((100vw-1200px)/2)]"
           ref={ref}
+          onMouseEnter={() => setCursorVariant('carousal')}
+          onMouseLeave={() => setCursorVariant('default')}
         >
           {[1, 2, 3, 4, 5, 6, 7].map((index) => (
             <motion.div

@@ -7,6 +7,7 @@ import React, { useRef, useState } from 'react';
 
 import { Expand } from '@/components/ui/icons';
 import Dialog from '@/components/ui/VideoModal';
+import { useCursorVariant } from '@/utils/context/cursorContext';
 
 const Player = dynamic(() => import('react-player'), { ssr: false });
 
@@ -16,10 +17,15 @@ type ICard = {
   title: string;
 };
 const Card = ({ videoUrl, imgUrl, title }: ICard) => {
+  const { setCursorVariant } = useCursorVariant();
   const ref = useRef<any>(null);
   const [isHovered, setIsHovered] = useState(false);
   return (
-    <div className="relative h-full w-full">
+    <div
+      className="relative h-full w-full"
+      onMouseEnter={() => setCursorVariant('view')}
+      onMouseLeave={() => setCursorVariant('default')}
+    >
       <p
         className="absolute right-5 top-5 z-20 text-xl text-white sm:text-3xl "
         style={{ writingMode: 'vertical-rl' }}

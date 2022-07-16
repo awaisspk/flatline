@@ -1,6 +1,6 @@
 import type { Variants } from 'framer-motion';
 
-export const sectionReveal: Variants = {
+export const bottomReveal: Variants = {
   initial: {
     opacity: 0,
     translateY: 100,

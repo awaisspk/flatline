@@ -1,7 +1,8 @@
 import cx from 'classnames';
-import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
+import { motion, useAnimationControls } from 'framer-motion';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { mainNavigation } from '@/utils/AppConfig';
 
@@ -9,6 +10,27 @@ import { CrossIcon, MenuIcon } from '../ui/icons';
 
 export const MobileNavigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const controls = useAnimationControls();
+  const variants: Variants = {
+    initial: {
+      translateY: '100%',
+      opacity: 0,
+    },
+    animate: (i) => ({
+      translateY: '0%',
+      opacity: 1,
+      transition: {
+        delay: 0.3,
+        duration: 0.2 * i,
+      },
+    }),
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      controls.start('animate');
+    }
+  }, [isOpen]);
 
   return (
     <>
@@ -52,24 +74,17 @@ export const MobileNavigation = () => {
         <motion.nav className="flex grow items-center justify-center sm:justify-start">
           <ul className="flex flex-col items-center space-y-7 sm:items-start">
             {mainNavigation.map((link, i) => (
-              <motion.li
-                key={i}
-                className="relative text-3xl"
-                initial={{
-                  bottom: -200,
-                  opacity: 0,
-                }}
-                animate={{
-                  bottom: 0,
-                  opacity: isOpen ? 1 : 0,
-                  transition: {
-                    // delay: 1,
-                    ease: 'circIn',
-                  },
-                }}
-              >
+              <motion.li key={i} className="overflow-hidden">
                 <Link href={link.url}>
-                  <a>{link.label}</a>
+                  <motion.a
+                    className="relative block text-3xl"
+                    variants={variants}
+                    initial="initial"
+                    animate={isOpen ? 'animate' : 'initial'}
+                    custom={i + 1}
+                  >
+                    {link.label}
+                  </motion.a>
                 </Link>
               </motion.li>
             ))}

@@ -2,6 +2,7 @@ import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 import { Blog } from '@/components/screens/home/Blog';
@@ -10,8 +11,10 @@ import { OurClients } from '@/components/screens/home/OurClients';
 import { OurWork } from '@/components/screens/home/OurWork';
 import { Services } from '@/components/screens/home/Services';
 import { Main, Meta, PageLayout } from '@/layouts';
+import { useCursorVariant } from '@/utils/context/cursorContext';
 
 const Index = () => {
+  const { setCursorVariant } = useCursorVariant();
   const isMobile = useMediaQuery({ query: '(max-width : 768px)' });
   const variants: Variants = {
     initial: {
@@ -28,6 +31,9 @@ const Index = () => {
       opacity: 1,
     },
   };
+  useEffect(() => {
+    console.log('home');
+  });
   return (
     <Main
       meta={
@@ -57,11 +63,19 @@ const Index = () => {
             animate={{ opacity: 1, transition: { delay: 1 } }}
           >
             <Link href="cases">
-              <a className="flex w-max cursor-pointer items-center justify-center rounded-[100px]   border-[1px] border-[#dedede] bg-transparent py-5 px-8 text-sm leading-4 text-black duration-300 hover:bg-black hover:text-white sm:px-10">
+              <a
+                className="flex w-max cursor-pointer items-center justify-center rounded-[100px]   border-[1px] border-[#dedede] bg-transparent py-5 px-8 text-sm leading-4 text-black duration-300 hover:bg-black hover:text-white sm:px-10"
+                onMouseEnter={() => setCursorVariant('button')}
+                onMouseLeave={() => setCursorVariant('default')}
+              >
                 Learn more
               </a>
             </Link>
-            <button className="flex w-max cursor-pointer items-center justify-center rounded-[100px] border-[1px] border-gray-500/50 bg-black py-5 px-8 text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black sm:px-10">
+            <button
+              className="flex w-max cursor-pointer items-center justify-center rounded-[100px] border-[1px] border-gray-500/50 bg-black py-5 px-8 text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black sm:px-10"
+              onMouseEnter={() => setCursorVariant('button')}
+              onMouseLeave={() => setCursorVariant('default')}
+            >
               Plan a call
             </button>
           </motion.div>

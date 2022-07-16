@@ -1,5 +1,6 @@
 import AutoHeight from 'embla-carousel-auto-height';
 import useEmblaCarousel from 'embla-carousel-react';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -8,18 +9,22 @@ const images = [
   'https://www.flatlineagency.com/wp-content/uploads/2021/12/NYC-Club135-Lounge-1230x820-1-655x409.jpg',
   'https://www.flatlineagency.com/wp-content/uploads/2021/12/NYC-Club135-Conference1-1230x820-1-655x409.jpg',
 ];
+type Props = {
+  btnPosition?: 'top' | 'bottom';
+};
 
-export const OfficeCarousal = () => {
+export const OfficeCarousal = ({ btnPosition = 'bottom' }: Props) => {
   const [viewportRef, embla] = useEmblaCarousel(
     {
       slidesToScroll: 1,
       loop: true,
-      align: 'start',
+      align: 'center',
       containScroll: 'trimSnaps',
       inViewThreshold: 0.7,
     },
     [AutoHeight()]
   );
+
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
 
@@ -38,16 +43,33 @@ export const OfficeCarousal = () => {
   }, [embla, onSelect]);
 
   return (
-    <div className="relative cursor-pointer">
-      <div className="w-full overflow-x-hidden" ref={viewportRef}>
+    <motion.div
+      className="relative flex cursor-pointer flex-col"
+      initial={{ opacity: 0, translateY: '100px' }}
+      animate={{
+        opacity: 1,
+        translateY: '0px',
+        transition: {
+          duration: 0.6,
+          ease: 'easeInOut',
+        },
+      }}
+    >
+      <div
+        className="w-full overflow-x-hidden"
+        ref={viewportRef}
+        style={{
+          order: btnPosition === 'top' ? 3 : 1,
+        }}
+      >
         <div className="flex select-none items-start">
           {images.map((image, index) => (
             <div
-              className="relative mr-10 shrink-0 grow-0 basis-1/2"
+              className="relative mr-3 shrink-0 grow-0 basis-[85%] sm:mr-10 sm:basis-[90%] md:basis-1/2"
               key={index}
             >
               <div className="relative overflow-hidden">
-                <div className="relative h-[409px] w-full">
+                <div className="relative h-[230px] w-full sm:h-[409px]">
                   <Image src={image} layout="fill" objectFit="cover" alt="" />
                 </div>
               </div>
@@ -55,22 +77,22 @@ export const OfficeCarousal = () => {
           ))}
         </div>
       </div>
-      <div className="relative right-[8%] mt-3 flex justify-end space-x-10 text-sm">
+      <div className="relative right-[8%] order-2 my-5 flex justify-end space-x-10 text-sm">
         <button
           onClick={scrollPrev}
-          disabled={prevBtnEnabled}
+          disabled={!prevBtnEnabled}
           className="cursor-pointer text-neutral-800"
         >
           Prev
         </button>
         <button
           onClick={scrollNext}
-          disabled={nextBtnEnabled}
+          disabled={!nextBtnEnabled}
           className="cursor-pointer text-neutral-800"
         >
           Next
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };

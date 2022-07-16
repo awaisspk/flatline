@@ -3,6 +3,8 @@ import React from 'react';
 
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
+import { Cursor } from '@/components/ui/Cursor';
+import { CursorProvider } from '@/utils/context/cursorContext';
 
 type IPageLayout = {
   children: ReactNode;
@@ -10,10 +12,11 @@ type IPageLayout = {
 
 export const PageLayout = ({ children }: IPageLayout) => {
   return (
-    <div>
+    <CursorProvider>
       <Header />
       {children}
       <Footer />
-    </div>
+      <Cursor />
+    </CursorProvider>
   );
 };
