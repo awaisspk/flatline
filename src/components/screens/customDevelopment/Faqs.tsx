@@ -8,8 +8,8 @@ import { customDevelopmentFaqs } from '@/utils/data/faq-data';
 export const Faqs = () => {
   return (
     <section className="mx-auto max-w-flat gap-20 px-8 pt-32 pb-52 sm:px-12">
-      <div className="flex flex-col md:flex-row">
-        <div className="basis-[60%] space-y-10">
+      <div className="flex flex-col justify-between gap-20 md:flex-row">
+        <div className="max-w-[530px] basis-[60%] space-y-10">
           <h2 className="text-6xl">FAQ</h2>
           <Accordion data={customDevelopmentFaqs} />
         </div>
