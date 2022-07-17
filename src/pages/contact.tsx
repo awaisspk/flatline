@@ -1,5 +1,7 @@
 import 'react-intl-tel-input/dist/main.css';
 
+import type { Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import React from 'react';
 import IntlTelInput from 'react-intl-tel-input';
@@ -9,39 +11,84 @@ import { Main, Meta, PageLayout } from '@/layouts';
 import { offices } from '@/utils/data';
 
 const Contact = () => {
+  const variants: Variants = {
+    initial: {
+      translateY: '100%',
+      gap: '50px',
+      opacity: 0,
+    },
+    animate: {
+      translateY: '0%',
+      gap: '20px',
+      transition: {
+        delay: 0.3,
+        duration: 0.6,
+      },
+      opacity: 1,
+    },
+  };
+  const reveal: Variants = {
+    initial: {
+      translateY: '100px',
+      opacity: 0,
+    },
+    animate: {
+      translateY: '0px',
+      transition: {
+        delay: 0.3,
+        duration: 0.6,
+      },
+      opacity: 1,
+    },
+  };
+
   return (
     <Main meta={<Meta title="Say hi" description="Flatline" />}>
       <main>
-        <section className="mx-auto max-w-flat space-y-5 px-8 pt-5 pb-24 sm:px-12">
-          <h1 className="text-5xl">Ready to scale?</h1>
-          <p className="max-w-xl leading-7">
-            Ready to build something real together with your favorite creatives
-            and tech leads? Get into contact or fill out an inquiry form.
-          </p>
+        <section className="mx-auto mb-24 max-w-flat space-y-5 overflow-hidden px-8 pt-5 sm:px-12">
+          <motion.div
+            variants={variants}
+            initial="initial"
+            animate="animate"
+            className="grid auto-rows-auto"
+          >
+            <h1 className="text-5xl">Ready to scale?</h1>
+            <p className="max-w-xl leading-7">
+              Ready to build something real together with your favorite
+              creatives and tech leads? Get into contact or fill out an inquiry
+              form.
+            </p>
+          </motion.div>
         </section>
         <section>
           <OfficeCarousal />
         </section>
-        <section className="mx-auto mt-20 flex max-w-flat justify-between px-8 sm:px-12">
-          <div className="space-y-14">
+        <motion.section
+          className="mx-auto mt-20 flex max-w-flat flex-col justify-between gap-10 px-8 sm:px-12 md:flex-row"
+          variants={reveal}
+          whileInView="animate"
+          initial="initial"
+          viewport={{ once: true }}
+        >
+          <div className="mb-24 space-y-14">
             <h2 className="text-4xl">Inquiries</h2>
             <form>
-              <div className="flex flex-col space-y-8">
+              <div className="flex w-[440px] max-w-full flex-col space-y-8">
                 <input
                   type="text"
                   placeholder="Name"
-                  className="h-16 w-[440px] max-w-full rounded-full border border-gray-300 pl-10 pr-5"
+                  className="h-16 rounded-full border border-gray-300 pl-10 pr-5"
                 />
                 <input
                   type="email"
                   placeholder="Email"
-                  className="h-16 w-[440px] max-w-full rounded-full border border-gray-300 pl-10 pr-5"
+                  className="h-16 rounded-full border border-gray-300 pl-10 pr-5"
                 />
                 <IntlTelInput
                   defaultCountry="nl"
                   placeholder="Phone"
                   containerClassName="intl-tel-input"
-                  inputClassName="form-control  h-16 rounded-full border border-gray-300  pr-5 w-[440px] max-w-full"
+                  inputClassName="form-control w-full h-16 rounded-full border border-gray-300  pr-5"
                 />
                 <button className="flex h-16 w-full cursor-pointer items-center justify-center rounded-[100px] bg-black text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black sm:px-10">
                   Send
@@ -52,7 +99,7 @@ const Contact = () => {
           <div className="w-[430px] max-w-full">
             {offices.map((office, i) => (
               <div key={i}>
-                <h2 className="text-4xl">
+                <h2 className="text-3xl md:text-4xl">
                   {office.city}
                   <span>{office.time}</span>
                 </h2>
@@ -65,14 +112,20 @@ const Contact = () => {
               </div>
             ))}
           </div>
-        </section>
-        <div className="aspect-w-16 aspect-h-7 relative my-28 mx-auto w-[calc(100%-60px)] max-w-[1200px]">
+        </motion.section>
+        <motion.div
+          className="aspect-w-16 aspect-h-9 relative mx-auto mt-20 max-w-[1200px] sm:mb-28 sm:w-[calc(100%-60px)] lg:aspect-h-5"
+          variants={reveal}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+        >
           <Image
             src="https://www.flatlineagency.com/wp-content/uploads/2022/01/Group-46-1536x769.jpg"
             layout="fill"
             alt=""
           />
-        </div>
+        </motion.div>
       </main>
     </Main>
   );

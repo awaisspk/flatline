@@ -10,6 +10,12 @@ const images = [
   'https://www.flatlineagency.com/wp-content/uploads/2021/12/Amsterdam-office-655x409.jpg',
   'https://www.flatlineagency.com/wp-content/uploads/2021/12/NYC-Club135-Lounge-1230x820-1-655x409.jpg',
   'https://www.flatlineagency.com/wp-content/uploads/2021/12/NYC-Club135-Conference1-1230x820-1-655x409.jpg',
+  'https://www.flatlineagency.com/wp-content/uploads/2021/12/Amsterdam-office-655x409.jpg',
+  'https://www.flatlineagency.com/wp-content/uploads/2021/12/NYC-Club135-Lounge-1230x820-1-655x409.jpg',
+  'https://www.flatlineagency.com/wp-content/uploads/2021/12/NYC-Club135-Conference1-1230x820-1-655x409.jpg',
+  'https://www.flatlineagency.com/wp-content/uploads/2021/12/Amsterdam-office-655x409.jpg',
+  'https://www.flatlineagency.com/wp-content/uploads/2021/12/NYC-Club135-Lounge-1230x820-1-655x409.jpg',
+  'https://www.flatlineagency.com/wp-content/uploads/2021/12/NYC-Club135-Conference1-1230x820-1-655x409.jpg',
 ];
 type Props = {
   btnPosition?: 'top' | 'bottom';
@@ -23,7 +29,6 @@ export const OfficeCarousal = ({ btnPosition = 'bottom' }: Props) => {
       loop: true,
       align: 'center',
       containScroll: 'trimSnaps',
-      inViewThreshold: 0.7,
     },
     [AutoHeight()]
   );
@@ -67,10 +72,10 @@ export const OfficeCarousal = ({ btnPosition = 'bottom' }: Props) => {
         onMouseEnter={() => setCursorVariant('carousal')}
         onMouseLeave={() => setCursorVariant('default')}
       >
-        <div className="flex select-none items-start">
+        <div className="relative flex select-none items-start">
           {images.map((image, index) => (
             <div
-              className="relative mr-3 shrink-0 grow-0 basis-[85%] sm:mr-10 sm:basis-[90%] md:basis-1/2"
+              className="relative mr-3 shrink-0 grow-0 basis-[85%] sm:mr-10 sm:basis-[90%] md:basis-[660px]"
               key={index}
             >
               <div className="relative overflow-hidden">

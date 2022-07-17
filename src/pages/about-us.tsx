@@ -11,11 +11,13 @@ import { Main, Meta, PageLayout } from '@/layouts';
 const Aboutus = () => {
   const variants: Variants = {
     initial: {
-      translateY: '50%',
+      translateY: '100%',
+      gap: '50px',
       opacity: 0,
     },
     animate: {
       translateY: '0%',
+      gap: '20px',
       transition: {
         delay: 0.3,
         duration: 0.6,
@@ -32,21 +34,24 @@ const Aboutus = () => {
     >
       <main>
         <section>
-          <motion.div
-            className="mx-auto max-w-flat space-y-5 px-8 pb-32 sm:px-12 md:space-y-7"
-            variants={variants}
-            initial="initial"
-            animate="animate"
-          >
-            <h1 className="text-4xl leading-10 md:text-5xl">
-              We make you <span className="text-[#808080]">Pulse</span>.
-            </h1>
-            <p className="max-w-[620px] text-sm leading-5 text-[#808080] md:text-xl md:leading-7 md:text-black/80">
-              Flatline Agency is a global disruptor in custom development &
-              design experiences based in Amsterdam. We deliver high-quality
-              work - while leveraging the newest and best techniques available.
-            </p>
-          </motion.div>
+          <div className="mx-auto mb-32 max-w-flat overflow-hidden px-8 sm:px-12">
+            <motion.div
+              variants={variants}
+              initial="initial"
+              animate="animate"
+              className="grid auto-rows-auto"
+            >
+              <h1 className="text-4xl leading-10 md:text-5xl">
+                We make you <span className="text-[#808080]">Pulse</span>.
+              </h1>
+              <motion.p className="max-w-[620px] text-sm leading-5 text-[#808080] md:text-xl md:leading-7 md:text-black/80">
+                Flatline Agency is a global disruptor in custom development &
+                design experiences based in Amsterdam. We deliver high-quality
+                work - while leveraging the newest and best techniques
+                available.
+              </motion.p>
+            </motion.div>
+          </div>
           <section>
             <OfficeCarousal btnPosition="top" />
           </section>
