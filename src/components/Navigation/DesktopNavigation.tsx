@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -29,10 +30,13 @@ export const DesktopNavigation = () => {
                 <a>{link.label}</a>
               </Link>
               <span
-                className="-mt-1 block h-0.5 w-0 bg-gray-600 duration-300 group-hover:w-full"
-                style={{
-                  width: router.pathname === link.url ? '100%' : '0%',
-                }}
+                className={cx(
+                  '-mt-1 block h-0.5 bg-gray-600 duration-300 group-hover:w-full',
+                  {
+                    'w-full': router.pathname === link.url,
+                    'w-[0%]': router.pathname !== link.url,
+                  }
+                )}
               />
             </li>
           ))}

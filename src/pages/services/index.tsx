@@ -2,7 +2,6 @@ import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import React, { Fragment } from 'react';
-import { useMediaQuery } from 'react-responsive';
 
 import { Main, Meta, PageLayout } from '@/layouts';
 
@@ -37,18 +36,17 @@ const ServicesCard = () => {
 };
 
 const Services = () => {
-  const isMobile = useMediaQuery({ query: '(max-width : 768px)' });
   const variants: Variants = {
     initial: {
-      translateY: '100px',
-      lineHeight: isMobile ? '40px' : '70px',
+      translateY: '100%',
+      gap: '50px',
       opacity: 0,
     },
     animate: {
       translateY: '0%',
-      lineHeight: isMobile ? '30px' : '60px',
+      gap: '20px',
       transition: {
-        duration: 0.8,
+        duration: 0.6,
       },
       opacity: 1,
     },
@@ -64,28 +62,24 @@ const Services = () => {
     >
       <main>
         <section className="mx-auto max-w-flat px-8 sm:px-12">
-          <motion.div
-            className="flex flex-col space-y-5 overflow-hidden md:items-end"
-            variants={variants}
-            initial="initial"
-            animate="animate"
-          >
-            <motion.h1 className="text-2xl sm:text-5xl md:text-end">
-              Our services
-            </motion.h1>
-            <motion.p
-              className="max-w-[600px] text-sm leading-4 text-neutral-500/80 md:text-end md:text-lg md:leading-7 md:text-neutral-800"
-              initial={{ marginTop: 0 }}
-              animate={{
-                marginTop: -5,
-                transition: { delay: 0.7, type: 'tween,', duration: 0.3 },
-              }}
+          <div className="overflow-hidden pt-3">
+            <motion.div
+              className="grid auto-rows-auto justify-items-end"
+              variants={variants}
+              initial="initial"
+              animate="animate"
             >
-              We code and improve everything from E-commerce, Custom platforms,
-              progressive web apps, apps, websites, SAAS, and AI / Deep learning
-              applications
-            </motion.p>
-          </motion.div>
+              <motion.h1 className="text-2xl sm:text-5xl md:text-end">
+                Our services
+              </motion.h1>
+              <motion.p className="max-w-[600px] text-sm leading-4 text-neutral-500/80 md:text-end md:text-lg md:leading-7 md:text-neutral-800">
+                We code and improve everything from E-commerce, Custom
+                platforms, progressive web apps, apps, websites, SAAS, and AI /
+                Deep learning applications
+              </motion.p>
+            </motion.div>
+          </div>
+
           <hr className="mt-20 mb-7 border-black sm:mt-32" />
         </section>
         <section className="max-w-flat overflow-hidden sm:ml-auto sm:w-[calc(100%-60px)] md:mx-auto lg:px-8">
