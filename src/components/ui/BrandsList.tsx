@@ -8,8 +8,13 @@ import { brands } from '@/utils/data/brands';
 type Props = {
   color?: 'dark' | 'light';
   half?: boolean;
+  animateOnce?: boolean;
 };
-export const BrandsList = ({ color = 'light', half = false }: Props) => {
+export const BrandsList = ({
+  color = 'light',
+  half = false,
+  animateOnce = false,
+}: Props) => {
   const variants: Variants = {
     initial: {
       translateY: 150,
@@ -37,6 +42,7 @@ export const BrandsList = ({ color = 'light', half = false }: Props) => {
             variants={variants}
             initial="initial"
             whileInView="animate"
+            viewport={{ once: animateOnce }}
             custom={i + 1}
           >
             <p

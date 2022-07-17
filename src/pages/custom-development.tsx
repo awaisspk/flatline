@@ -1,3 +1,5 @@
+import type { Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import React from 'react';
 
@@ -14,12 +16,32 @@ const services = [
   'We build E-commerce stores and applications.',
   'We simply blow your mind, and ehmm, we design.',
 ];
+const services2 = ['Web', 'App', 'Software', 'E-commerce'];
 
 const CustomDevelopment = () => {
+  const variants: Variants = {
+    initial: {
+      opacity: 0,
+      translateY: 100,
+    },
+    animate: {
+      opacity: 1,
+      translateY: 0,
+      transition: {
+        ease: 'easeInOut',
+        duration: 0.8,
+      },
+    },
+  };
   return (
     <Main meta={<Meta title="Custom Development" description="Flatline" />}>
       <main>
-        <section className="mx-auto flex max-w-flat flex-col justify-between  px-8 sm:px-12 lg:flex-row">
+        <motion.section
+          className="mx-auto flex max-w-flat flex-col justify-between  px-8 sm:px-12 lg:flex-row"
+          variants={variants}
+          initial="initial"
+          animate="animate"
+        >
           <div className="max-w-xl pt-10 pb-20 sm:pb-32 ">
             <h1 className="text-4xl leading-10 sm:text-5xl">
               Custom development
@@ -52,36 +74,50 @@ const CustomDevelopment = () => {
               alt=""
             />
           </div>
-        </section>
+        </motion.section>
         <section className="mx-auto max-w-flat px-8 sm:px-12">
           <BrandsList half />
         </section>
-        <section className="mx-auto max-w-flat space-y-10 py-32 px-8 sm:px-12">
-          <h2 className="text-4xl leading-10">Why build it custom</h2>
-          <div className="flex flex-col gap-20 pb-32 sm:flex-row sm:gap-10 md:gap-20">
-            <p>
-              Building custom means building it exactly the way you want. Making
-              it lean, fast, UX or UI focussed, and therefore creating the
-              perfect fit for your target group(s). Simply put, you just imagine
-              and we build the perfect fit. Our ‘unique selling point’ is that
-              we begin where every other agency stops.
-            </p>
-            <p>
-              We deliver high-quality work, fast – while leveraging the newest
-              and best techniques available. All our products are breathtaking,
-              responsive, and focused on the mobile-first generation – The
-              perfect starting point for SMEs and the necessary creative push
-              for the brands and larger corporations.
-            </p>
-          </div>
-          <div className="aspect-w-16 aspect-h-4 relative ">
+        <section className="mx-auto max-w-flat  py-32 px-8 sm:px-12">
+          <motion.div
+            className="space-y-10"
+            variants={variants}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl leading-10">Why build it custom</h2>
+            <div className="flex flex-col gap-20 pb-32 sm:flex-row sm:gap-10 md:gap-20">
+              <p>
+                Building custom means building it exactly the way you want.
+                Making it lean, fast, UX or UI focussed, and therefore creating
+                the perfect fit for your target group(s). Simply put, you just
+                imagine and we build the perfect fit. Our ‘unique selling point’
+                is that we begin where every other agency stops.
+              </p>
+              <p>
+                We deliver high-quality work, fast – while leveraging the newest
+                and best techniques available. All our products are
+                breathtaking, responsive, and focused on the mobile-first
+                generation – The perfect starting point for SMEs and the
+                necessary creative push for the brands and larger corporations.
+              </p>
+            </div>
+          </motion.div>
+          <motion.div
+            className="aspect-w-16 aspect-h-4 relative "
+            variants={variants}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+          >
             <Image
               src="https://www.flatlineagency.com/wp-content/uploads/2021/12/image-4.jpg"
               layout="fill"
               objectFit="cover"
               alt=""
             />
-          </div>
+          </motion.div>
         </section>
         <OurCases />
         <section className="mx-auto flex max-w-flat flex-col gap-10 space-y-10 py-32 px-8 sm:px-12 md:flex-row md:gap-20">
@@ -95,19 +131,19 @@ const CustomDevelopment = () => {
           </div>
           <div className="md:self-end">
             <ul className="grid grid-cols-2 gap-y-5 sm:gap-5">
-              <li className="text-xl sm:text-3xl">
-                <span className="mr-2 text-[16px] sm:mr-5">01</span>Web
-              </li>
-              <li className="text-xl sm:text-3xl">
-                <span className="mr-2 text-[16px] sm:mr-5">02</span>App
-              </li>
-              <li className="text-xl sm:text-3xl">
-                <span className="mr-2 text-[16px] sm:mr-5">03</span>Software
-              </li>
-              <li className="text-xl sm:text-3xl">
-                <span className="mr-2 text-[16px] sm:mr-5">04</span>
-                <span>E-commerce</span>
-              </li>
+              {services2.map((s, i) => (
+                <motion.li
+                  key={i}
+                  className="text-xl sm:text-3xl"
+                  variants={variants}
+                  initial="initial"
+                  whileInView={{ opacity: 1, translateY: 0 }}
+                  transition={{ duration: 0.1 + (i + 1) / 10 }}
+                >
+                  <span className="mr-2 text-[16px] sm:mr-5">01</span>
+                  {s}
+                </motion.li>
+              ))}
             </ul>
           </div>
         </section>

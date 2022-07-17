@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import React from 'react';
 
@@ -21,12 +22,18 @@ export const Faqs = () => {
           />
         </div>
       </div>
-      <div className="mt-40 flex flex-col items-center space-y-16">
+      <motion.div
+        className="mt-40 flex flex-col items-center space-y-16"
+        initial={{ opacity: 0, scale: 0 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.7, ease: 'easeInOut' }}
+        viewport={{ once: true }}
+      >
         <p className="text-5xl underline">Let&apos;s grab a coffee?</p>
         <button className="flex w-full max-w-lg cursor-pointer items-center justify-center rounded-[100px] border-[1px] border-gray-500/50 bg-black  py-4 text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black sm:py-5 sm:px-10">
           Schedule a meeting
         </button>
-      </div>
+      </motion.div>
     </section>
   );
 };

@@ -22,26 +22,34 @@ const Item = ({ content, header, i }: IData & { i: number }) => {
       key={`header-${i}`}
       value={`item-${i + 1}`}
       className="transition-all duration-1000"
+      asChild
     >
-      <AccordionPrimitive.Header
-        className="w-full border-b border-neutral-300/80"
-        onClick={() => setIsOpen(!isOpen)}
+      <motion.div
+        initial={{ opacity: 0, translateY: 80 }}
+        whileInView={{ opacity: 1, translateY: 0 }}
+        transition={{ duration: 0.4, ease: 'easeInOut' }}
+        viewport={{ once: true }}
       >
-        <AccordionPrimitive.Trigger
-          className={cx(
-            'group',
-            'radix-state-open:rounded-t-lg radix-state-closed:rounded-lg',
-            'focus:outline-none',
-            'w-full text-start py-6 grid grid-cols-[4fr,max-content] gap-3 sm:gap-5'
-          )}
+        <AccordionPrimitive.Header
+          className="w-full border-b border-neutral-300/80"
+          onClick={() => setIsOpen(!isOpen)}
         >
-          <span className="text-lg">{header}</span>
-          <span className="mr-2 justify-self-end">+</span>
-        </AccordionPrimitive.Trigger>
-      </AccordionPrimitive.Header>
-      <AccordionPrimitive.Content className="transition-all duration-1000 radix-state-open:h-radix-collapsible-content radix-state-closed:h-0">
-        <motion.div className={styles.container}>{content}</motion.div>
-      </AccordionPrimitive.Content>
+          <AccordionPrimitive.Trigger
+            className={cx(
+              'group',
+              'radix-state-open:rounded-t-lg radix-state-closed:rounded-lg',
+              'focus:outline-none',
+              'w-full text-start py-6 grid grid-cols-[4fr,max-content] gap-3 sm:gap-5'
+            )}
+          >
+            <span className="text-lg">{header}</span>
+            <span className="mr-2 justify-self-end">+</span>
+          </AccordionPrimitive.Trigger>
+        </AccordionPrimitive.Header>
+        <AccordionPrimitive.Content className="transition-all duration-1000 radix-state-open:h-radix-collapsible-content radix-state-closed:h-0">
+          <motion.div className={styles.container}>{content}</motion.div>
+        </AccordionPrimitive.Content>
+      </motion.div>
     </AccordionPrimitive.Item>
   );
 };
@@ -49,7 +57,7 @@ const Item = ({ content, header, i }: IData & { i: number }) => {
 export const Accordion = ({ data }: IAccordian) => {
   return (
     // @ts-ignor e
-    <AccordionPrimitive.Root type="multiple" className="max-w-xl">
+    <AccordionPrimitive.Root type="multiple">
       {data.map(({ header, content }, i) => (
         <Item header={header} content={content} key={i} i={i} />
       ))}

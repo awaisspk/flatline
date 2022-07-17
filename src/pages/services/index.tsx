@@ -1,5 +1,8 @@
+import type { Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import React, { Fragment } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 import { Main, Meta, PageLayout } from '@/layouts';
 
@@ -34,6 +37,22 @@ const ServicesCard = () => {
 };
 
 const Services = () => {
+  const isMobile = useMediaQuery({ query: '(max-width : 768px)' });
+  const variants: Variants = {
+    initial: {
+      translateY: '100px',
+      lineHeight: isMobile ? '40px' : '70px',
+      opacity: 0,
+    },
+    animate: {
+      translateY: '0%',
+      lineHeight: isMobile ? '30px' : '60px',
+      transition: {
+        duration: 0.8,
+      },
+      opacity: 1,
+    },
+  };
   return (
     <Main
       meta={
@@ -45,14 +64,28 @@ const Services = () => {
     >
       <main>
         <section className="mx-auto max-w-flat px-8 sm:px-12">
-          <div className="flex flex-col space-y-5 md:items-end">
-            <h1 className="text-2xl sm:text-5xl md:text-end">Our services</h1>
-            <p className="max-w-[600px] text-sm leading-4 text-neutral-500/80 md:text-end md:text-lg md:leading-6 md:text-neutral-800">
+          <motion.div
+            className="flex flex-col space-y-5 overflow-hidden md:items-end"
+            variants={variants}
+            initial="initial"
+            animate="animate"
+          >
+            <motion.h1 className="text-2xl sm:text-5xl md:text-end">
+              Our services
+            </motion.h1>
+            <motion.p
+              className="max-w-[600px] text-sm leading-4 text-neutral-500/80 md:text-end md:text-lg md:leading-7 md:text-neutral-800"
+              initial={{ marginTop: 0 }}
+              animate={{
+                marginTop: -5,
+                transition: { delay: 0.7, type: 'tween,', duration: 0.3 },
+              }}
+            >
               We code and improve everything from E-commerce, Custom platforms,
               progressive web apps, apps, websites, SAAS, and AI / Deep learning
               applications
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
           <hr className="mt-20 mb-7 border-black sm:mt-32" />
         </section>
         <section className="max-w-flat overflow-hidden sm:ml-auto sm:w-[calc(100%-60px)] md:mx-auto lg:px-8">

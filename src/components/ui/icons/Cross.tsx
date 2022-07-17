@@ -1,6 +1,10 @@
 import * as React from 'react';
 
-export const CrossIcon = () => (
+type Props = {
+  color?: 'white' | 'black';
+};
+
+export const CrossIcon = ({ color = 'white' }: Props) => (
   <svg
     width={20}
     height={20}
@@ -9,7 +13,7 @@ export const CrossIcon = () => (
     viewBox="0 0 15 15"
   >
     <path
-      stroke="#fff"
+      stroke={color === 'white' ? '#fff' : '#000'}
       strokeWidth={2}
       d="M13.88 1.15 1.152 13.878m12.726 0L1.15 1.15"
     />

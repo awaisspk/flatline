@@ -135,10 +135,10 @@ const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
       <div className="mt-5 space-y-3">
         <h3 className="text-2xl sm:text-3xl">{subtitle}</h3>
         <p className="flex items-start space-x-2">
-          <div className="flex items-center space-x-2">
+          <span className="flex items-center space-x-2">
             <span>Creation</span>
             <span className="block h-2 w-2 rounded-full bg-black" />
-          </div>
+          </span>
           <span>{creation.join(', ')}</span>
         </p>
       </div>
@@ -194,21 +194,37 @@ const Cases = () => {
         />
       }
     >
-      <main className="overflow-x-hidden">
-        <section className="mx-auto flex max-w-flat px-8 pt-16 pb-24 sm:px-12 md:h-96 md:justify-end  md:pt-24">
-          <h1 className="text-5xl font-semibold text-[#dbdbdb]  sm:text-[104px]">
+      <main>
+        <div className="mx-auto mb-24 mt-10 flex max-w-flat overflow-hidden  px-8  sm:px-12 md:justify-end">
+          <motion.div
+            className="text-5xl font-semibold leading-[100px] text-[#dbdbdb] sm:text-[104px]"
+            initial={{ opacity: 0, translateY: '100%' }}
+            animate={{
+              opacity: 1,
+              translateY: '0%',
+              transitionTimingFunction: 'ease',
+              transition: { duration: 0.4 },
+            }}
+          >
             Our work
-          </h1>
-        </section>
-        <section className="mx-auto  flex max-w-flat flex-wrap justify-between gap-10 px-8 pb-24">
+          </motion.div>
+        </div>
+        <section className="mx-auto mt-40 flex max-w-flat flex-wrap justify-between gap-10 px-4 pb-24 md:px-0">
           {data.map((d, i) => {
             return (
-              <div
+              <motion.div
+                initial={{ opacity: 0, translateY: '100px' }}
+                animate={{
+                  opacity: 1,
+                  translateY: '0px',
+                  transitionTimingFunction: 'ease',
+                  transition: { duration: 0.4 },
+                }}
                 key={i}
                 className={cx(
                   'relative basis-full pb-10 md:pb-0 md:basis-[45%]',
                   {
-                    'md:mt-24': i % 2 !== 0,
+                    'md:mt-40': i % 2 !== 0,
                     'md:-mt-10': i % 2 === 0,
                   }
                 )}
@@ -218,7 +234,7 @@ const Cases = () => {
                   subtitle={d.subtitle}
                   creation={d.creation}
                 />
-              </div>
+              </motion.div>
             );
           })}
         </section>

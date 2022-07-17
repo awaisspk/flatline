@@ -47,7 +47,7 @@ export const MobileNavigation = () => {
             }
           )}
         >
-          <CrossIcon />
+          <CrossIcon color="black" />
         </div>
 
         <motion.div
