@@ -5,7 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useRef } from 'react';
 
-import { useCursorVariant } from '@/utils/context/cursorContext';
+import { useCursorVariant } from '@/hooks/useCursorVariant';
 
 const BlogCarousal = () => {
   const { setCursorVariant } = useCursorVariant();

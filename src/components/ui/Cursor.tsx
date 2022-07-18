@@ -2,7 +2,7 @@ import type { Variants } from 'framer-motion';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import React, { useEffect } from 'react';
 
-import { useCursorVariant } from '@/utils/context/cursorContext';
+import { useCursorVariant } from '@/hooks/useCursorVariant';
 
 export const Cursor = () => {
   const { cursorVariant } = useCursorVariant();

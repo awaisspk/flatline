@@ -10,8 +10,8 @@ import { MessageBot } from '@/components/screens/home/MessageBot';
 import { OurClients } from '@/components/screens/home/OurClients';
 import { OurWork } from '@/components/screens/home/OurWork';
 import { Services } from '@/components/screens/home/Services';
+import { useCursorVariant } from '@/hooks/useCursorVariant';
 import { Main, Meta, PageLayout } from '@/layouts';
-import { useCursorVariant } from '@/utils/context/cursorContext';
 
 const Index = () => {
   const { setCursorVariant } = useCursorVariant();

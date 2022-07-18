@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import React, { useCallback, useEffect } from 'react';
 
-import { useCursorVariant } from '@/utils/context/cursorContext';
+import { useCursorVariant } from '@/hooks/useCursorVariant';
 
 const data = [
   {

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { useCursorVariant } from '@/utils/context/cursorContext';
+import { useCursorVariant } from '@/hooks/useCursorVariant';
 
 const images = [
   'https://www.flatlineagency.com/wp-content/uploads/2021/12/Amsterdam-office-655x409.jpg',

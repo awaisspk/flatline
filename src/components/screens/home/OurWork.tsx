@@ -7,7 +7,7 @@ import React, { useRef, useState } from 'react';
 
 import { Expand } from '@/components/ui/icons';
 import Dialog from '@/components/ui/VideoModal';
-import { useCursorVariant } from '@/utils/context/cursorContext';
+import { useCursorVariant } from '@/hooks/useCursorVariant';
 
 const Player = dynamic(() => import('react-player'), { ssr: false });
 

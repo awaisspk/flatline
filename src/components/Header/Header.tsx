@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 
-import { useCursorVariant } from '@/utils/context/cursorContext';
+import { useCursorVariant } from '@/hooks/useCursorVariant';
 
 import { DesktopNavigation, MobileNavigation } from '../Navigation';
 import { FlatLink } from '../ui/FlatLink';
