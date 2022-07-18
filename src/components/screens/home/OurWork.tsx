@@ -16,6 +16,7 @@ type ICard = {
   imgUrl: string;
   title: string;
 };
+
 const Card = ({ videoUrl, imgUrl, title }: ICard) => {
   const { setCursorVariant } = useCursorVariant();
   const ref = useRef<any>(null);

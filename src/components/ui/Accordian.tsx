@@ -56,7 +56,6 @@ const Item = ({ content, header, i }: IData & { i: number }) => {
 
 export const Accordion = ({ data }: IAccordian) => {
   return (
-    // @ts-ignor e
     <AccordionPrimitive.Root type="multiple">
       {data.map(({ header, content }, i) => (
         <Item header={header} content={content} key={i} i={i} />

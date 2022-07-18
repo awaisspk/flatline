@@ -40,7 +40,7 @@ const Aboutus = () => {
             </motion.div>
           </div>
           <section>
-            <OfficeCarousal btnPosition="top" />
+            <OfficeCarousal />
           </section>
           <motion.div
             className="mx-auto grid max-w-flat grid-cols-1  gap-10 px-8 pb-24 pt-20 sm:grid-cols-2 sm:px-12 sm:pt-28"

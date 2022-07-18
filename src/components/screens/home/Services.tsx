@@ -1,10 +1,8 @@
-import cx from 'classnames';
-import AutoHeight from 'embla-carousel-auto-height';
-import useEmblaCarousel from 'embla-carousel-react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
+import { Carousal } from '@/components/Carousal/Carousal';
 import { useCursorVariant } from '@/hooks/useCursorVariant';
 import { rightReveal } from '@/utils/animations';
 
@@ -48,100 +46,48 @@ const services = [
 
 const ServicesCarousal = () => {
   const { setCursorVariant } = useCursorVariant();
-  const [viewportRef, embla] = useEmblaCarousel(
-    {
-      slidesToScroll: 1,
-      align: 'start',
-      containScroll: 'trimSnaps',
-    },
-    [AutoHeight()]
-  );
-
   const ref = useRef(null);
   const isInView = useInView(ref);
-
-  const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
-  const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
-
-  const scrollPrev = useCallback(() => embla && embla.scrollPrev(), [embla]);
-  const scrollNext = useCallback(() => embla && embla.scrollNext(), [embla]);
-
-  const onSelect = useCallback(() => {
-    if (!embla) return;
-    setPrevBtnEnabled(embla.canScrollPrev());
-    setNextBtnEnabled(embla.canScrollNext());
-  }, [embla]);
-
-  useEffect(() => {
-    if (!embla) return;
-    embla.on('select', onSelect);
-    onSelect();
-  }, [embla, onSelect]);
-
   return (
-    <div className="relative">
-      <div className="relative right-14 mb-6 flex justify-end space-x-10 text-sm text-white">
-        <button
-          onClick={scrollPrev}
-          disabled={!prevBtnEnabled}
-          className={cx({
-            'opacity-0 transition-opacity duration-300': !prevBtnEnabled,
-            'opacity-100 transition-opacity duration-300': prevBtnEnabled,
-          })}
-        >
-          Prev
-        </button>
-        <button
-          onClick={scrollNext}
-          disabled={!nextBtnEnabled}
-          className={cx({
-            'opacity-0 transition-opacity duration-300': !nextBtnEnabled,
-            'opacity-100 transition-opacity duration-300': nextBtnEnabled,
-          })}
-        >
-          Next
-        </button>
+    <Carousal>
+      <div
+        className="ml-10 flex cursor-pointer select-none md:ml-[calc((100vw-1200px)/2)]"
+        ref={ref}
+        onMouseEnter={() => setCursorVariant('carousal')}
+        onMouseLeave={() => setCursorVariant('default')}
+      >
+        {services.map((service, index) => (
+          <motion.div
+            className="relative mr-4 shrink-0 grow-0 basis-[90%] sm:mr-14 sm:basis-[330px]"
+            variants={rightReveal}
+            initial="initial"
+            animate={isInView ? 'animate' : 'initial'}
+            transition={{ duration: 0.2 * index + 1, ease: 'easeInOut' }}
+            key={index}
+          >
+            <div>
+              <figure className="relative min-h-[450px] w-full bg-gray-800">
+                <Image
+                  src={service.imgUrl}
+                  layout="fill"
+                  objectFit="cover"
+                  alt=""
+                />
+              </figure>
+              <figcaption className="mt-10">
+                <h3 className="my-5 text-3xl text-white">
+                  <span className="mr-3 text-lg">0{index + 1}</span>
+                  {service.title}
+                </h3>
+                <p className="h-[calc(16px*3)] overflow-hidden text-sm leading-4 text-[#8b8b8b]">
+                  {service.description}
+                </p>
+              </figcaption>
+            </div>
+          </motion.div>
+        ))}
       </div>
-      <div className="w-full overflow-x-hidden" ref={viewportRef}>
-        <div
-          className="ml-10 flex cursor-pointer select-none md:ml-[calc((100vw-1200px)/2)]"
-          ref={ref}
-          onMouseEnter={() => setCursorVariant('carousal')}
-          onMouseLeave={() => setCursorVariant('default')}
-        >
-          {services.map((service, index) => (
-            <motion.div
-              className="relative mr-4 shrink-0 grow-0 basis-[90%] sm:mr-14 sm:basis-[330px]"
-              variants={rightReveal}
-              initial="initial"
-              animate={isInView ? 'animate' : 'initial'}
-              transition={{ duration: 0.2 * index + 1, ease: 'easeInOut' }}
-              key={index}
-            >
-              <div>
-                <figure className="relative min-h-[450px] w-full bg-gray-800">
-                  <Image
-                    src={service.imgUrl}
-                    layout="fill"
-                    objectFit="cover"
-                    alt=""
-                  />
-                </figure>
-                <figcaption className="mt-10">
-                  <h3 className="my-5 text-3xl text-white">
-                    <span className="mr-3 text-lg">0{index + 1}</span>
-                    {service.title}
-                  </h3>
-                  <p className="h-[calc(16px*3)] overflow-hidden text-sm leading-4 text-[#8b8b8b]">
-                    {service.description}
-                  </p>
-                </figcaption>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </div>
+    </Carousal>
   );
 };
 

@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 import { Blog } from '@/components/screens/home/Blog';
-import { MessageBot } from '@/components/screens/home/MessageBot';
+import { ChatBot } from '@/components/screens/home/ChatBot';
 import { OurClients } from '@/components/screens/home/OurClients';
 import { OurWork } from '@/components/screens/home/OurWork';
 import { Services } from '@/components/screens/home/Services';
@@ -99,7 +99,7 @@ const Index = () => {
         <Services />
         <OurClients />
         <Blog />
-        <MessageBot />
+        <ChatBot />
       </main>
     </Main>
   );
