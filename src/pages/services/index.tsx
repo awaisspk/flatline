@@ -1,8 +1,8 @@
 import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import React, { Fragment } from 'react';
 
+import { FlatLink } from '@/components/ui/FlatLink';
 import { Main, Meta, PageLayout } from '@/layouts';
 
 const ServicesCard = () => {
@@ -20,11 +20,13 @@ const ServicesCard = () => {
             don&apos;t simply build your webshop, we set up your entire digital
             architecture.
           </p>
-          <Link href={`services/1`}>
-            <a className="flex w-max cursor-pointer items-center justify-center rounded-[100px] border-[1px] border-gray-500/50 bg-black px-10  py-3 text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black">
-              Learn more
-            </a>
-          </Link>
+          <FlatLink
+            href={`services/1`}
+            size="md"
+            style={{ width: 'max-content' }}
+          >
+            Learn more
+          </FlatLink>
         </div>
         <div className="order-1 mx-auto flex w-screen  sm:w-[770px] lg:order-2">
           <div className="sm:w-[calc((100%-30px)/ 2)] mr-4 h-[230px] w-[calc(100vw-60px)] bg-gray-800 sm:h-[310px] md:h-[350px]"></div>

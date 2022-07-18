@@ -108,20 +108,7 @@ export const Footer = () => {
               >
                 Plan a call
               </motion.a>
-              <motion.a
-                initial={{
-                  translateX: -100,
-                  opacity: 0,
-                }}
-                animate={{
-                  translateX: isInView ? 0 : -100,
-                  opacity: isInView ? 1 : 0,
-                  transitionDuration: '0.8s',
-                  transitionTimingFunction: 'ease',
-                }}
-                href="mailto:inquiries@flatlineagency.com"
-                className="flex w-full cursor-pointer items-center justify-center rounded-[100px] border-[1px] border-[#dedede50] bg-transparent py-4 text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black sm:w-max sm:py-5 sm:px-10"
-              >
+              <motion.a className="flex w-full cursor-pointer items-center justify-center rounded-[100px] border-[1px] border-[#dedede50] bg-transparent py-4 text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black sm:w-max sm:py-5 sm:px-10">
                 Send email
               </motion.a>
             </div>

@@ -6,6 +6,7 @@ import React from 'react';
 import { Faqs } from '@/components/screens/customDevelopment/Faqs';
 import { OurCases } from '@/components/screens/customDevelopment/OurCases';
 import { BrandsList } from '@/components/ui/BrandsList';
+import { Button } from '@/components/ui/Button';
 import { Check } from '@/components/ui/icons/Check';
 import { Main, Meta, PageLayout } from '@/layouts';
 
@@ -62,9 +63,9 @@ const CustomDevelopment = () => {
                 </li>
               ))}
             </ul>
-            <button className="mt-10 flex cursor-pointer items-center justify-center rounded-[100px] border-[1px] border-gray-500/50 bg-black  py-5 px-10 text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black sm:w-max">
+            <Button style={{ width: 'max-content', marginTop: '2.5rem' }}>
               Have a chat
-            </button>
+            </Button>
           </div>
           <div className="relative h-[230px] w-full sm:h-[500px] lg:mt-10 lg:w-[400px] ">
             <Image

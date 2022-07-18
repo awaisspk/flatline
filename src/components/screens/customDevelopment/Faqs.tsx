@@ -3,6 +3,7 @@ import Image from 'next/image';
 import React from 'react';
 
 import { Accordion } from '@/components/ui/Accordian';
+import { Button } from '@/components/ui/Button';
 import { customDevelopmentFaqs } from '@/utils/data/faq-data';
 
 export const Faqs = () => {
@@ -29,10 +30,10 @@ export const Faqs = () => {
         transition={{ duration: 0.7, ease: 'easeInOut' }}
         viewport={{ once: true }}
       >
-        <p className="text-5xl underline">Let&apos;s grab a coffee?</p>
-        <button className="flex w-full max-w-lg cursor-pointer items-center justify-center rounded-[100px] border-[1px] border-gray-500/50 bg-black  py-4 text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black sm:py-5 sm:px-10">
-          Schedule a meeting
-        </button>
+        <p className="sm:leading-1 text-5xl leading-[60px] underline">
+          Let&apos;s grab a coffee?
+        </p>
+        <Button style={{ maxWidth: '32rem' }}>Schedule a meeting</Button>
       </motion.div>
     </section>
   );

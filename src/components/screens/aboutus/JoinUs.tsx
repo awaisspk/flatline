@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
+import { FlatLink } from '@/components/ui/FlatLink';
+
 export const JoinUs = () => {
   const variants: Variants = {
     initial: {
@@ -84,11 +86,9 @@ export const JoinUs = () => {
         <h3 className="max-w-2xl text-center text-3xl leading-[40px] sm:leading-[50px]">
           Do you want to join our team? We’d love to hear from you
         </h3>
-        <Link href="contact">
-          <a className="flex w-max cursor-pointer items-center justify-center rounded-[100px] border-[1px] border-gray-500/50  bg-black py-5 px-10 text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black">
-            Apply now
-          </a>
-        </Link>
+        <FlatLink href="contact" style={{ width: 'max-content' }}>
+          Apply now
+        </FlatLink>
       </div>
     </section>
   );
