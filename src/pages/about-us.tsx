@@ -1,4 +1,3 @@
-import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
 import React from 'react';
 
@@ -7,25 +6,9 @@ import { JoinUs } from '@/components/screens/aboutus/JoinUs';
 import { OurCulture } from '@/components/screens/aboutus/OurCulture';
 import { OurOffices } from '@/components/screens/aboutus/OurOffices';
 import { Main, Meta, PageLayout } from '@/layouts';
+import { headingReveal } from '@/utils/animations';
 
 const Aboutus = () => {
-  const variants: Variants = {
-    initial: {
-      translateY: '100%',
-      gap: '50px',
-      opacity: 0,
-    },
-    animate: {
-      translateY: '0%',
-      gap: '20px',
-      transition: {
-        delay: 0.3,
-        duration: 0.6,
-      },
-      opacity: 1,
-    },
-  };
-
   return (
     <Main
       meta={
@@ -36,9 +19,13 @@ const Aboutus = () => {
         <section>
           <div className="mx-auto mb-32 max-w-flat overflow-hidden px-8 sm:px-12">
             <motion.div
-              variants={variants}
+              variants={headingReveal}
               initial="initial"
               animate="animate"
+              transition={{
+                delay: 0.3,
+                duration: 0.6,
+              }}
               className="grid auto-rows-auto"
             >
               <h1 className="text-4xl leading-10 md:text-5xl">
