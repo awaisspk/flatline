@@ -1,4 +1,3 @@
-import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -8,6 +7,7 @@ import React, { useRef, useState } from 'react';
 import { Expand } from '@/components/ui/icons';
 import Dialog from '@/components/ui/VideoModal';
 import { useCursorVariant } from '@/hooks/useCursorVariant';
+import { bottomReveal } from '@/utils/animations';
 
 const Player = dynamic(() => import('react-player'), { ssr: false });
 
@@ -82,19 +82,6 @@ const Card = ({ videoUrl, imgUrl, title }: ICard) => {
 };
 
 export const OurWork = () => {
-  const variants: Variants = {
-    initial: {
-      opacity: 0,
-      translateY: 200,
-    },
-    animate: {
-      opacity: 1,
-      translateY: 0,
-      transition: {
-        duration: 0.6,
-      },
-    },
-  };
   return (
     <>
       <section className="mx-auto flex max-w-flat flex-col px-8 pt-14 pb-24 sm:px-12 sm:pt-32">
@@ -104,9 +91,10 @@ export const OurWork = () => {
         <div className="mt-20 flex flex-wrap justify-end gap-5 md:mt-32">
           <motion.div
             className="h-[230px] w-full sm:h-[430px] md:w-[800px]"
-            variants={variants}
+            variants={bottomReveal}
             initial="initial"
             whileInView="animate"
+            transition={{ duration: 0.6 }}
             viewport={{ margin: '300px 0px 0px 0px' }}
           >
             <Card
@@ -117,9 +105,10 @@ export const OurWork = () => {
           </motion.div>
           <motion.div
             className="mb-auto h-[230px] w-full sm:h-[430px] md:h-[250px] md:w-1/2 md:max-w-[425px]"
-            variants={variants}
+            variants={bottomReveal}
             initial="initial"
             whileInView="animate"
+            transition={{ duration: 0.6 }}
             viewport={{ margin: '300px 0px 0px 0px' }}
           >
             <Card
@@ -130,9 +119,10 @@ export const OurWork = () => {
           </motion.div>
           <motion.div
             className="h-[230px] w-full sm:h-[430px] md:h-[350px] md:w-1/2 md:max-w-[660px]"
-            variants={variants}
+            variants={bottomReveal}
             initial="initial"
             whileInView="animate"
+            transition={{ duration: 0.6 }}
             viewport={{ margin: '300px 0px 0px 0px' }}
           >
             <Card

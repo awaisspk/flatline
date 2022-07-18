@@ -1,11 +1,11 @@
 import AutoHeight from 'embla-carousel-auto-height';
 import useEmblaCarousel from 'embla-carousel-react';
-import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import React, { useCallback, useEffect } from 'react';
 
 import { useCursorVariant } from '@/hooks/useCursorVariant';
+import { rightReveal } from '@/utils/animations';
 
 const data = [
   {
@@ -57,20 +57,6 @@ const Carousel = () => {
     [AutoHeight()]
   );
 
-  const variants: Variants = {
-    initial: {
-      opacity: 0,
-      translateX: 130,
-    },
-    animate: {
-      opacity: 1,
-      translateX: 0,
-      transition: {
-        duration: 0.6,
-        ease: 'easeInOut',
-      },
-    },
-  };
   const onSelect = useCallback(() => {
     if (!embla) return;
   }, [embla]);
@@ -92,9 +78,10 @@ const Carousel = () => {
           {data.map((office, index) => (
             <motion.div
               className="relative mr-5 shrink-0 grow-0 basis-[90%] md:basis-[85%]"
-              variants={variants}
+              variants={rightReveal}
               initial="initial"
               whileInView="animate"
+              transition={{ duration: 0.6, ease: 'easeInOut' }}
               key={index}
             >
               <div className="relative grid grid-cols-1 gap-8 overflow-hidden sm:grid-cols-[1fr,2fr] md:gap-16">

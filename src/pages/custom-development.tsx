@@ -1,4 +1,3 @@
-import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import React from 'react';
@@ -9,6 +8,7 @@ import { BrandsList } from '@/components/ui/BrandsList';
 import { Button } from '@/components/ui/Button';
 import { Check } from '@/components/ui/icons/Check';
 import { Main, Meta, PageLayout } from '@/layouts';
+import { bottomReveal } from '@/utils/animations';
 
 const services = [
   'We build websites and web apps.',
@@ -20,28 +20,15 @@ const services = [
 const services2 = ['Web', 'App', 'Software', 'E-commerce'];
 
 const CustomDevelopment = () => {
-  const variants: Variants = {
-    initial: {
-      opacity: 0,
-      translateY: 100,
-    },
-    animate: {
-      opacity: 1,
-      translateY: 0,
-      transition: {
-        ease: 'easeInOut',
-        duration: 0.8,
-      },
-    },
-  };
   return (
     <Main meta={<Meta title="Custom Development" description="Flatline" />}>
       <main>
         <motion.section
           className="mx-auto flex max-w-flat flex-col justify-between  px-8 sm:px-12 lg:flex-row"
-          variants={variants}
+          variants={bottomReveal}
           initial="initial"
           animate="animate"
+          transition={{ duration: 0.8 }}
         >
           <div className="max-w-xl pt-10 pb-20 sm:pb-32 ">
             <h1 className="text-4xl leading-10 sm:text-5xl">
@@ -82,9 +69,10 @@ const CustomDevelopment = () => {
         <section className="mx-auto max-w-flat  py-32 px-8 sm:px-12">
           <motion.div
             className="space-y-10"
-            variants={variants}
+            variants={bottomReveal}
             initial="initial"
             whileInView="animate"
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
             <h2 className="text-4xl leading-10">Why build it custom</h2>
@@ -107,9 +95,10 @@ const CustomDevelopment = () => {
           </motion.div>
           <motion.div
             className="aspect-w-16 aspect-h-4 relative "
-            variants={variants}
+            variants={bottomReveal}
             initial="initial"
             whileInView="animate"
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
             <Image
@@ -136,7 +125,7 @@ const CustomDevelopment = () => {
                 <motion.li
                   key={i}
                   className="text-xl sm:text-3xl"
-                  variants={variants}
+                  variants={bottomReveal}
                   initial="initial"
                   whileInView={{ opacity: 1, translateY: 0 }}
                   transition={{ duration: 0.1 + (i + 1) / 10 }}

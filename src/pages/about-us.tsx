@@ -6,7 +6,7 @@ import { JoinUs } from '@/components/screens/aboutus/JoinUs';
 import { OurCulture } from '@/components/screens/aboutus/OurCulture';
 import { OurOffices } from '@/components/screens/aboutus/OurOffices';
 import { Main, Meta, PageLayout } from '@/layouts';
-import { headingReveal } from '@/utils/animations';
+import { bottomReveal, headingReveal } from '@/utils/animations';
 
 const Aboutus = () => {
   return (
@@ -44,12 +44,10 @@ const Aboutus = () => {
           </section>
           <motion.div
             className="mx-auto grid max-w-flat grid-cols-1  gap-10 px-8 pb-24 pt-20 sm:grid-cols-2 sm:px-12 sm:pt-28"
-            initial={{ opacity: 0, translateY: 100 }}
-            whileInView={{
-              opacity: 1,
-              translateY: 0,
-              transition: { duration: 0.4, ease: 'easeInOut' },
-            }}
+            variants={bottomReveal}
+            initial="initial"
+            whileInView="animate"
+            transition={{ duration: 0.6, ease: 'easeInOut' }}
           >
             <h3 className="max-w-md text-3xl leading-10 sm:text-4xl">
               Global disruptor in custom development & end-to-end production

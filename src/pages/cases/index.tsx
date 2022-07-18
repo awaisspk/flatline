@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 import { WorkCard } from '@/components/screens/work/WorkCard';
 import { Main, Meta, PageLayout } from '@/layouts';
-import { headingReveal, sectionReveal } from '@/utils/animations';
+import { bottomReveal, headingReveal } from '@/utils/animations';
 
 const data = [
   {
@@ -69,7 +69,7 @@ const Cases = () => {
           {data.map((d, i) => {
             return (
               <motion.div
-                variants={sectionReveal}
+                variants={bottomReveal}
                 initial="initial"
                 animate="animate"
                 transition={{ duration: 0.6 }}

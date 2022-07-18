@@ -8,6 +8,7 @@ import IntlTelInput from 'react-intl-tel-input';
 
 import { OfficeCarousal } from '@/components/Carousal/OfficeCarousal';
 import { Main, Meta, PageLayout } from '@/layouts';
+import { bottomReveal } from '@/utils/animations';
 import { offices } from '@/utils/data';
 
 const Contact = () => {
@@ -20,20 +21,6 @@ const Contact = () => {
     animate: {
       translateY: '0%',
       gap: '20px',
-      transition: {
-        delay: 0.3,
-        duration: 0.6,
-      },
-      opacity: 1,
-    },
-  };
-  const reveal: Variants = {
-    initial: {
-      translateY: '100px',
-      opacity: 0,
-    },
-    animate: {
-      translateY: '0px',
       transition: {
         delay: 0.3,
         duration: 0.6,
@@ -65,8 +52,9 @@ const Contact = () => {
         </section>
         <motion.section
           className="mx-auto mt-20 flex max-w-flat flex-col justify-between gap-10 px-8 sm:px-12 md:flex-row"
-          variants={reveal}
+          variants={bottomReveal}
           whileInView="animate"
+          transition={{ duration: 0.6, delay: 0.3 }}
           initial="initial"
           viewport={{ once: true }}
         >
@@ -115,9 +103,10 @@ const Contact = () => {
         </motion.section>
         <motion.div
           className="aspect-w-16 aspect-h-9 relative mx-auto mt-20 max-w-[1200px] sm:mb-28 sm:w-[calc(100%-60px)] lg:aspect-h-5"
-          variants={reveal}
+          variants={bottomReveal}
           initial="initial"
           whileInView="animate"
+          transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
         >
           <Image

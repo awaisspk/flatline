@@ -19,16 +19,16 @@ const Services = () => {
         <section className="mx-auto max-w-flat px-8 sm:px-12">
           <div className="overflow-hidden pt-3">
             <motion.div
-              className="grid auto-rows-auto justify-items-end"
+              className="grid auto-rows-auto md:justify-items-end"
               variants={headingReveal}
               transition={{ duration: 0.6 }}
               initial="initial"
               animate="animate"
             >
-              <motion.h1 className="text-2xl sm:text-5xl md:text-end">
+              <motion.h1 className="text-3xl sm:text-5xl md:text-end">
                 Our services
               </motion.h1>
-              <motion.p className="max-w-[600px] text-sm leading-4 text-neutral-500/80 md:text-end md:text-lg md:leading-7 md:text-neutral-800">
+              <motion.p className="max-w-[600px]  leading-5 text-neutral-500/80 md:text-end md:text-lg md:leading-7 md:text-neutral-800">
                 We code and improve everything from E-commerce, Custom
                 platforms, progressive web apps, apps, websites, SAAS, and AI /
                 Deep learning applications

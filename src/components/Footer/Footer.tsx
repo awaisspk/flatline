@@ -79,6 +79,7 @@ export const Footer = () => {
       },
     },
   };
+
   return (
     <footer className=" w-full bg-black text-white" ref={ref}>
       <div className="mx-auto flex min-h-screen max-w-flat flex-col justify-between p-[90px_25px_90px] sm:p-[150px_45px_90px]">

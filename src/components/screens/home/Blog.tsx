@@ -1,11 +1,11 @@
 import AutoHeight from 'embla-carousel-auto-height';
 import useEmblaCarousel from 'embla-carousel-react';
-import type { Variants } from 'framer-motion';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useRef } from 'react';
 
 import { useCursorVariant } from '@/hooks/useCursorVariant';
+import { rightReveal } from '@/utils/animations';
 
 const BlogCarousal = () => {
   const { setCursorVariant } = useCursorVariant();
@@ -18,22 +18,7 @@ const BlogCarousal = () => {
     [AutoHeight()]
   );
 
-  const variants: Variants = {
-    initial: {
-      opacity: 0,
-      translateX: 130,
-    },
-    animate: (i) => ({
-      opacity: 1,
-      translateX: 0,
-      transition: {
-        duration: 0.3 * i,
-        ease: 'easeInOut',
-      },
-    }),
-  };
   const ref = useRef(null);
-  const isInView = useInView(ref);
 
   const onSelect = useCallback(() => {
     if (!embla) return;
@@ -57,10 +42,10 @@ const BlogCarousal = () => {
           {[1, 2, 3, 4, 5, 6, 7].map((index) => (
             <motion.div
               className="relative mr-4 shrink-0 grow-0 basis-[90vw] sm:mr-8 sm:basis-[560px]"
-              variants={variants}
+              variants={rightReveal}
               initial="initial"
-              animate={isInView ? 'animate' : 'initial'}
-              custom={index + 1}
+              whileInView="animate"
+              transition={{ duration: 0.3 * index + 1, ease: 'easeInOut' }}
               key={index}
             >
               <figure className="h-[200px] w-full sm:h-[370px]">

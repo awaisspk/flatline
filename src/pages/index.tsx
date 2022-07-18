@@ -16,7 +16,7 @@ import { Main, Meta, PageLayout } from '@/layouts';
 const Index = () => {
   const { setCursorVariant } = useCursorVariant();
   const isMobile = useMediaQuery({ query: '(max-width : 768px)' });
-  const variants: Variants = {
+  const headingVariant: Variants = {
     initial: {
       translateY: '100%',
       lineHeight: isMobile ? '40px' : '70px',
@@ -45,10 +45,10 @@ const Index = () => {
     >
       <main>
         <section className="mx-auto max-w-flat px-8 sm:px-12">
-          <div className="overflow-hidden">
+          <div className="mb-12 overflow-hidden">
             <motion.h1
-              className="mb-12 text-2xl font-normal leading-10 sm:text-4xl md:text-5xl"
-              variants={variants}
+              className=" text-2xl font-normal leading-10 sm:text-4xl md:text-5xl"
+              variants={headingVariant}
               initial="initial"
               animate="animate"
             >
@@ -83,7 +83,7 @@ const Index = () => {
 
         <motion.section
           className="relative h-[230px] w-full sm:h-[330px] md:h-[628px]"
-          variants={variants}
+          variants={headingVariant}
           initial="initial"
           animate="animate"
         >

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useCursorVariant } from '@/hooks/useCursorVariant';
+import { bottomReveal } from '@/utils/animations';
 
 const images = [
   'https://www.flatlineagency.com/wp-content/uploads/2021/12/Amsterdam-office-655x409.jpg',
@@ -17,6 +18,7 @@ const images = [
   'https://www.flatlineagency.com/wp-content/uploads/2021/12/NYC-Club135-Lounge-1230x820-1-655x409.jpg',
   'https://www.flatlineagency.com/wp-content/uploads/2021/12/NYC-Club135-Conference1-1230x820-1-655x409.jpg',
 ];
+
 type Props = {
   btnPosition?: 'top' | 'bottom';
 };
@@ -53,15 +55,10 @@ export const OfficeCarousal = ({ btnPosition = 'bottom' }: Props) => {
   return (
     <motion.div
       className="relative flex cursor-pointer flex-col"
-      initial={{ opacity: 0, translateY: '100px' }}
-      animate={{
-        opacity: 1,
-        translateY: '0px',
-        transition: {
-          duration: 0.6,
-          ease: 'easeInOut',
-        },
-      }}
+      variants={bottomReveal}
+      initial="initial"
+      animate="animate"
+      transition={{ duration: 0.6, ease: 'easeInOut' }}
     >
       <div
         className="w-full overflow-x-hidden"

@@ -1,12 +1,12 @@
 import cx from 'classnames';
 import AutoHeight from 'embla-carousel-auto-height';
 import useEmblaCarousel from 'embla-carousel-react';
-import type { Variants } from 'framer-motion';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useCursorVariant } from '@/hooks/useCursorVariant';
+import { rightReveal } from '@/utils/animations';
 
 const services = [
   {
@@ -57,20 +57,6 @@ const ServicesCarousal = () => {
     [AutoHeight()]
   );
 
-  const variants: Variants = {
-    initial: {
-      opacity: 0,
-      translateX: 130,
-    },
-    animate: (i) => ({
-      opacity: 1,
-      translateX: 0,
-      transition: {
-        duration: 0.3 * i,
-        ease: 'easeInOut',
-      },
-    }),
-  };
   const ref = useRef(null);
   const isInView = useInView(ref);
 
@@ -126,10 +112,10 @@ const ServicesCarousal = () => {
           {services.map((service, index) => (
             <motion.div
               className="relative mr-4 shrink-0 grow-0 basis-[90%] sm:mr-14 sm:basis-[330px]"
-              variants={variants}
+              variants={rightReveal}
               initial="initial"
               animate={isInView ? 'animate' : 'initial'}
-              custom={index + 1}
+              transition={{ duration: 0.2 * index + 1, ease: 'easeInOut' }}
               key={index}
             >
               <div>
