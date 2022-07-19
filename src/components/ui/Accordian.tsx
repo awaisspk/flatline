@@ -1,14 +1,13 @@
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import cx from 'classnames';
 import { motion } from 'framer-motion';
-import type { ReactNode } from 'react';
 import { useState } from 'react';
 
 import styles from '@/styles/faqs.module.css';
 
 type IData = {
   header: string;
-  content: ReactNode;
+  content: any;
 };
 
 type IAccordian = {
@@ -47,7 +46,10 @@ const Item = ({ content, header, i }: IData & { i: number }) => {
           </AccordionPrimitive.Trigger>
         </AccordionPrimitive.Header>
         <AccordionPrimitive.Content className="transition-all duration-1000 radix-state-open:h-radix-collapsible-content radix-state-closed:h-0">
-          <motion.div className={styles.container}>{content}</motion.div>
+          <div
+            className={styles.container}
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
         </AccordionPrimitive.Content>
       </motion.div>
     </AccordionPrimitive.Item>

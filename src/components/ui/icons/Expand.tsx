@@ -1,7 +1,11 @@
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 
-export const Expand = ({ isHovered }: { isHovered: boolean }) => {
+type IExpand = {
+  isHovered: boolean;
+  color?: string;
+};
+export const Expand = ({ isHovered, color }: IExpand) => {
   const [isCircleHovered, setIsCircleHovered] = useState(false);
   return (
     <motion.div
@@ -18,7 +22,7 @@ export const Expand = ({ isHovered }: { isHovered: boolean }) => {
       }}
       animate={{
         scale: isHovered ? 1.5 : isCircleHovered ? 1.5 : 0.8,
-        background: isCircleHovered ? '#5252f2' : '#ffffff',
+        background: color || (isCircleHovered ? '#5252f2' : '#ffffff'),
         originX: 'right',
         originY: 'bottom',
       }}

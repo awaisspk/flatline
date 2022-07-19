@@ -37,6 +37,9 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
               url
             }
             title
+            color {
+              hex
+            }
             previewImage {
               responsiveImage(
                 imgixParams: { fit: crop, w: 400, h: 400, auto: format }
@@ -83,10 +86,12 @@ const Services = ({
       <Head>{renderMetaTags(metaTags)}</Head>
       <main>
         <section className="mx-auto max-w-flat px-8 sm:px-12">
-          <MainHeading
-            title="Our services"
-            subtitle="We code and improve everything from E-commerce, Custom platforms, progressive web apps, apps, websites, SAAS, and AI / Deep learning applications"
-          />
+          <div className="max-w-2xl">
+            <MainHeading
+              title="Our services"
+              subtitle="We code and improve everything from E-commerce, Custom platforms, progressive web apps, apps, websites, SAAS, and AI / Deep learning applications"
+            />
+          </div>
           <hr className="mt-20 mb-7 border-black sm:mt-32" />
         </section>
         <section className="max-w-flat overflow-hidden sm:ml-auto sm:w-[calc(100%-60px)] md:mx-auto lg:px-8">

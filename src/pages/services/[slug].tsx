@@ -1,69 +1,137 @@
 import 'react-intl-tel-input/dist/main.css';
 
-import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { gql } from 'graphql-request';
+import type {
+  GetStaticPaths,
+  GetStaticProps,
+  InferGetStaticPropsType,
+} from 'next';
+import Head from 'next/head';
 import React from 'react';
+import { Image, renderMetaTags, useQuerySubscription } from 'react-datocms';
 import IntlTelInput from 'react-intl-tel-input';
 
 import { Accordion } from '@/components/ui/Accordian';
 import { BrandsList } from '@/components/ui/BrandsList';
-import { Main, Meta, PageLayout } from '@/layouts';
+import { MainHeading } from '@/components/ui/MainHeading';
+import { PageLayout } from '@/layouts';
+import { request } from '@/utils/datocms';
+import {
+  metaTagsFragment,
+  responsiveImageFragment,
+} from '@/utils/datocms/fragments';
 
-const faqs = [
-  {
-    header: 'Shopify versus WooCommerce - which one should you choose?',
-    content:
-      'If your core requirement is complete flexibility, you should use an open-source platform like WordPress – WooCommerce. While this helps you to easily import data feeds, customize every part of your site, manage your personal security and maintenance protocols.',
-  },
-];
+export const getStaticPaths: GetStaticPaths = async () => {
+  const data = await request({ query: `{ allServices { slug } }` });
 
-const ServicesDetail = () => {
-  const variants: Variants = {
-    initial: {
-      opacity: 0,
-      translateY: 80,
-    },
-    animate: {
-      opacity: 1,
-      translateY: 0,
-      transition: {
-        ease: 'easeInOut',
-        duration: 0.6,
-      },
+  return {
+    paths: data.allServices?.map((post: any) => `/services/${post.slug}`),
+    fallback: true,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({
+  params,
+  preview = false,
+}) => {
+  console.log({ params });
+  const graphqlRequest = {
+    query: gql`
+      query ServiceBySlug($slug: String) {
+        site: _site {
+          favicon: faviconMetaTags {
+            ...metaTagsFragment
+          }
+        }
+        service(filter: { slug: { eq: $slug } }) {
+          seo: _seoMetaTags {
+            ...metaTagsFragment
+          }
+          title
+          excerpt
+          bannerImage {
+            responsiveImage(
+              imgixParams: { fit: crop, w: 1200, h: 500, auto: format }
+            ) {
+              ...responsiveImageFragment
+            }
+          }
+          feature {
+            title
+            detail
+            image {
+              responsiveImage(
+                imgixParams: { fit: clamp, w: 300, h: 300, auto: format }
+              ) {
+                ...responsiveImageFragment
+              }
+            }
+          }
+          technique {
+            shortDetail
+            list
+          }
+          faq {
+            header
+            content
+          }
+          formSideImage {
+            responsiveImage(
+              imgixParams: { fit: crop, w: 400, h: 600, auto: format }
+            ) {
+              ...responsiveImageFragment
+            }
+          }
+        }
+      }
+
+      ${metaTagsFragment}
+      ${responsiveImageFragment}
+    `,
+    preview,
+    variables: {
+      slug: params?.slug,
     },
   };
+  return {
+    props: {
+      subscription: preview
+        ? {
+            ...graphqlRequest,
+            initialData: await request(graphqlRequest),
+            token: process.env.NEXT_CMS_DATOCMS_API_TOKEN,
+          }
+        : {
+            enabled: false,
+            initialData: await request(graphqlRequest),
+          },
+      preview,
+    },
+  };
+};
+
+const ServicesDetail = ({
+  subscription,
+  preview,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const {
+    data: { site, service },
+  } = useQuerySubscription(subscription);
+  console.log({ preview });
+  const metaTags = service.seo.concat(site.favicon);
+  const { feature, technique, faq, formSideImage } = service;
   return (
-    <Main
-      meta={
-        <Meta
-          title="Ecommerce - Flatline Agency"
-          description="flatline agency"
-        />
-      }
-    >
+    <>
+      <Head>{renderMetaTags(metaTags)}</Head>
       <main>
         <section className="mx-auto max-w-flat space-y-8 px-8 sm:space-y-12 sm:px-12">
-          <div className="space-y-8 overflow-hidden pt-3">
-            <motion.h1
-              className="text-[28px] text-white sm:text-5xl"
-              variants={variants}
-              initial="initial"
-              animate="animate"
-            >
-              E-commerce
-            </motion.h1>
-            <motion.p
-              className="max-w-[80ch] text-neutral-500"
-              variants={variants}
-              initial="initial"
-              animate="animate"
-            >
-              Proud partner of Shopify, WooCommerce, and end-to-end production
-              partner of large players within the e-commerce industry. We
-              don&apos;t simply build your webshop, we set up your entire
-              digital architecture.
-            </motion.p>
+          <div className="max-w-2xl space-y-8 overflow-hidden pt-3">
+            <MainHeading
+              title={service.title}
+              subtitle={service.excerpt}
+              color="dark"
+            />
           </div>
           <motion.button
             className="flex w-max cursor-pointer items-center justify-center rounded-[100px] border-[1px] border-gray-500/50 bg-black py-5 px-9 text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black"
@@ -76,7 +144,7 @@ const ServicesDetail = () => {
             Plan a Call
           </motion.button>
           <motion.div
-            className="relative h-[300px] bg-gray-900 sm:h-[470px]"
+            className="relative h-[370px] sm:h-[470px]"
             initial={{ scale: 0.5, opacity: 0 }}
             whileInView={{
               scale: 1,
@@ -86,13 +154,14 @@ const ServicesDetail = () => {
             viewport={{ amount: 'all', once: true }}
           >
             <Image
-              src="https://www.flatlineagency.com/wp-content/uploads/2021/11/header-kota-win-header-e1641305413505-914x477.jpeg"
+              data={service.bannerImage.responsiveImage}
               layout="fill"
               objectFit="cover"
-              alt=""
             />
           </motion.div>
-          <BrandsList color="dark" animateOnce={true} />
+          <div className="sm:pt-20">
+            <BrandsList color="dark" animateOnce={true} />
+          </div>
         </section>
         <section className="mx-auto grid max-w-flat grid-cols-1 grid-rows-2 justify-between space-y-8  overflow-hidden px-8 py-20 sm:space-y-12 sm:px-12 md:grid-cols-2 md:grid-rows-1">
           <motion.div
@@ -106,16 +175,12 @@ const ServicesDetail = () => {
             viewport={{ amount: 0.8, once: true }}
           >
             <h2 className="text-4xl leading-10 text-white sm:text-6xl md:leading-[60px]">
-              It’s a certain kind of person, who doesn’t wait for greatness
+              {feature[0].title}
             </h2>
             <p className="text-[16px] text-neutral-100 md:text-lg">
-              Proud partner of Shopify, WooCommerce, and end-to-end production
-              partner of large players within the e-commerce industry. We
-              don&apos;t simply build your webshop, we set up your entire
-              digital architecture.
+              {feature[0].detail}
             </p>
           </motion.div>
-
           <motion.div
             initial={{ opacity: 0, translateX: 100 }}
             whileInView={{
@@ -124,16 +189,9 @@ const ServicesDetail = () => {
               transition: { ease: 'easeInOut', duration: 0.6 },
             }}
             viewport={{ amount: 0.8, once: true }}
+            className="mx-auto"
           >
-            <div className="relative mx-auto h-full max-w-[260px]">
-              <Image
-                src="https://www.flatlineagency.com/wp-content/uploads/2021/11/shopify1.png"
-                className="object-contain"
-                layout="fill"
-                objectFit="contain"
-                alt=""
-              />
-            </div>
+            <Image data={feature[0].image.responsiveImage} />
           </motion.div>
         </section>
         <section className="overflow-hidden bg-body px-8 pt-20 sm:px-12">
@@ -149,27 +207,18 @@ const ServicesDetail = () => {
                 }}
                 viewport={{ amount: 0.8, once: true }}
               >
-                We map every e-commerce and retail-related process in your
-                company, set up the necessary automation, and build custom
-                modules and connectors.
+                {technique[0].shortDetail}
               </motion.p>
               <ul className="grid gap-5 sm:grid-cols-2">
-                <li className="text-2xl md:text-3xl">
-                  <span className="mr-3 text-[16px]">01</span>
-                  Custom connectors
-                </li>
-                <li className="text-2xl md:text-3xl">
-                  <span className="mr-3 text-[16px]">02</span>
-                  Webshop
-                </li>
-                <li className="text-2xl md:text-3xl">
-                  <span className="mr-3 text-[16px]">03</span>
-                  Automations
-                </li>
-                <li className="text-2xl md:text-3xl">
-                  <span className="mr-3 text-[16px]">04</span>
-                  Data strategy
-                </li>
+                {technique[0].list.map((item: string, i: number) => (
+                  <li key={i} className="text-2xl md:text-3xl">
+                    <span className="mr-3 text-[16px]">
+                      {i + 1 < 9 && '0'}
+                      {i + 1}
+                    </span>
+                    {item}
+                  </li>
+                ))}
               </ul>
             </div>
             <motion.p
@@ -241,23 +290,18 @@ const ServicesDetail = () => {
               }}
               viewport={{ amount: 0.8, once: true }}
             >
-              <Image
-                src="https://www.flatlineagency.com/wp-content/uploads/2021/11/alex-knight-2EJCSULRwC8-unsplash.jpg"
-                layout="fill"
-                objectFit="cover"
-                alt=""
-              />
+              <Image data={formSideImage.responsiveImage} />
             </motion.div>
           </div>
         </section>
         <section className="bg-body">
           <div className="mx-auto max-w-flat py-10 px-8 sm:px-12 md:py-24">
             <h2 className="pb-5 text-3xl sm:pb-10 sm:text-5xl">FAQ</h2>
-            <Accordion data={faqs} />
+            <Accordion data={faq} />
           </div>
         </section>
       </main>
-    </Main>
+    </>
   );
 };
 

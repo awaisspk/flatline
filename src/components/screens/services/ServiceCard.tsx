@@ -8,6 +8,7 @@ type Video = {
     url: string;
   };
   title: string;
+  color: { hex: string };
   previewImage: {
     responsiveImage: ResponsiveImageType;
   };
@@ -23,10 +24,10 @@ type IServicesCard = {
 
 export const ServicesCard = ({
   id,
-  title,
   excerpt,
   slug,
   media,
+  title,
 }: IServicesCard) => {
   return (
     <div>
@@ -54,8 +55,12 @@ export const ServicesCard = ({
               className="sm:w-[calc((100%-30px)/ 2)] mr-4 h-[230px] w-[calc(100vw-60px)] sm:h-[310px] md:h-[350px]"
             >
               <VideoCard
+                color={item.color.hex}
+                showExpandButton
+                title={item.title}
                 previewImage={item.previewImage.responsiveImage}
                 videourl={item.video.url}
+                href={`/services/${slug}`}
               />
             </div>
           ))}
