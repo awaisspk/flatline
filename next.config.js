@@ -15,6 +15,6 @@ module.exports = withBundleAnalyzer({
   // You can remove `basePath` if you don't need it.
   reactStrictMode: true,
   images: {
-    domains: ['www.flatlineagency.com'],
+    domains: ['www.flatlineagency.com', 'www.datocms-assets.com'],
   },
 });

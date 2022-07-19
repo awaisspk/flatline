@@ -95,7 +95,7 @@ export const MobileNavigation = () => {
                 <motion.li key={i} className="overflow-hidden">
                   <Link href={link.url}>
                     <motion.a
-                      className="relative block text-3xl"
+                      className="relative block text-center text-3xl"
                       variants={menuItemsVariant}
                       initial="initial"
                       animate={isOpen ? 'animate' : 'initial'}

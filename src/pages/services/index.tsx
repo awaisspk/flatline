@@ -1,49 +1,104 @@
-import { motion } from 'framer-motion';
-import React, { Fragment } from 'react';
+import { gql } from 'graphql-request';
+import type { GetStaticProps, InferGetStaticPropsType } from 'next';
+import Head from 'next/head';
+import React from 'react';
+import { renderMetaTags, useQuerySubscription } from 'react-datocms';
 
 import { ServicesCard } from '@/components/screens/services/ServiceCard';
-import { Main, Meta, PageLayout } from '@/layouts';
-import { headingReveal } from '@/utils/animations';
+import { MainHeading } from '@/components/ui/MainHeading';
+import { PageLayout } from '@/layouts';
+import { request } from '@/utils/datocms';
+import {
+  metaTagsFragment,
+  responsiveImageFragment,
+} from '@/utils/datocms/fragments';
 
-const Services = () => {
-  return (
-    <Main
-      meta={
-        <Meta
-          title="Services - Flatline Agency"
-          description="flatline agency services"
-        />
+export const getStaticProps: GetStaticProps = async ({ preview }) => {
+  const graphqlRequest = {
+    query: gql`
+      {
+        site: _site {
+          favicon: faviconMetaTags {
+            ...metaTagsFragment
+          }
+        }
+        servicesPage {
+          seo: _seoMetaTags {
+            ...metaTagsFragment
+          }
+        }
+
+        servicesList: allServices {
+          title
+          excerpt
+          slug
+          serviceCardMedia {
+            video {
+              url
+            }
+            title
+            previewImage {
+              responsiveImage(
+                imgixParams: { fit: crop, w: 400, h: 400, auto: format }
+              ) {
+                ...responsiveImageFragment
+              }
+            }
+          }
+        }
       }
-    >
+      ${responsiveImageFragment}
+      ${metaTagsFragment}
+    `,
+    preview,
+  };
+
+  return {
+    props: {
+      subscription: preview
+        ? {
+            ...graphqlRequest,
+            initialData: await request(graphqlRequest),
+            token: process.env.NEXT_CMS_DATOCMS_API_TOKEN,
+            environment: process.env.NEXT_DATOCMS_ENVIRONMENT || null,
+          }
+        : {
+            enabled: false,
+            initialData: await request(graphqlRequest),
+          },
+    },
+  };
+};
+
+const Services = ({
+  subscription,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const {
+    data: { servicesList, site, servicesPage },
+  } = useQuerySubscription(subscription);
+
+  const metaTags = servicesPage.seo.concat(site.favicon);
+  return (
+    <>
+      <Head>{renderMetaTags(metaTags)}</Head>
       <main>
         <section className="mx-auto max-w-flat px-8 sm:px-12">
-          <div className="overflow-hidden pt-3">
-            <motion.div
-              className="grid auto-rows-auto md:justify-items-end"
-              variants={headingReveal}
-              transition={{ duration: 0.6 }}
-              initial="initial"
-              animate="animate"
-            >
-              <motion.h1 className="text-3xl sm:text-5xl md:text-end">
-                Our services
-              </motion.h1>
-              <motion.p className="max-w-[600px]  leading-5 text-neutral-500/80 md:text-end md:text-lg md:leading-7 md:text-neutral-800">
-                We code and improve everything from E-commerce, Custom
-                platforms, progressive web apps, apps, websites, SAAS, and AI /
-                Deep learning applications
-              </motion.p>
-            </motion.div>
-          </div>
-
+          <MainHeading
+            title="Our services"
+            subtitle="We code and improve everything from E-commerce, Custom platforms, progressive web apps, apps, websites, SAAS, and AI / Deep learning applications"
+          />
           <hr className="mt-20 mb-7 border-black sm:mt-32" />
         </section>
         <section className="max-w-flat overflow-hidden sm:ml-auto sm:w-[calc(100%-60px)] md:mx-auto lg:px-8">
-          {[...Array(5)].map((_, i) => (
-            <Fragment key={i}>
-              <ServicesCard key={i} />
-              <hr className="mx-auto my-5 w-[98%] border-black" />
-            </Fragment>
+          {servicesList.map((service: any, i: number) => (
+            <ServicesCard
+              key={i}
+              id={i + 1}
+              title={service.title}
+              excerpt={service.excerpt}
+              slug={service.slug}
+              media={service.serviceCardMedia}
+            />
           ))}
         </section>
         <section className="mx-auto max-w-flat px-10 pt-28 pb-52 md:pl-40">
@@ -56,7 +111,7 @@ const Services = () => {
           </h2>
         </section>
       </main>
-    </Main>
+    </>
   );
 };
 

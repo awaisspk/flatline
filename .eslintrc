@@ -56,6 +56,7 @@
         "import/prefer-default-export": "off", // Named export is easier to refactor automatically
         "global-require" : "off",
         "no-useless-return" :"off",
+        "consistent-return" : "off",
         "tailwindcss/no-custom-classname" : "off",
         "tailwindcss/classnames-order": [
           "warn",

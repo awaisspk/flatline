@@ -114,6 +114,7 @@ export const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
               className="w-full"
               src="https://www.flatlineagency.com/wp-content/uploads/2022/05/videoplayback.mp4"
               playsInline
+              poster="https://www.flatlineagency.com/wp-content/uploads/2022/05/justeattakeaway-579x320.jpg"
               loop
               muted
             />
