@@ -116,7 +116,7 @@ const ServicesDetail = ({
   const {
     data: { site, service },
   } = useQuerySubscription(subscription);
-  console.log({ subscription });
+
   const metaTags = service.seo.concat(site.favicon);
   const { feature, technique, faq, formSideImage } = service;
   return (
