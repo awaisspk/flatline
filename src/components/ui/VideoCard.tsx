@@ -68,7 +68,7 @@ export const VideoCard = ({
           />
           {title && (
             <p
-              className="absolute top-5 right-5 z-50 text-3xl"
+              className="absolute top-5 right-5 z-50 text-3xl text-white"
               style={{ color, writingMode: 'vertical-rl' }}
             >
               {title}

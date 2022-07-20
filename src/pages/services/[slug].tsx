@@ -27,7 +27,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: data.allServices?.map((post: any) => `/services/${post.slug}`),
-    fallback: true,
+    fallback: false,
   };
 };
 

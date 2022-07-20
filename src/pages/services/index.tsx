@@ -62,6 +62,7 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
       subscription: preview
         ? {
             ...graphqlRequest,
+            enabled: true,
             initialData: await request(graphqlRequest),
             token: process.env.NEXT_CMS_DATOCMS_API_TOKEN,
             environment: process.env.NEXT_DATOCMS_ENVIRONMENT || null,

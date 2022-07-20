@@ -25,7 +25,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: data.allCases?.map((item: any) => `/cases/${item.slug}`),
-    fallback: true,
+    fallback: false,
   };
 };
 
@@ -45,22 +45,18 @@ export const getStaticProps: GetStaticProps = async ({
           seo: _seoMetaTags {
             ...metaTagsFragment
           }
-          banner {
-            title
-            brandName
-            image {
-              responsiveImage {
-                ...responsiveImageFragment
-              }
+          bannerTitle
+          brandSlogan
+          bannerImage {
+            responsiveImage {
+              ...responsiveImageFragment
             }
           }
-          caseDetail {
-            title
-            detail
-            achievements {
-              field1
-              field2
-            }
+          achivementTitle
+          achivementDetails
+          achivementStats {
+            stat
+            label
           }
           carousal {
             url
@@ -87,13 +83,11 @@ export const getStaticProps: GetStaticProps = async ({
         }
         nextCases: allCases(filter: { slug: { neq: $slug } }) {
           slug
-          card {
-            coverImage {
-              responsiveImage(
-                imgixParams: { fit: clamp, w: 400, h: 520, auto: format }
-              ) {
-                ...responsiveImageFragment
-              }
+          cardPreviewImage {
+            responsiveImage(
+              imgixParams: { fit: clamp, w: 400, h: 520, auto: format }
+            ) {
+              ...responsiveImageFragment
             }
           }
         }
@@ -112,6 +106,7 @@ export const getStaticProps: GetStaticProps = async ({
       subscription: preview
         ? {
             ...graphqlRequest,
+            enabled: true,
             initialData: await request(graphqlRequest),
             token: process.env.NEXT_CMS_DATOCMS_API_TOKEN,
           }
@@ -130,9 +125,7 @@ const CaseDetails = ({ subscription }: any) => {
   } = useQuerySubscription(subscription);
 
   const metaTags = caseDetails.seo.concat(site.favicon);
-  const { banner, caseDetail, aboutCompany } = caseDetails;
-  const details = caseDetail[0];
-  const caseBanner = banner[0];
+  const { aboutCompany } = caseDetails;
   const company = aboutCompany[0];
 
   return (
@@ -142,16 +135,16 @@ const CaseDetails = ({ subscription }: any) => {
         <div>
           <div className="z-1 absolute inset-x-0 top-0 h-[50vh] min-h-[650px] md:min-h-0">
             <h1 className="absolute bottom-14 z-20 ml-10 pr-14 text-[40px] leading-[50px] text-white md:ml-[calc((100vw-1200px)/2)]">
-              {caseBanner?.title}
+              {caseDetails.bannerTitle}
             </h1>
             <p
               className="absolute right-[3%] bottom-24 z-20 text-xl text-white placeholder:text-red-50  sm:text-3xl"
               style={{ writingMode: 'vertical-rl' }}
             >
-              {caseBanner?.brandName}
+              {caseDetails.brandSlogan}
             </p>
             <Image
-              data={caseBanner?.image.responsiveImage}
+              data={caseDetails?.bannerImage.responsiveImage}
               layout="fill"
               objectFit="cover"
             />
@@ -161,17 +154,17 @@ const CaseDetails = ({ subscription }: any) => {
         <section className="mx-auto flex max-w-flat flex-col items-start justify-between  gap-10 px-8 py-32 sm:px-12 md:flex-row">
           <div className="flex flex-col items-start justify-between">
             <div className="max-w-3xl space-y-10">
-              <h2 className="text-4xl">{details?.title}</h2>
+              <h2 className="text-4xl">{caseDetails.achivementTitle}</h2>
               <p className="text-xl leading-9 text-black/70 sm:text-3xl">
-                {details?.detail}
+                {caseDetails.achivementDetails}
               </p>
             </div>
             <ul className="mt-20 flex flex-wrap justify-between gap-5">
-              {details?.achievements.map((item: any, i: number) => (
+              {caseDetails?.achivementStats.map((item: any, i: number) => (
                 <li key={i} className="flex items-center space-x-10">
-                  <span className="text-3xl sm:text-5xl">{item.field1}</span>
+                  <span className="text-3xl sm:text-5xl">{item.stat}</span>
                   <span className="text-2xl text-neutral-500 sm:text-3xl">
-                    {item.field2}
+                    {item.label}
                   </span>
                 </li>
               ))}

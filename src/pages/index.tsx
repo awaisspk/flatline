@@ -41,18 +41,14 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
         }
         allCases(filter: { slug: { in: ["just-eat-takeaway"] } }) {
           slug
-          banner {
-            brandName
+          brandSlogan
+          cardPreviewImage {
+            responsiveImage {
+              ...responsiveImageFragment
+            }
           }
-          card {
-            coverImage {
-              responsiveImage {
-                ...responsiveImageFragment
-              }
-            }
-            video {
-              url
-            }
+          cardVideo {
+            url
           }
         }
         allServices {

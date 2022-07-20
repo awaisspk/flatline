@@ -31,20 +31,17 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
         cases: allCases {
           title
           slug
-          card {
-            title
-            creation {
-              list
-            }
-            video {
-              url
-            }
-            coverImage {
-              responsiveImage(
-                imgixParams: { fit: crop, w: 580, h: 320, auto: format }
-              ) {
-                ...responsiveImageFragment
-              }
+          cardTitle
+          brandSlogan
+          creationList
+          cardVideo {
+            url
+          }
+          cardPreviewImage {
+            responsiveImage(
+              imgixParams: { fit: crop, w: 580, h: 320, auto: format }
+            ) {
+              ...responsiveImageFragment
             }
           }
         }
@@ -112,10 +109,10 @@ const Cases = ({ subscription }: any) => {
               >
                 <WorkCard
                   title={item.title}
-                  subtitle={item.card[0].title}
-                  creation={item.card[0].creation[0]?.list}
-                  imageUrl={item.card[0].coverImage.responsiveImage}
-                  videoUrl={item.card[0].video.url}
+                  subtitle={item.brandSlogan}
+                  creation={item.creationList}
+                  imageUrl={item.cardPreviewImage.responsiveImage}
+                  videoUrl={item.cardVideo.url}
                   href={`/cases/${item.slug}`}
                 />
               </motion.div>

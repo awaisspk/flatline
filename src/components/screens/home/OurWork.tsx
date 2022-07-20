@@ -7,16 +7,11 @@ import { bottomReveal } from '@/utils/animations';
 
 type Work = {
   slug: string;
-  banner: {
-    title: string;
-  }[];
-  card: {
-    coverImage: any;
-    video: {
-      url: string;
-    };
-    slug: string;
-  }[];
+  brandSlogan: string;
+  cardPreviewImage: any;
+  cardVideo: {
+    url: string;
+  };
 };
 
 type IOurWork = {
@@ -24,7 +19,9 @@ type IOurWork = {
 };
 
 export const OurWork = ({ work }: IOurWork) => {
-  console.log(work);
+  const card1 = work[0];
+  const card2 = work[1];
+  const card3 = work[2];
   return (
     <>
       <section className="mx-auto flex max-w-flat flex-col px-8 pt-14 pb-24 sm:px-12 sm:pt-32">
@@ -41,11 +38,11 @@ export const OurWork = ({ work }: IOurWork) => {
             viewport={{ margin: '300px 0px 0px 0px' }}
           >
             <VideoCard
-              videourl={work[0]?.card[0]?.video.url}
-              previewImage={work[0]?.card[0]?.coverImage.responsiveImage}
-              title={work[0]?.banner[0]?.title}
+              videourl={card1?.cardVideo.url}
+              previewImage={card1?.cardPreviewImage.responsiveImage}
+              title={card1?.brandSlogan}
               showExpandButton={true}
-              href={`/cases/${work[0]?.slug!}`}
+              href={`/cases/${card1?.slug!}`}
             />
           </motion.div>
           <motion.div
@@ -57,11 +54,11 @@ export const OurWork = ({ work }: IOurWork) => {
             viewport={{ margin: '300px 0px 0px 0px' }}
           >
             <VideoCard
-              videourl={work[1]?.card[0]?.video.url}
-              previewImage={work[1]?.card[0]?.coverImage.responsiveImage}
-              title={work[1]?.banner[0]?.title}
+              videourl={card2?.cardVideo.url}
+              previewImage={card2?.cardPreviewImage.responsiveImage}
+              title={card2?.brandSlogan}
               showExpandButton={true}
-              href={`/cases/${work[1]?.slug!}`}
+              href={`/cases/${card2?.slug!}`}
             />
           </motion.div>
           <motion.div
@@ -73,11 +70,11 @@ export const OurWork = ({ work }: IOurWork) => {
             viewport={{ margin: '300px 0px 0px 0px' }}
           >
             <VideoCard
-              videourl={work[2]?.card[0]?.video.url}
-              previewImage={work[2]?.card[0]?.coverImage.responsiveImage}
-              title={work[2]?.banner[0]?.title}
+              videourl={card3?.cardVideo.url}
+              previewImage={card3?.cardPreviewImage.responsiveImage}
+              title={card3?.brandSlogan}
               showExpandButton={true}
-              href={`/cases/${work[2]?.slug!}`}
+              href={`/cases/${card3?.slug!}`}
             />
           </motion.div>
         </div>
