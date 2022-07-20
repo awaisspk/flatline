@@ -1,9 +1,5 @@
 import { gql } from 'graphql-request';
-import type {
-  GetStaticPaths,
-  GetStaticProps,
-  InferGetServerSidePropsType,
-} from 'next';
+import type { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import React from 'react';
 import {
@@ -128,9 +124,7 @@ export const getStaticProps: GetStaticProps = async ({
   };
 };
 
-const CaseDetails = ({
-  subscription,
-}: InferGetServerSidePropsType<typeof getStaticProps>) => {
+const CaseDetails = ({ subscription }: any) => {
   const {
     data: { site, caseDetails, nextCases },
   } = useQuerySubscription(subscription);

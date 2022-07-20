@@ -98,6 +98,7 @@ export const getStaticProps: GetStaticProps = async ({
       subscription: preview
         ? {
             ...graphqlRequest,
+            enabled: true,
             initialData: await request(graphqlRequest),
             token: process.env.NEXT_CMS_DATOCMS_API_TOKEN,
           }
@@ -105,19 +106,17 @@ export const getStaticProps: GetStaticProps = async ({
             enabled: false,
             initialData: await request(graphqlRequest),
           },
-      preview,
     },
   };
 };
 
 const ServicesDetail = ({
   subscription,
-  preview,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const {
     data: { site, service },
   } = useQuerySubscription(subscription);
-  console.log({ preview });
+  console.log({ subscription });
   const metaTags = service.seo.concat(site.favicon);
   const { feature, technique, faq, formSideImage } = service;
   return (

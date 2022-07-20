@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { motion } from 'framer-motion';
 import { gql } from 'graphql-request';
-import type { GetStaticProps, InferGetStaticPropsType } from 'next';
+import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { renderMetaTags, useQuerySubscription } from 'react-datocms';
 
@@ -72,9 +72,7 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
   };
 };
 
-const Cases = ({
-  subscription,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Cases = ({ subscription }: any) => {
   const {
     data: { cases, site, casesPage },
   } = useQuerySubscription(subscription);
