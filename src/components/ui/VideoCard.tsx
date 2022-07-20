@@ -51,7 +51,8 @@ export const VideoCard = ({
               <Image
                 data={previewImage}
                 objectFit="cover"
-                className="h-full w-full"
+                layout="fill"
+                className="h-full w-full bg-orange-300"
               />
             </motion.div>
           )}

@@ -42,7 +42,7 @@ export const OurWork = ({ work }: IOurWork) => {
           >
             <VideoCard
               videourl={work[0]?.card[0]?.video.url}
-              previewImage={work[0]?.card[0]?.coverImage.responseImage}
+              previewImage={work[0]?.card[0]?.coverImage.responsiveImage}
               title={work[0]?.banner[0]?.title}
               showExpandButton={true}
               href={`/cases/${work[0]?.slug!}`}
@@ -58,7 +58,7 @@ export const OurWork = ({ work }: IOurWork) => {
           >
             <VideoCard
               videourl={work[1]?.card[0]?.video.url}
-              previewImage={work[1]?.card[0]?.coverImage.responseImage}
+              previewImage={work[1]?.card[0]?.coverImage.responsiveImage}
               title={work[1]?.banner[0]?.title}
               showExpandButton={true}
               href={`/cases/${work[1]?.slug!}`}
@@ -74,7 +74,7 @@ export const OurWork = ({ work }: IOurWork) => {
           >
             <VideoCard
               videourl={work[2]?.card[0]?.video.url}
-              previewImage={work[2]?.card[0]?.coverImage.responseImage}
+              previewImage={work[2]?.card[0]?.coverImage.responsiveImage}
               title={work[2]?.banner[0]?.title}
               showExpandButton={true}
               href={`/cases/${work[2]?.slug!}`}
