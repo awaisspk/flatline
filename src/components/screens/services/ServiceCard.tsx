@@ -34,10 +34,13 @@ export const ServicesCard = ({
       <div className="flex flex-col lg:flex-row">
         <div className="order-2 space-y-7 p-8 sm:pl-0 lg:order-1 lg:space-y-5 lg:px-8">
           <h2 className="text-3xl">
-            <span className="mr-3 text-lg">{id}</span>
+            <span className="mr-3 text-lg sm:mr-5">
+              {id < 9 && '0'}
+              {id}
+            </span>
             {title}
           </h2>
-          <p className="text-sm leading-5 text-neutral-500/80 md:leading-6 md:text-neutral-800">
+          <p className="md:leading-2 text-sm leading-5 text-neutral-500/80 md:text-neutral-500">
             {excerpt}
           </p>
           <FlatLink
@@ -59,7 +62,7 @@ export const ServicesCard = ({
                 showExpandButton
                 title={item.title}
                 previewImage={item.previewImage.responsiveImage}
-                videourl={item.video.url}
+                videourl={item.video?.url}
                 href={`/services/${slug}`}
               />
             </div>

@@ -8,17 +8,20 @@ type ICarousal = {
   children: ReactNode;
   btnPosition?: 'top' | 'bottom';
   hideBtn?: boolean;
+  loop?: boolean;
 };
 
 export const Carousal = ({
   children,
   btnPosition = 'top',
   hideBtn = false,
+  loop = false,
 }: ICarousal) => {
   const [viewportRef, embla] = useEmblaCarousel(
     {
       slidesToScroll: 1,
       align: 'start',
+      loop,
       containScroll: 'trimSnaps',
     },
     [AutoHeight()]
@@ -54,7 +57,7 @@ export const Carousal = ({
         {children}
       </div>
       {!hideBtn && (
-        <div className="relative right-14 mb-6 flex justify-end space-x-10 text-sm text-white">
+        <div className="relative right-[calc((100vw-1200px)/2)] mb-6 flex justify-end space-x-10 text-sm text-white">
           <button
             onClick={scrollPrev}
             disabled={!prevBtnEnabled}

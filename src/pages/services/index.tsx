@@ -28,10 +28,11 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
           }
         }
 
-        servicesList: allServices {
+        servicesList: allServices(orderBy: _createdAt_ASC) {
           title
           excerpt
           slug
+          serviceCardTitle
           serviceCardMedia {
             video {
               url
@@ -99,7 +100,7 @@ const Services = ({
             <ServicesCard
               key={i}
               id={i + 1}
-              title={service.title}
+              title={service.serviceCardTitle}
               excerpt={service.excerpt}
               slug={service.slug}
               media={service.serviceCardMedia}

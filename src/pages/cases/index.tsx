@@ -1,58 +1,88 @@
 import cx from 'classnames';
 import { motion } from 'framer-motion';
+import { gql } from 'graphql-request';
+import type { GetStaticProps, InferGetStaticPropsType } from 'next';
+import Head from 'next/head';
+import { renderMetaTags, useQuerySubscription } from 'react-datocms';
 
 import { WorkCard } from '@/components/screens/work/WorkCard';
-import { Main, Meta, PageLayout } from '@/layouts';
+import { PageLayout } from '@/layouts';
 import { bottomReveal, headingReveal } from '@/utils/animations';
+import { request } from '@/utils/datocms';
+import {
+  metaTagsFragment,
+  responsiveImageFragment,
+} from '@/utils/datocms/fragments';
 
-const data = [
-  {
-    title: 'Just Eat Takeaway',
-    subtitle: "Europe's leading food delivery service",
-    creation: ['Development', 'Design'],
-  },
-  {
-    title: 'Bud',
-    subtitle: 'King of beers',
-    creation: ['Development', 'Design'],
-  },
-  {
-    title: 'Mystic',
-    subtitle: 'Brutal action sports',
-    creation: ['PIM', 'ERP', 'E-commerce'],
-  },
-  {
-    title: 'Vanilla',
-    subtitle: 'Fashion,redefined',
-    creation: ['UX', 'animations', 'flow'],
-  },
-  {
-    title: 'MG motor',
-    subtitle: 'Iconic cars',
-    creation: ['Coding', 'Design'],
-  },
-  {
-    title: 'Hugo Boss',
-    subtitle: 'Welcome to metaverse',
-    creation: ['Metaverse', 'Web 3.0', 'AR', 'VR'],
-  },
-  {
-    title: 'Kingdom OS',
-    subtitle: '',
-    creation: ['Development', 'Design', 'Animation'],
-  },
-];
-
-const Cases = () => {
-  return (
-    <Main
-      meta={
-        <Meta
-          title="Cases - Flatline Agency"
-          description="flatline agency services"
-        />
+export const getStaticProps: GetStaticProps = async ({ preview }) => {
+  const graphqlRequest = {
+    query: gql`
+      {
+        site: _site {
+          favicon: faviconMetaTags {
+            ...metaTagsFragment
+          }
+        }
+        casesPage {
+          seo: _seoMetaTags {
+            ...metaTagsFragment
+          }
+        }
+        cases: allCases {
+          title
+          slug
+          card {
+            title
+            creation {
+              list
+            }
+            video {
+              url
+            }
+            coverImage {
+              responsiveImage(
+                imgixParams: { fit: crop, w: 580, h: 320, auto: format }
+              ) {
+                ...responsiveImageFragment
+              }
+            }
+          }
+        }
       }
-    >
+      ${responsiveImageFragment}
+      ${metaTagsFragment}
+    `,
+    preview,
+  };
+
+  return {
+    props: {
+      subscription: preview
+        ? {
+            ...graphqlRequest,
+            initialData: await request(graphqlRequest),
+            token: process.env.NEXT_CMS_DATOCMS_API_TOKEN,
+            environment: process.env.NEXT_DATOCMS_ENVIRONMENT || null,
+          }
+        : {
+            enabled: false,
+            initialData: await request(graphqlRequest),
+          },
+    },
+  };
+};
+
+const Cases = ({
+  subscription,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const {
+    data: { cases, site, casesPage },
+  } = useQuerySubscription(subscription);
+  const metaTags = casesPage.seo.concat(site.favicon);
+
+  return (
+    <>
+      <Head>{renderMetaTags(metaTags)}</Head>
       <main>
         <div className="mx-auto mb-24 mt-10 flex max-w-flat overflow-hidden  px-8  sm:px-12 md:justify-end">
           <motion.div
@@ -65,8 +95,8 @@ const Cases = () => {
             Our work
           </motion.div>
         </div>
-        <section className="mx-auto mt-40 flex max-w-flat flex-wrap justify-between gap-10 px-4 pb-24 md:px-0">
-          {data.map((d, i) => {
+        <section className="mx-auto mt-40 flex max-w-flat flex-wrap justify-between gap-10 px-8 pb-24 lg:px-0">
+          {cases?.map((item: any, i: number) => {
             return (
               <motion.div
                 variants={bottomReveal}
@@ -83,16 +113,19 @@ const Cases = () => {
                 )}
               >
                 <WorkCard
-                  title={d.title}
-                  subtitle={d.subtitle}
-                  creation={d.creation}
+                  title={item.title}
+                  subtitle={item.card[0].title}
+                  creation={item.card[0].creation[0]?.list}
+                  imageUrl={item.card[0].coverImage.responsiveImage}
+                  videoUrl={item.card[0].video.url}
+                  href={`/cases/${item.slug}`}
                 />
               </motion.div>
             );
           })}
         </section>
       </main>
-    </Main>
+    </>
   );
 };
 

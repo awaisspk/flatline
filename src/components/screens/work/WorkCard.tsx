@@ -1,18 +1,29 @@
 import cx from 'classnames';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
-import Image from 'next/image';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
+import type { ResponsiveImageType } from 'react-datocms';
+import { Image } from 'react-datocms';
 import { useMediaQuery } from 'react-responsive';
 import useMeasure from 'react-use-measure';
 
 type IWorkCard = {
+  href: string;
   title: string;
   subtitle: string;
   creation: string[];
+  videoUrl?: string;
+  imageUrl: ResponsiveImageType;
 };
 
-export const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
+export const WorkCard = ({
+  title,
+  subtitle,
+  creation,
+  href,
+  videoUrl,
+  imageUrl,
+}: IWorkCard) => {
   const [cardRef, bounds] = useMeasure({
     scroll: false,
     debounce: 0,
@@ -54,7 +65,7 @@ export const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
         }}
         className={cx('relative mx-auto max-w-3xl')}
       >
-        <div className="absolute inset-x-0 flex justify-center">
+        <div className="absolute inset-x-0 hidden justify-center md:flex">
           <motion.h2
             className="absolute -mt-16 w-max text-[100px]"
             initial={{ scale: 0.8, opacity: 0 }}
@@ -71,7 +82,7 @@ export const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
             {title}
           </motion.h2>
         </div>
-        <Link href={`cases/1`}>
+        <Link href={href}>
           <motion.a
             ref={cardRef}
             className="relative block cursor-pointer"
@@ -112,9 +123,9 @@ export const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
               ref={ref}
               autoPlay={false}
               className="w-full"
-              src="https://www.flatlineagency.com/wp-content/uploads/2022/05/videoplayback.mp4"
+              src={videoUrl}
               playsInline
-              poster="https://www.flatlineagency.com/wp-content/uploads/2022/05/justeattakeaway-579x320.jpg"
+              poster={imageUrl?.src || undefined}
               loop
               muted
             />
@@ -124,12 +135,7 @@ export const WorkCard = ({ title, subtitle, creation }: IWorkCard) => {
                 opacity: isHovered ? 0 : 1,
               }}
             >
-              <Image
-                src="https://www.flatlineagency.com/wp-content/uploads/2022/05/justeattakeaway-579x320.jpg"
-                layout="fill"
-                objectFit="cover"
-                alt=""
-              />
+              <Image data={imageUrl} layout="fill" objectFit="cover" />
             </motion.div>
           </motion.a>
         </Link>
