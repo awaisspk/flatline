@@ -1,17 +1,15 @@
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import React from 'react';
+import { Image } from 'react-datocms';
 
 import { BrandsList } from '@/components/ui/BrandsList';
 import { bottomReveal } from '@/utils/animations';
 
-const images = [
-  'https://www.flatlineagency.com/wp-content/uploads/2022/05/20220323-Flatline-Agency_DSC0222_Roxy-Ali--scaled.jpg',
-  'https://www.flatlineagency.com/wp-content/uploads/2022/05/20220323-Flatline-Agency_DSC0262_Roxy-Ali--scaled.jpg',
-  'https://www.flatlineagency.com/wp-content/uploads/2022/05/20220323-Flatline-Agency_DSC0368_Roxy-Ali--scaled.jpg',
-];
+type IOurCulture = {
+  culture: any[];
+};
 
-export const OurCulture = () => {
+export const OurCulture = ({ culture }: IOurCulture) => {
   return (
     <section className="bg-black pt-28 pb-24 sm:pt-40">
       <div className="mx-auto max-w-flat px-1 sm:px-12">
@@ -26,7 +24,11 @@ export const OurCulture = () => {
             whileInView="animate"
             viewport={{ margin: '400px 0px 0px 0px' }}
           >
-            <Image src={images[0]!} layout="fill" objectFit="cover" alt="" />
+            <Image
+              data={culture[0].responsiveImage}
+              layout="fill"
+              objectFit="cover"
+            />
           </motion.div>
           <motion.div
             className="relative"
@@ -35,7 +37,11 @@ export const OurCulture = () => {
             whileInView="animate"
             viewport={{ margin: '400px 0px 0px 0px' }}
           >
-            <Image src={images[1]!} layout="fill" objectFit="cover" alt="" />
+            <Image
+              data={culture[1].responsiveImage}
+              layout="fill"
+              objectFit="cover"
+            />
           </motion.div>
           <motion.div
             className="relative"
@@ -44,7 +50,11 @@ export const OurCulture = () => {
             whileInView="animate"
             viewport={{ margin: '400px 0px 0px 0px' }}
           >
-            <Image src={images[2]!} layout="fill" objectFit="cover" alt="" />
+            <Image
+              data={culture[2].responsiveImage}
+              layout="fill"
+              objectFit="cover"
+            />
           </motion.div>
         </div>
       </div>

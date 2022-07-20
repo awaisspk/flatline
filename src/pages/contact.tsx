@@ -1,42 +1,94 @@
 import 'react-intl-tel-input/dist/main.css';
 
-import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { gql } from 'graphql-request';
+import type { GetStaticProps, InferGetServerSidePropsType } from 'next';
+import Head from 'next/head';
 import React from 'react';
+import { Image, renderMetaTags, useQuerySubscription } from 'react-datocms';
 import IntlTelInput from 'react-intl-tel-input';
 
 import { OfficeCarousal } from '@/components/Carousal/OfficeCarousal';
-import { Main, Meta, PageLayout } from '@/layouts';
-import { bottomReveal } from '@/utils/animations';
+import { PageLayout } from '@/layouts';
+import { bottomReveal, headingReveal } from '@/utils/animations';
 import { offices } from '@/utils/data';
+import { request } from '@/utils/datocms';
+import {
+  metaTagsFragment,
+  responsiveImageFragment,
+} from '@/utils/datocms/fragments';
 
-const Contact = () => {
-  const variants: Variants = {
-    initial: {
-      translateY: '100%',
-      gap: '50px',
-      opacity: 0,
-    },
-    animate: {
-      translateY: '0%',
-      gap: '20px',
-      transition: {
-        delay: 0.3,
-        duration: 0.6,
-      },
-      opacity: 1,
-    },
+export const getStaticProps: GetStaticProps = async ({ preview }) => {
+  const graphqlRequest = {
+    query: gql`
+      {
+        site: _site {
+          favicon: faviconMetaTags {
+            ...metaTagsFragment
+          }
+        }
+        contactPage {
+          seo: _seoMetaTags {
+            ...metaTagsFragment
+          }
+          carousal {
+            responsiveImage(
+              imgixParams: { fit: crop, w: 660, h: 410, auto: format }
+            ) {
+              ...responsiveImageFragment
+            }
+          }
+          mapImage {
+            responsiveImage(
+              imgixParams: { fit: crop, w: 1200, h: 600, auto: format }
+            ) {
+              ...responsiveImageFragment
+            }
+          }
+        }
+      }
+      ${responsiveImageFragment}
+      ${metaTagsFragment}
+    `,
+    preview,
   };
 
+  return {
+    props: {
+      subscription: preview
+        ? {
+            ...graphqlRequest,
+            initialData: await request(graphqlRequest),
+            token: process.env.NEXT_CMS_DATOCMS_API_TOKEN,
+            environment: process.env.NEXT_DATOCMS_ENVIRONMENT || null,
+          }
+        : {
+            enabled: false,
+            initialData: await request(graphqlRequest),
+          },
+    },
+  };
+};
+
+const Contact = ({
+  subscription,
+}: InferGetServerSidePropsType<typeof getStaticProps>) => {
+  const {
+    data: { contactPage, site },
+  } = useQuerySubscription(subscription);
+
+  const metaTags = contactPage.seo.concat(site.favicon);
+
   return (
-    <Main meta={<Meta title="Say hi" description="Flatline" />}>
+    <>
+      <Head>{renderMetaTags(metaTags)}</Head>
       <main>
         <section className="mx-auto mb-24 max-w-flat space-y-5 overflow-hidden px-8 pt-5 sm:px-12">
           <motion.div
-            variants={variants}
+            variants={headingReveal}
             initial="initial"
             animate="animate"
+            transition={{ delay: 0.3, duration: 0.6 }}
             className="grid auto-rows-auto"
           >
             <h1 className="text-5xl">Ready to scale?</h1>
@@ -48,7 +100,7 @@ const Contact = () => {
           </motion.div>
         </section>
         <section>
-          <OfficeCarousal />
+          <OfficeCarousal images={contactPage.carousal} />
         </section>
         <motion.section
           className="mx-auto mt-20 flex max-w-flat flex-col justify-between gap-10 px-8 sm:px-12 md:flex-row"
@@ -89,7 +141,7 @@ const Contact = () => {
               <div key={i}>
                 <h2 className="text-3xl md:text-4xl">
                   {office.city}
-                  <span>{office.time}</span>
+                  <span className="ml-6">{office.time}</span>
                 </h2>
                 <p className="my-10 flex flex-col text-sm leading-7 text-neutral-500">
                   <span>{office.location[0]}</span>
@@ -109,14 +161,10 @@ const Contact = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <Image
-            src="https://www.flatlineagency.com/wp-content/uploads/2022/01/Group-46-1536x769.jpg"
-            layout="fill"
-            alt=""
-          />
+          <Image data={contactPage.mapImage?.responsiveImage} layout="fill" />
         </motion.div>
       </main>
-    </Main>
+    </>
   );
 };
 

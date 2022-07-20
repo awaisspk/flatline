@@ -1,5 +1,5 @@
 .container {
-  @apply py-10 space-y-8 text-neutral-400;
+  @apply pt-10 space-y-8 text-neutral-400;
 }
 
 .container h2 {
@@ -9,6 +9,10 @@
 .container h3 {
   @apply mb-3 text-3xl text-black;
 }
+.container p {
+  @apply my-10;
+}
+
 
 .container li {
   @apply flex items-center;

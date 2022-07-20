@@ -1,8 +1,10 @@
 import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { gql } from 'graphql-request';
+import type { GetStaticProps, InferGetStaticPropsType } from 'next';
+import Head from 'next/head';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { Image, renderMetaTags, useQuerySubscription } from 'react-datocms';
 import { useMediaQuery } from 'react-responsive';
 
 import { Blog } from '@/components/screens/home/Blog';
@@ -11,11 +13,94 @@ import { OurClients } from '@/components/screens/home/OurClients';
 import { OurWork } from '@/components/screens/home/OurWork';
 import { Services } from '@/components/screens/home/Services';
 import { useCursorVariant } from '@/hooks/useCursorVariant';
-import { Main, Meta, PageLayout } from '@/layouts';
+import { PageLayout } from '@/layouts';
+import { request } from '@/utils/datocms';
+import {
+  metaTagsFragment,
+  responsiveImageFragment,
+} from '@/utils/datocms/fragments';
 
-const Index = () => {
+export const getStaticProps: GetStaticProps = async ({ preview }) => {
+  const graphqlRequest = {
+    query: gql`
+      {
+        site: _site {
+          favicon: faviconMetaTags {
+            ...metaTagsFragment
+          }
+        }
+        homePage {
+          seo: _seoMetaTags {
+            ...metaTagsFragment
+          }
+          banner {
+            responsiveImage {
+              ...responsiveImageFragment
+            }
+          }
+        }
+        allCases(filter: { slug: { in: ["just-eat-takeaway"] } }) {
+          slug
+          banner {
+            brandName
+          }
+          card {
+            coverImage {
+              responsiveImage {
+                ...responsiveImageFragment
+              }
+            }
+            video {
+              url
+            }
+          }
+        }
+        allServices {
+          serviceCardTitle
+          excerpt
+          slug
+          coverImage {
+            responsiveImage(
+              imgixParams: { fit: clamp, w: 360, h: 440, auto: format }
+            ) {
+              ...responsiveImageFragment
+            }
+          }
+        }
+      }
+      ${responsiveImageFragment}
+      ${metaTagsFragment}
+    `,
+    preview,
+  };
+
+  return {
+    props: {
+      subscription: preview
+        ? {
+            ...graphqlRequest,
+            initialData: await request(graphqlRequest),
+            token: process.env.NEXT_CMS_DATOCMS_API_TOKEN,
+            environment: process.env.NEXT_DATOCMS_ENVIRONMENT || null,
+          }
+        : {
+            enabled: false,
+            initialData: await request(graphqlRequest),
+          },
+    },
+  };
+};
+
+const Index = ({
+  subscription,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const {
+    data: { homePage, site, allCases, allServices },
+  } = useQuerySubscription(subscription);
+  const metaTags = homePage.seo.concat(site.favicon);
   const { setCursorVariant } = useCursorVariant();
   const isMobile = useMediaQuery({ query: '(max-width : 768px)' });
+
   const headingVariant: Variants = {
     initial: {
       translateY: '100%',
@@ -31,18 +116,10 @@ const Index = () => {
       opacity: 1,
     },
   };
-  useEffect(() => {
-    console.log('home');
-  });
+
   return (
-    <Main
-      meta={
-        <Meta
-          title="Flatline Agency - Custom development, Challenge the status quo"
-          description=""
-        />
-      }
-    >
+    <>
+      <Head>{renderMetaTags(metaTags)}</Head>
       <main>
         <section className="mx-auto max-w-flat px-8 sm:px-12">
           <div className="mb-12 overflow-hidden">
@@ -88,20 +165,19 @@ const Index = () => {
           animate="animate"
         >
           <Image
-            src="https://www.flatlineagency.com/wp-content/uploads/2022/05/mystic-boarding-banner-e1644150425277-1-e1649283384532-1536x502.jpg"
+            data={homePage.banner.responsiveImage}
             layout="fill"
             objectFit="cover"
             className="h-full w-full"
-            alt=""
           />
         </motion.section>
-        <OurWork />
-        <Services />
+        <OurWork work={allCases} />
+        <Services services={allServices} />
         <OurClients />
         <Blog />
         <ChatBot />
       </main>
-    </Main>
+    </>
   );
 };
 

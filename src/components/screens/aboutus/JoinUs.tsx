@@ -1,12 +1,21 @@
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { Image } from 'react-datocms';
 
 import { FlatLink } from '@/components/ui/FlatLink';
 import { bottomReveal } from '@/utils/animations';
 
-export const JoinUs = () => {
+type IJoinUs = {
+  title: string;
+  image: any;
+};
+
+type Props = {
+  jobs: IJoinUs[];
+};
+
+export const JoinUs = ({ jobs }: Props) => {
   return (
     <section className="mx-auto flex max-w-flat flex-col px-8 pt-40 pb-24  sm:px-12">
       <h2 className="text-2xl sm:text-5xl md:text-right">
@@ -26,13 +35,12 @@ export const JoinUs = () => {
                 className="absolute top-6 right-5 z-10 text-3xl text-white"
                 style={{ writingMode: 'vertical-rl' }}
               >
-                Fontend
+                {jobs[0]?.title}
               </span>
               <Image
-                src="https://www.flatlineagency.com/wp-content/uploads/2021/12/Job3.jpg"
+                data={jobs[0]?.image.responsiveImage}
                 layout="fill"
                 objectFit="cover"
-                alt=""
               />
             </a>
           </Link>
@@ -50,13 +58,12 @@ export const JoinUs = () => {
                 className="absolute top-6 right-5 z-10 text-3xl text-white"
                 style={{ writingMode: 'vertical-rl' }}
               >
-                NodeJs
+                {jobs[1]?.title}
               </span>
               <Image
-                src="https://www.flatlineagency.com/wp-content/uploads/2021/12/Job2-3.jpg"
+                data={jobs[1]?.image.responsiveImage}
                 layout="fill"
                 objectFit="cover"
-                alt=""
               />
             </a>
           </Link>
@@ -74,13 +81,12 @@ export const JoinUs = () => {
                 className="absolute top-6 right-3 z-10 text-3xl text-white"
                 style={{ writingMode: 'vertical-rl' }}
               >
-                PHP
+                {jobs[2]?.title}
               </span>
               <Image
-                src="https://www.flatlineagency.com/wp-content/uploads/2021/12/Job1-1.jpg"
+                data={jobs[2]?.image.responsiveImage}
                 layout="fill"
                 objectFit="cover"
-                alt=""
               />
             </a>
           </Link>

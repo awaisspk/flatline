@@ -1,14 +1,22 @@
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { gql } from 'graphql-request';
+import type { GetStaticProps, InferGetStaticPropsType } from 'next';
+import Head from 'next/head';
 import React from 'react';
+import { Image, renderMetaTags, useQuerySubscription } from 'react-datocms';
 
 import { Faqs } from '@/components/screens/customDevelopment/Faqs';
 import { OurCases } from '@/components/screens/customDevelopment/OurCases';
 import { BrandsList } from '@/components/ui/BrandsList';
 import { Button } from '@/components/ui/Button';
 import { Check } from '@/components/ui/icons/Check';
-import { Main, Meta, PageLayout } from '@/layouts';
+import { PageLayout } from '@/layouts';
 import { bottomReveal } from '@/utils/animations';
+import { request } from '@/utils/datocms';
+import {
+  metaTagsFragment,
+  responsiveImageFragment,
+} from '@/utils/datocms/fragments';
 
 const services = [
   'We build websites and web apps.',
@@ -17,11 +25,89 @@ const services = [
   'We build E-commerce stores and applications.',
   'We simply blow your mind, and ehmm, we design.',
 ];
+
 const services2 = ['Web', 'App', 'Software', 'E-commerce'];
 
-const CustomDevelopment = () => {
+export const getStaticProps: GetStaticProps = async ({ preview }) => {
+  const graphqlRequest = {
+    query: gql`
+      {
+        site: _site {
+          favicon: faviconMetaTags {
+            ...metaTagsFragment
+          }
+        }
+        customDevelopmentPage {
+          seo: _seoMetaTags {
+            ...metaTagsFragment
+          }
+          mainImage {
+            responsiveImage(
+              imgixParams: { fit: crop, w: 410, h: 510, auto: format }
+            ) {
+              ...responsiveImageFragment
+            }
+          }
+          banner {
+            responsiveImage(
+              imgixParams: { fit: crop, w: 1200, h: 410, auto: format }
+            ) {
+              ...responsiveImageFragment
+            }
+          }
+          faqs {
+            header
+            content
+          }
+        }
+        allCases {
+          title
+          excerpt
+          slug
+          banner {
+            image {
+              responsiveImage(
+                imgixParams: { fit: crop, w: 380, h: 540, auto: format }
+              ) {
+                ...responsiveImageFragment
+              }
+            }
+          }
+        }
+      }
+      ${responsiveImageFragment}
+      ${metaTagsFragment}
+    `,
+    preview,
+  };
+
+  return {
+    props: {
+      subscription: preview
+        ? {
+            ...graphqlRequest,
+            initialData: await request(graphqlRequest),
+            token: process.env.NEXT_CMS_DATOCMS_API_TOKEN,
+            environment: process.env.NEXT_DATOCMS_ENVIRONMENT || null,
+          }
+        : {
+            enabled: false,
+            initialData: await request(graphqlRequest),
+          },
+    },
+  };
+};
+
+const CustomDevelopment = ({
+  subscription,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const {
+    data: { customDevelopmentPage, allCases, site },
+  } = useQuerySubscription(subscription);
+  const metaTags = customDevelopmentPage.seo.concat(site.favicon);
   return (
-    <Main meta={<Meta title="Custom Development" description="Flatline" />}>
+    <>
+      <Head>{renderMetaTags(metaTags)}</Head>
       <main>
         <motion.section
           className="mx-auto flex max-w-flat flex-col justify-between  px-8 sm:px-12 lg:flex-row"
@@ -56,10 +142,9 @@ const CustomDevelopment = () => {
           </div>
           <div className="relative h-[230px] w-full sm:h-[500px] lg:mt-10 lg:w-[400px] ">
             <Image
-              src="https://www.flatlineagency.com/wp-content/uploads/2021/12/pexels-photo-5875844-1.jpg"
+              data={customDevelopmentPage.mainImage.responsiveImage}
               layout="fill"
               objectFit="cover"
-              alt=""
             />
           </div>
         </motion.section>
@@ -102,14 +187,13 @@ const CustomDevelopment = () => {
             viewport={{ once: true }}
           >
             <Image
-              src="https://www.flatlineagency.com/wp-content/uploads/2021/12/image-4.jpg"
+              data={customDevelopmentPage.banner.responsiveImage}
               layout="fill"
               objectFit="cover"
-              alt=""
             />
           </motion.div>
         </section>
-        <OurCases />
+        <OurCases cases={allCases} />
         <section className="mx-auto flex max-w-flat flex-col gap-10 space-y-10 py-32 px-8 sm:px-12 md:flex-row md:gap-20">
           <div className="basis-1/2 space-y-10">
             <h2 className="text-4xl ">Services</h2>
@@ -137,9 +221,9 @@ const CustomDevelopment = () => {
             </ul>
           </div>
         </section>
-        <Faqs />
+        <Faqs faqs={customDevelopmentPage.faqs} />
       </main>
-    </Main>
+    </>
   );
 };
 

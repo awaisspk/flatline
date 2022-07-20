@@ -8,7 +8,7 @@ import { Expand } from './icons';
 import Dialog from './VideoModal';
 
 type IVideoCard = {
-  videourl: string;
+  videourl?: string;
   title?: string;
   href: string;
   color?: string;
@@ -75,7 +75,7 @@ export const VideoCard = ({
           )}
         </a>
       </Link>
-      {showExpandButton && (
+      {showExpandButton && videourl && (
         <div className="absolute bottom-3 right-3">
           <Dialog url={videourl}>
             <Expand isHovered={isHovered} color={color} />

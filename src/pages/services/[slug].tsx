@@ -35,7 +35,6 @@ export const getStaticProps: GetStaticProps = async ({
   params,
   preview = false,
 }) => {
-  console.log({ params });
   const graphqlRequest = {
     query: gql`
       query ServiceBySlug($slug: String) {
@@ -62,7 +61,7 @@ export const getStaticProps: GetStaticProps = async ({
             detail
             image {
               responsiveImage(
-                imgixParams: { fit: clamp, w: 300, h: 300, auto: format }
+                imgixParams: { fit: clamp, w: 350, auto: format }
               ) {
                 ...responsiveImageFragment
               }
@@ -154,7 +153,7 @@ const ServicesDetail = ({
             viewport={{ amount: 'all', once: true }}
           >
             <Image
-              data={service.bannerImage.responsiveImage}
+              data={service.bannerImage?.responsiveImage}
               layout="fill"
               objectFit="cover"
             />
@@ -191,7 +190,7 @@ const ServicesDetail = ({
             viewport={{ amount: 0.8, once: true }}
             className="mx-auto"
           >
-            <Image data={feature[0].image.responsiveImage} />
+            <Image data={feature[0].image?.responsiveImage} />
           </motion.div>
         </section>
         <section className="overflow-hidden bg-body px-8 pt-20 sm:px-12">
@@ -290,7 +289,7 @@ const ServicesDetail = ({
               }}
               viewport={{ amount: 0.8, once: true }}
             >
-              <Image data={formSideImage.responsiveImage} />
+              <Image data={formSideImage?.responsiveImage} />
             </motion.div>
           </div>
         </section>
