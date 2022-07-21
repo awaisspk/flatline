@@ -1,7 +1,9 @@
+import { motion } from 'framer-motion';
 import { gql } from 'graphql-request';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import React from 'react';
+import type { ResponsiveImageType } from 'react-datocms';
 import {
   Image,
   renderMetaTags,
@@ -119,6 +121,32 @@ export const getStaticProps: GetStaticProps = async ({
   };
 };
 
+type IBanner = {
+  title: string;
+  slogan: string;
+  image: ResponsiveImageType;
+};
+
+const Banner = ({ image, title, slogan }: IBanner) => {
+  return (
+    <div className="overflow-hidden">
+      <div className="z-1 absolute inset-x-0 top-0 h-[50vh] min-h-[650px] md:min-h-0">
+        <motion.h1 className="absolute bottom-14 z-20 ml-10 pr-14 text-[40px] leading-[50px] text-white md:ml-[calc((100vw-1200px)/2)]">
+          {title}
+        </motion.h1>
+        <p
+          className="absolute right-[3%] bottom-24 z-20 text-xl text-white placeholder:text-red-50 sm:text-3xl md:bottom-auto  md:top-5"
+          style={{ writingMode: 'vertical-rl' }}
+        >
+          {slogan}
+        </p>
+        <Image data={image} layout="fill" objectFit="cover" />
+      </div>
+      <span className="block pb-[450px] sm:pb-[300px]" />
+    </div>
+  );
+};
+
 const CaseDetails = ({ subscription }: any) => {
   const {
     data: { site, caseDetails, nextCases },
@@ -133,25 +161,11 @@ const CaseDetails = ({ subscription }: any) => {
     <>
       <Head>{renderMetaTags(metaTags)}</Head>
       <main>
-        <div>
-          <div className="z-1 absolute inset-x-0 top-0 h-[50vh] min-h-[650px] md:min-h-0">
-            <h1 className="absolute bottom-14 z-20 ml-10 pr-14 text-[40px] leading-[50px] text-white md:ml-[calc((100vw-1200px)/2)]">
-              {caseDetails.bannerTitle}
-            </h1>
-            <p
-              className="absolute right-[3%] bottom-24 z-20 text-xl text-white placeholder:text-red-50  sm:text-3xl"
-              style={{ writingMode: 'vertical-rl' }}
-            >
-              {caseDetails.brandSlogan}
-            </p>
-            <Image
-              data={caseDetails?.bannerImage.responsiveImage}
-              layout="fill"
-              objectFit="cover"
-            />
-          </div>
-          <span className="block pb-[450px] sm:pb-[300px]" />
-        </div>
+        <Banner
+          title={caseDetails.bannerTitle}
+          slogan={caseDetails.brandSlogan}
+          image={caseDetails?.bannerImage.responsiveImage}
+        />
         <section className="mx-auto flex max-w-flat flex-col items-start justify-between  gap-10 px-8 py-32 sm:px-12 md:flex-row">
           <div className="flex flex-col items-start justify-between">
             <div className="max-w-3xl space-y-10">

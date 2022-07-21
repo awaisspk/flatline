@@ -44,6 +44,7 @@ export const GalleryCarousal = ({ images }: Props) => {
                       blurDataURL={image.blurhash}
                       layout="fill"
                       objectFit="cover"
+                      priority
                     />
                   ) : (
                     <video
