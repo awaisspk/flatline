@@ -1,0 +1,14 @@
+.post h2 {
+  @apply text-3xl sm:text-[58px] leading-10 sm:leading-[68px] mt-4 mb-5 sm:mb-8
+}
+.post p {
+  @apply text-[16px] leading-[1.8] mb-4 max-w-5xl
+}
+
+.post blockquote p {
+  @apply before:content-['\201C'] after:content-['\201D'] text-4xl sm:text-6xl leading-[50px] sm:leading-[76px] max-w-5xl my-5 sm:my-10
+}
+
+.post blockquote footer {
+  @apply before:content-['--']
+}

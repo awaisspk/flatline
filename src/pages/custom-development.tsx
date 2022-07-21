@@ -64,13 +64,11 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
           title
           excerpt
           slug
-          banner {
-            image {
-              responsiveImage(
-                imgixParams: { fit: crop, w: 380, h: 540, auto: format }
-              ) {
-                ...responsiveImageFragment
-              }
+          bannerImage {
+            responsiveImage(
+              imgixParams: { fit: crop, w: 380, h: 540, auto: format }
+            ) {
+              ...responsiveImageFragment
             }
           }
         }

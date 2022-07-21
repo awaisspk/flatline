@@ -11,7 +11,7 @@ type Cases = {
   title: string;
   excerpt: string;
   slug: string;
-  banner: any;
+  bannerImage: any;
 };
 type Props = {
   cases: Cases[];
@@ -40,7 +40,7 @@ const Carousel = ({ cases }: Props) => {
               <div className="relative grid grid-cols-1 gap-8 overflow-hidden sm:grid-cols-[1fr,2fr] md:gap-16">
                 <figure className="relative h-[230px] w-full min-w-[270px] sm:h-[350px] md:h-[550px] md:w-[390px]">
                   <Image
-                    data={item.banner[0].image.responsiveImage}
+                    data={item.bannerImage.responsiveImage}
                     layout="fill"
                     objectFit="cover"
                   />

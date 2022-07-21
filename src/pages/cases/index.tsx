@@ -33,6 +33,7 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
           slug
           cardTitle
           brandSlogan
+          cardTitle
           creationList
           cardVideo {
             url
@@ -108,8 +109,8 @@ const Cases = ({ subscription }: any) => {
                 )}
               >
                 <WorkCard
-                  title={item.title}
-                  subtitle={item.brandSlogan}
+                  title={item.brandSlogan}
+                  subtitle={item.cardTitle}
                   creation={item.creationList}
                   imageUrl={item.cardPreviewImage.responsiveImage}
                   videoUrl={item.cardVideo.url}

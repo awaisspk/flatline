@@ -51,7 +51,7 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
             url
           }
         }
-        allServices {
+        allServices(orderBy: _createdAt_ASC) {
           serviceCardTitle
           excerpt
           slug

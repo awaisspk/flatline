@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 import type { ReactNode } from 'react';
 import React from 'react';
 
@@ -11,12 +13,23 @@ type IPageLayout = {
 };
 
 export const PageLayout = ({ children }: IPageLayout) => {
+  const router = useRouter();
+
+  const darkPath = '/services/[slug]' || '/blog/[slug]';
+
   return (
     <CursorProvider>
-      <Header />
-      {children}
-      <Footer />
-      <Cursor />
+      <motion.div
+        initial={{ backgroundColor: '#f4f4f4' }}
+        animate={{
+          backgroundColor: router.pathname === darkPath ? '#000000' : '#f4f4f4',
+        }}
+      >
+        <Header />
+        {children}
+        <Footer />
+        <Cursor />
+      </motion.div>
     </CursorProvider>
   );
 };

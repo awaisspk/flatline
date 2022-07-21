@@ -303,9 +303,11 @@ const ServicesDetail = ({
   );
 };
 
-ServicesDetail.getLayout = (page: any) => (
-  <div className="bg-black">
-    <PageLayout>{page}</PageLayout>
-  </div>
-);
+ServicesDetail.getLayout = (page: any) => {
+  return (
+    <div>
+      <PageLayout>{page}</PageLayout>
+    </div>
+  );
+};
 export default ServicesDetail;
