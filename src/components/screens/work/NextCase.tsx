@@ -43,7 +43,7 @@ export const NextCase = ({ cases }: Props) => {
               >
                 <Link href={item.slug}>
                   <a className="h-full w-full">
-                    <Image data={item?.card[0]?.coverImage.responsiveImage} />
+                    <Image data={item?.cardPreviewImage.responsiveImage} />
                   </a>
                 </Link>
               </motion.div>

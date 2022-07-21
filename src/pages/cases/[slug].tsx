@@ -127,6 +127,7 @@ const CaseDetails = ({ subscription }: any) => {
   const metaTags = caseDetails.seo.concat(site.favicon);
   const { aboutCompany } = caseDetails;
   const company = aboutCompany[0];
+  console.log(company);
 
   return (
     <>
@@ -188,7 +189,7 @@ const CaseDetails = ({ subscription }: any) => {
             dangerouslySetInnerHTML={{ __html: company.detail }}
           ></div>
           <div className="mx-auto space-y-5">
-            <Image data={company.coverImage[0].image.responsiveImage} />
+            <Image data={company.coverImage[0]?.image.responsiveImage} />
             <p>{company.coverImage[0]?.text}</p>
           </div>
           <StructuredText data={company.quote} />

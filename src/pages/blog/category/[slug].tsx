@@ -7,3 +7,5 @@ export const BlogCategory = () => {
     </div>
   );
 };
+
+export default BlogCategory;
