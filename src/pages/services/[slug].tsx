@@ -306,7 +306,7 @@ const ServicesDetail = ({
 ServicesDetail.getLayout = (page: any) => {
   return (
     <div>
-      <PageLayout>{page}</PageLayout>
+      <PageLayout color="dark">{page}</PageLayout>
     </div>
   );
 };

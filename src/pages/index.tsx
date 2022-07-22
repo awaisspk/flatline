@@ -65,6 +65,17 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
             }
           }
         }
+        allPosts {
+          title
+          slug
+          coverImage {
+            responsiveImage(
+              imgixParams: { fit: clamp, w: 540, h: 360, auto: format }
+            ) {
+              ...responsiveImageFragment
+            }
+          }
+        }
       }
       ${responsiveImageFragment}
       ${metaTagsFragment}
@@ -93,7 +104,7 @@ const Index = ({
   subscription,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const {
-    data: { homePage, site, allCases, allServices },
+    data: { homePage, site, allCases, allServices, allPosts },
   } = useQuerySubscription(subscription);
   const metaTags = homePage.seo.concat(site.favicon);
   const { setCursorVariant } = useCursorVariant();
@@ -172,7 +183,7 @@ const Index = ({
         <OurWork work={allCases} />
         <Services services={allServices} />
         <OurClients />
-        <Blog />
+        <Blog posts={allPosts} />
         <ChatBot />
       </main>
     </>

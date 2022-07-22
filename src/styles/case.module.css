@@ -9,16 +9,18 @@
   @apply text-[16px] sm:text-lg
 }
 
-.companyInfo > p  {
-  @apply w-full mb-5 md:mb-0 md:w-[48%] inline-block 
+.companyInfo p:nth-child(0) {
+  @apply w-full mb-5 md:mb-10 md:w-[48%] inline-block float-left
 }
 
 .companyInfo p:nth-child(2)  {
-  @apply w-full md:w-[48%] inline-block float-right
+  @apply w-full md:w-[48%] ml-10 float-right
 }
-
+.companyInfo blockquote {
+  @apply flex flex-col w-full
+}
 .companyInfo blockquote p {
-  @apply w-full before:content-['\201C'] after:content-['\201D'] text-4xl sm:text-[56px] leading-[50px] sm:leading-[76px] max-w-5xl my-5 sm:my-10
+  @apply  w-full before:content-['\201C'] after:content-['\201D'] text-4xl sm:text-[56px] leading-[50px] sm:leading-[76px] max-w-5xl
 }
 
 .companyInfo blockquote footer {

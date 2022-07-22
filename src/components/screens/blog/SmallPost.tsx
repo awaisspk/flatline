@@ -1,8 +1,10 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 import { Image, StructuredText } from 'react-datocms';
 
 import { Button } from '@/components/ui/Button';
 import styles from '@/styles/post.module.css';
+import { bottomReveal } from '@/utils/animations';
 
 type IPost = {
   title: string;
@@ -33,7 +35,14 @@ export const SmallPost = ({ content, post }: ISmallPost) => {
           </div>
         </div>
       </section>
-      <section className={styles.post}>
+      <motion.section
+        className={styles.post}
+        variants={bottomReveal}
+        initial="initial"
+        whileInView="animate"
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+      >
         <StructuredText
           data={content.structuredContent}
           renderBlock={({ record }: any) => {
@@ -43,7 +52,7 @@ export const SmallPost = ({ content, post }: ISmallPost) => {
             return null;
           }}
         />
-      </section>
+      </motion.section>
     </>
   );
 };

@@ -4,9 +4,15 @@ import React from 'react';
 
 type IButton = React.ComponentProps<typeof motion.button> & {
   size?: 'lg' | 'md' | 'sm';
+  variant?: 'bordered' | 'primary' | 'secondary';
 };
 
-export const Button = ({ children, size = 'lg', ...rest }: IButton) => {
+export const Button = ({
+  children,
+  size = 'lg',
+  variant = 'primary',
+  ...rest
+}: IButton) => {
   return (
     <>
       <motion.button
@@ -16,6 +22,9 @@ export const Button = ({ children, size = 'lg', ...rest }: IButton) => {
             'py-4 sm:py-5': size === 'lg',
             'py-3 sm:py-4': size === 'md',
             'py-3': size === 'sm',
+            'border-white/30': variant === 'bordered',
+            'bg-white text-black hover:text-white hover:bg-black':
+              variant === 'secondary',
           }
         )}
         {...rest}

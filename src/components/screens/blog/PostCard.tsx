@@ -39,7 +39,7 @@ export const PostCard = ({ slug, title, excerpt, coverImage }: IPostCard) => {
             objectFit="cover"
           />
           <p
-            className="absolute top-3 right-3 text-3xl leading-9 text-white sm:top-5 sm:right-4"
+            className="absolute top-3 right-3 h-[90%] text-3xl leading-9 text-white sm:top-5 sm:right-4"
             style={{ writingMode: 'vertical-rl' }}
           >
             {title}

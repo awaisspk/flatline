@@ -1,3 +1,5 @@
+import cx from 'classnames';
+import { motion } from 'framer-motion';
 import { gql } from 'graphql-request';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
@@ -5,10 +7,12 @@ import React from 'react';
 import { renderMetaTags, useQuerySubscription } from 'react-datocms';
 
 import { LongPost } from '@/components/screens/blog/LongPost';
+import { LongPostForm } from '@/components/screens/blog/LongPostForm';
 import { SmallPost } from '@/components/screens/blog/SmallPost';
 import { SharePost } from '@/components/ui/SharePost';
 import { PageLayout } from '@/layouts';
 import { formatDate, formatReadTime } from '@/utils';
+import { bottomReveal } from '@/utils/animations';
 import { request } from '@/utils/datocms';
 import {
   metaTagsFragment,
@@ -58,6 +62,7 @@ export const getStaticProps: GetStaticProps = async ({
               structuredContent {
                 value
                 blocks {
+                  id
                   type: __typename
                   ... on ImageRecord {
                     image {
@@ -79,6 +84,30 @@ export const getStaticProps: GetStaticProps = async ({
               }
             }
             ... on LongPostRecord {
+              id
+              faqsTitle
+              frequentlyAskedQuestions {
+                header
+                content
+              }
+              bottomFormTitle
+              bottomFormDescription
+              bottomFormSideImage {
+                responsiveImage(
+                  imgixParams: { fit: crop, w: 450, h: 650, auto: format }
+                ) {
+                  srcSet # cannot use fragments inside blocks :(
+                  webpSrcSet
+                  sizes
+                  src
+                  width
+                  height
+                  aspectRatio
+                  alt
+                  title
+                  base64
+                }
+              }
               structuredContent {
                 value
                 blocks {
@@ -100,10 +129,9 @@ export const getStaticProps: GetStaticProps = async ({
                       }
                     }
                   }
-                  ... on FaqRecord {
+                  ... on ContactFormRecord {
                     id
-                    header
-                    content
+                    contactForm
                   }
                 }
               }
@@ -149,25 +177,46 @@ const BlogPost = ({ subscription }: any) => {
       <PageLayout color={content.type === 'SmallPostRecord' ? 'dark' : 'light'}>
         <Head>{renderMetaTags(metaTags)}</Head>
         <main className="mx-auto max-w-flat px-8 text-white sm:px-12">
-          <article>
-            <div className="flex flex-col-reverse justify-between gap-3  sm:flex-row">
-              <div className="space-x-1 text-[15px]">
+          <motion.article
+            variants={bottomReveal}
+            initial="initial"
+            animate="animate"
+            transition={{
+              duration: 0.6,
+            }}
+          >
+            <div className="flex flex-col-reverse justify-between gap-3  text-black sm:flex-row">
+              <div
+                className={cx('space-x-1 text-[15px]', {
+                  'text-black': content.type === 'LongPostRecord',
+                  'text-white': content.type === 'SmallPostRecord',
+                })}
+              >
                 <span>
                   {formatReadTime(post.contentWordCounter.readingTime)}
                 </span>
                 {' //'}
                 <span>{formatDate(post.date)}</span>
               </div>
-              <SharePost slug={post.slug} />
+              <SharePost
+                slug={post.slug}
+                color={content.type === 'LongPostRecord' ? 'light' : 'dark'}
+              />
             </div>
-            {content.type === 'SmallPostRecord' && (
+            {content.type === 'SmallPostRecord' ? (
               <SmallPost post={post} content={content} />
-            )}
-            {content.type === 'LongPostRecord' && (
+            ) : (
               <LongPost post={post} content={content} />
             )}
-          </article>
+          </motion.article>
         </main>
+        {content.type === 'LongPostRecord' && (
+          <LongPostForm
+            title={content.bottomFormTitle}
+            subTitle={content.bottomFormDescription}
+            image={content.bottomFormSideImage}
+          />
+        )}
       </PageLayout>
     </>
   );

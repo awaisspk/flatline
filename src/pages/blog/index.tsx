@@ -39,6 +39,9 @@ export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
           title
           excerpt
           slug
+          category {
+            name
+          }
           coverImage {
             responsiveImage(
               imgixParams: { fit: crop, w: 600, h: 350, auto: format }
@@ -86,9 +89,7 @@ const BlogPage = ({ subscription, preview }: any) => {
 
   useEffect(() => {
     if (category) {
-      const { id } = allCategories.find(
-        (item: any) => item.name === (category as string)
-      );
+      const { id } = allCategories.find((item: any) => item.name === category);
       const graphqlRequest = {
         query: getPostsByCategories,
         variables: {

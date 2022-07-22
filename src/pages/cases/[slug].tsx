@@ -184,7 +184,7 @@ const CaseDetails = ({ subscription }: any) => {
           slogan={caseDetails.brandSlogan}
           image={caseDetails?.bannerImage.responsiveImage}
         />
-        <section className="mx-auto  max-w-flat  px-8 py-32 sm:px-12">
+        <section className="mx-auto  max-w-flat px-8  py-32 sm:mt-16 sm:px-12">
           <div className="flex flex-col items-start justify-between gap-10 md:flex-row">
             <div className="flex flex-col items-start justify-between">
               <motion.div
@@ -194,7 +194,9 @@ const CaseDetails = ({ subscription }: any) => {
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-4xl">{caseDetails.achivementTitle}</h2>
+                <h2 className="text-4xl leading-10">
+                  {caseDetails.achivementTitle}
+                </h2>
                 <p className="text-xl leading-9 text-black/70 sm:text-3xl">
                   {caseDetails.achivementDetails}
                 </p>
@@ -202,7 +204,7 @@ const CaseDetails = ({ subscription }: any) => {
             </div>
             <FlatLink
               href="contact"
-              variant="secondary"
+              variant="bordered"
               style={{ width: 'max-content' }}
             >
               contact
@@ -245,7 +247,7 @@ const CaseDetails = ({ subscription }: any) => {
                     <Image
                       data={record.image.responsiveImage}
                       objectFit="cover"
-                      className="my-10 min-h-[300px]  sm:mt-20"
+                      className="my-10 min-h-[300px]"
                     />
                   );
                 }

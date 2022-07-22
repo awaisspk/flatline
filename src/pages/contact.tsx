@@ -1,14 +1,12 @@
-import 'react-intl-tel-input/dist/main.css';
-
 import { motion } from 'framer-motion';
 import { gql } from 'graphql-request';
 import type { GetStaticProps, InferGetServerSidePropsType } from 'next';
 import Head from 'next/head';
 import React from 'react';
 import { Image, renderMetaTags, useQuerySubscription } from 'react-datocms';
-import IntlTelInput from 'react-intl-tel-input';
 
 import { OfficeCarousal } from '@/components/Carousal/OfficeCarousal';
+import { ContactForm } from '@/components/screens/form/ContactForm';
 import { PageLayout } from '@/layouts';
 import { bottomReveal, headingReveal } from '@/utils/animations';
 import { offices } from '@/utils/data';
@@ -114,29 +112,9 @@ const Contact = ({
         >
           <div className="mb-24 space-y-14">
             <h2 className="text-4xl">Inquiries</h2>
-            <form>
-              <div className="flex w-[440px] max-w-full flex-col space-y-8">
-                <input
-                  type="text"
-                  placeholder="Name"
-                  className="h-16 rounded-full border border-gray-300 pl-10 pr-5"
-                />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="h-16 rounded-full border border-gray-300 pl-10 pr-5"
-                />
-                <IntlTelInput
-                  defaultCountry="nl"
-                  placeholder="Phone"
-                  containerClassName="intl-tel-input"
-                  inputClassName="form-control w-full h-16 rounded-full border border-gray-300  pr-5"
-                />
-                <button className="flex h-16 w-full cursor-pointer items-center justify-center rounded-[100px] bg-black text-sm leading-4 text-white duration-300 hover:bg-white hover:text-black sm:px-10">
-                  Send
-                </button>
-              </div>
-            </form>
+            <div className="w-[500px] max-w-full">
+              <ContactForm />
+            </div>
           </div>
           <div className="w-[430px] max-w-full">
             {offices.map((office, i) => (

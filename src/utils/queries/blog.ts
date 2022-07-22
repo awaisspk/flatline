@@ -9,6 +9,9 @@ export const getPostsByCategories = gql`
       title
       excerpt
       slug
+      category {
+        name
+      }
       coverImage {
         responsiveImage(
           imgixParams: { fit: crop, w: 600, h: 350, auto: format }

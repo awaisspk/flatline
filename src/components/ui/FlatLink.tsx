@@ -5,7 +5,7 @@ import React from 'react';
 
 type IFlatLink = React.ComponentProps<typeof motion.a> & {
   size?: 'sm' | 'md' | 'lg';
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'bordered';
 };
 
 export const FlatLink = ({
@@ -19,7 +19,7 @@ export const FlatLink = ({
     <Link href={href!}>
       <motion.a
         className={cx(
-          'border-[1px] flex w-full cursor-pointer items-center justify-center rounded-[100px] text-sm leading-4 text-white duration-300 px-7 sm:px-10',
+          'border-[1px] flex w-full cursor-pointer items-center justify-center rounded-[100px] text-sm leading-4  duration-300 px-7 sm:px-10',
           {
             'py-4 sm:py-5': size === 'lg',
             'py-3 sm:py-4': size === 'md',
@@ -28,6 +28,8 @@ export const FlatLink = ({
               variant === 'primary',
             'border-black/20  bg-transparent text-black hover:black hover:text-white':
               variant === 'secondary',
+            'bg-transparent border-neutral-500/60 text-black hover:bg-black hover:text-white':
+              variant === 'bordered',
           }
         )}
         {...rest}

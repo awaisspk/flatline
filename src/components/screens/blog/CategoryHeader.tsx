@@ -1,6 +1,9 @@
 import cx from 'classnames';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+
+import { headingReveal } from '@/utils/animations';
 
 type Category = {
   id: string;
@@ -14,7 +17,15 @@ type ICategories = {
 export const Categories = ({ categories }: ICategories) => {
   const router = useRouter();
   return (
-    <div className="mb-32">
+    <motion.div
+      className="mb-32"
+      variants={headingReveal}
+      initial="initial"
+      animate="animate"
+      transition={{
+        duration: 0.6,
+      }}
+    >
       {categories.map((category: any, i: number) => (
         <Link
           key={category.id}
@@ -38,6 +49,6 @@ export const Categories = ({ categories }: ICategories) => {
           </a>
         </Link>
       ))}
-    </div>
+    </motion.div>
   );
 };

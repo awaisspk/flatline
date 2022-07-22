@@ -10,14 +10,14 @@ export const CopyIcon = (props: SVGProps<SVGSVGElement>) => (
   >
     <path
       d="M17.5 7.875H9.625a1.75 1.75 0 0 0-1.75 1.75V17.5c0 .966.784 1.75 1.75 1.75H17.5a1.75 1.75 0 0 0 1.75-1.75V9.625a1.75 1.75 0 0 0-1.75-1.75Z"
-      stroke="#fff"
+      stroke="inherit"
       strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M4.375 13.125H3.5a1.75 1.75 0 0 1-1.75-1.75V3.5A1.75 1.75 0 0 1 3.5 1.75h7.875a1.75 1.75 0 0 1 1.75 1.75v.875"
-      stroke="#fff"
+      stroke="inherit"
       strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
