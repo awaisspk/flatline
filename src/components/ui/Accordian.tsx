@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
 import styles from '@/styles/faqs.module.css';
+import { bottomReveal } from '@/utils/animations';
 
 type IData = {
   header: string;
@@ -60,7 +61,16 @@ export const Accordion = ({ data }: IAccordian) => {
   return (
     <div>
       {data.map(({ header, content }, i) => (
-        <AccordianItem header={header} content={content} key={i} />
+        <motion.div
+          variants={bottomReveal}
+          initial="initial"
+          whileInView="animate"
+          transition={{ duration: 0.6 }}
+          viewport={{ once: false }}
+          key={i}
+        >
+          <AccordianItem header={header} content={content} />
+        </motion.div>
       ))}
     </div>
   );
