@@ -1,24 +1,49 @@
 import React from 'react';
 import { Image, StructuredText } from 'react-datocms';
 
+import { Button } from '@/components/ui/Button';
 import styles from '@/styles/post.module.css';
 
+type IPost = {
+  title: string;
+  excerpt: string;
+  coverImage: any;
+};
 type ISmallPost = {
   content: any;
+  post: IPost;
 };
 
-export const SmallPost = ({ content }: ISmallPost) => {
+export const SmallPost = ({ content, post }: ISmallPost) => {
   return (
-    <section className={styles.post}>
-      <StructuredText
-        data={content.structuredContent}
-        renderBlock={({ record }: any) => {
-          if (record.type === 'ImageRecord') {
-            return <Image data={record.image.responsiveImage} />;
-          }
-          return null;
-        }}
-      />
-    </section>
+    <>
+      <section>
+        <div className="mt-5 mb-20 space-y-10">
+          <h1 className="text-3xl leading-10 md:text-5xl">{post.title}</h1>
+          <p className="max-w-[930px]">{post.excerpt}</p>
+          <Button style={{ width: 'max-content', borderColor: '#f4f4f430' }}>
+            Plan a call
+          </Button>
+          <div>
+            <Image
+              data={post.coverImage.responsiveImage}
+              objectFit="cover"
+              className="min-h-[300px]"
+            />
+          </div>
+        </div>
+      </section>
+      <section className={styles.post}>
+        <StructuredText
+          data={content.structuredContent}
+          renderBlock={({ record }: any) => {
+            if (record.type === 'ImageRecord') {
+              return <Image data={record.image.responsiveImage} />;
+            }
+            return null;
+          }}
+        />
+      </section>
+    </>
   );
 };

@@ -12,12 +12,12 @@ type IAccordian = {
   data: IData[];
 };
 
-const Item = ({ content, header }: IData) => {
+export const AccordianItem = ({ content, header }: IData) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <div
-        className="grid grid-cols-[5fr,1fr] items-start gap-1 border-b border-gray-300/80 bg-body py-6 sm:gap-3"
+        className="grid grid-cols-[5fr,1fr] items-start gap-1 border-b border-gray-300/80 py-6 sm:gap-3"
         onClick={() => setIsOpen(!isOpen)}
       >
         <p>{header}</p>
@@ -58,9 +58,9 @@ const Item = ({ content, header }: IData) => {
 
 export const Accordion = ({ data }: IAccordian) => {
   return (
-    <div className="bg-body">
+    <div>
       {data.map(({ header, content }, i) => (
-        <Item header={header} content={content} key={i} />
+        <AccordianItem header={header} content={content} key={i} />
       ))}
     </div>
   );

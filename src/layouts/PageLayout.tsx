@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/router';
 import type { ReactNode } from 'react';
 import React from 'react';
 
@@ -10,21 +9,16 @@ import { CursorProvider } from '@/utils/context/cursorContext';
 
 type IPageLayout = {
   children: ReactNode;
+  color?: 'dark' | 'light';
 };
 
-export const PageLayout = ({ children }: IPageLayout) => {
-  const router = useRouter();
-
-  const darkPaths = ['/services/[slug]', '/blog/[slug]'];
-
+export const PageLayout = ({ children, color }: IPageLayout) => {
   return (
     <CursorProvider>
       <motion.div
         initial={{ backgroundColor: '#f4f4f4' }}
         animate={{
-          backgroundColor: darkPaths.includes(router.pathname)
-            ? '#000000'
-            : '#f4f4f4',
+          backgroundColor: color === 'dark' ? '#000000' : '#f4f4f4',
         }}
       >
         <Header />

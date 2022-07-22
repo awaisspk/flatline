@@ -4,7 +4,7 @@ export async function request({ query, variables, preview }: any) {
   let endpoint = 'https://graphql.datocms.com';
 
   if (process.env.NEXT_DATOCMS_ENVIRONMENT) {
-    endpoint += `/environments/${process.env.NEXT_DATOCMS_ENVIRONMENT}`;
+    endpoint += `/environments/${process.env.NEXT_PUBLIC_DATOCMS_READONLY_TOKEN}`;
   }
 
   if (preview) {
@@ -13,7 +13,7 @@ export async function request({ query, variables, preview }: any) {
 
   const client = new GraphQLClient(endpoint, {
     headers: {
-      authorization: `Bearer ${process.env.NEXT_CMS_DATOCMS_API_TOKEN}`,
+      authorization: `Bearer ${process.env.NEXT_PUBLIC_DATOCMS_READONLY_TOKEN}`,
     },
   });
 

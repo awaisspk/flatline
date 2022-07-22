@@ -2,10 +2,10 @@ import { gql } from 'graphql-request';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import React from 'react';
-import { Image, renderMetaTags, useQuerySubscription } from 'react-datocms';
+import { renderMetaTags, useQuerySubscription } from 'react-datocms';
 
+import { LongPost } from '@/components/screens/blog/LongPost';
 import { SmallPost } from '@/components/screens/blog/SmallPost';
-import { Button } from '@/components/ui/Button';
 import { SharePost } from '@/components/ui/SharePost';
 import { PageLayout } from '@/layouts';
 import { formatDate, formatReadTime } from '@/utils';
@@ -61,9 +61,7 @@ export const getStaticProps: GetStaticProps = async ({
                   type: __typename
                   ... on ImageRecord {
                     image {
-                      responsiveImage(
-                        imgixParams: { fm: jpg, fit: crop, w: 2000, h: 1000 }
-                      ) {
+                      responsiveImage {
                         srcSet # cannot use fragments inside blocks :(
                         webpSrcSet
                         sizes
@@ -76,6 +74,36 @@ export const getStaticProps: GetStaticProps = async ({
                         base64
                       }
                     }
+                  }
+                }
+              }
+            }
+            ... on LongPostRecord {
+              structuredContent {
+                value
+                blocks {
+                  type: __typename
+                  ... on ImageRecord {
+                    id # id is required here. Time wasted here 10 hours :(
+                    image {
+                      responsiveImage {
+                        srcSet # cannot use fragments inside blocks :(
+                        webpSrcSet
+                        sizes
+                        src
+                        width
+                        height
+                        aspectRatio
+                        alt
+                        title
+                        base64
+                      }
+                    }
+                  }
+                  ... on FaqRecord {
+                    id
+                    header
+                    content
                   }
                 }
               }
@@ -118,47 +146,31 @@ const BlogPost = ({ subscription }: any) => {
 
   return (
     <>
-      <Head>{renderMetaTags(metaTags)}</Head>
-      <main className="mx-auto max-w-flat px-8 text-white sm:px-12">
-        <article>
-          <div className="flex flex-col-reverse justify-between gap-3  sm:flex-row">
-            <div className="space-x-1 text-[15px]">
-              <span>{formatReadTime(post.contentWordCounter.readingTime)}</span>
-              {' //'}
-
-              <span>{formatDate(post.date)}</span>
-            </div>
-            <SharePost slug={post.slug} />
-          </div>
-          <section>
-            <div className="mt-5 mb-20 space-y-10">
-              <h1 className="text-3xl leading-10 md:text-5xl">{post.title}</h1>
-              <p className="max-w-[930px]">{post.excerpt}</p>
-              <Button
-                style={{ width: 'max-content', borderColor: '#f4f4f430' }}
-              >
-                Plan a call
-              </Button>
-              <div>
-                <Image
-                  data={post.coverImage.responsiveImage}
-                  objectFit="cover"
-                  className="min-h-[300px]"
-                />
+      <PageLayout color={content.type === 'SmallPostRecord' ? 'dark' : 'light'}>
+        <Head>{renderMetaTags(metaTags)}</Head>
+        <main className="mx-auto max-w-flat px-8 text-white sm:px-12">
+          <article>
+            <div className="flex flex-col-reverse justify-between gap-3  sm:flex-row">
+              <div className="space-x-1 text-[15px]">
+                <span>
+                  {formatReadTime(post.contentWordCounter.readingTime)}
+                </span>
+                {' //'}
+                <span>{formatDate(post.date)}</span>
               </div>
+              <SharePost slug={post.slug} />
             </div>
-          </section>
-          <SmallPost content={content} />
-        </article>
-      </main>
+            {content.type === 'SmallPostRecord' && (
+              <SmallPost post={post} content={content} />
+            )}
+            {content.type === 'LongPostRecord' && (
+              <LongPost post={post} content={content} />
+            )}
+          </article>
+        </main>
+      </PageLayout>
     </>
   );
 };
-
-BlogPost.getLayout = (page: any) => (
-  <div>
-    <PageLayout>{page}</PageLayout>
-  </div>
-);
 
 export default BlogPost;

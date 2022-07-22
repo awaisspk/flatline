@@ -1,7 +1,8 @@
 import { gql } from 'graphql-request';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { renderMetaTags, useQuerySubscription } from 'react-datocms';
 
 import { Categories } from '@/components/screens/blog/CategoryHeader';
@@ -13,8 +14,9 @@ import {
   metaTagsFragment,
   responsiveImageFragment,
 } from '@/utils/datocms/fragments';
+import { getPostsByCategories } from '@/utils/queries/blog';
 
-export const getStaticProps: GetStaticProps = async ({ preview }) => {
+export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
   const graphqlRequest = {
     query: gql`
       {
@@ -31,7 +33,6 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
         allCategories {
           id
           name
-          slug
         }
         posts: allPosts {
           id
@@ -67,15 +68,42 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
             enabled: false,
             initialData: await request(graphqlRequest),
           },
+      preview,
     },
   };
 };
 
-const BlogPage = ({ subscription }: any) => {
+const BlogPage = ({ subscription, preview }: any) => {
   const {
-    data: { posts, blogPage, allCategories, site },
+    data: { blogPage, site, posts, allCategories },
   } = useQuerySubscription(subscription);
+
+  const router = useRouter();
+  const { category } = router.query;
+
+  const [postsData, setpostsData] = useState(posts);
   const metaTags = blogPage.seo.concat(site.favicon);
+
+  useEffect(() => {
+    if (category) {
+      const { id } = allCategories.find(
+        (item: any) => item.name === (category as string)
+      );
+      const graphqlRequest = {
+        query: getPostsByCategories,
+        variables: {
+          category: id,
+        },
+        preview,
+      };
+      const fetchPostsByCategory = async () => {
+        const res = await request(graphqlRequest);
+        setpostsData(res.posts);
+      };
+      fetchPostsByCategory();
+    }
+  }, [category]);
+
   return (
     <>
       <Head>{renderMetaTags(metaTags)}</Head>
@@ -83,7 +111,7 @@ const BlogPage = ({ subscription }: any) => {
         <section className="mx-auto max-w-flat px-8 pb-24 sm:px-12">
           <Categories categories={allCategories} />
           <Divider />
-          <PostsList posts={posts} />
+          <PostsList posts={postsData} />
         </section>
       </main>
     </>
