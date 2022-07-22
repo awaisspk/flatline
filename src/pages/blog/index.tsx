@@ -4,7 +4,8 @@ import Head from 'next/head';
 import React from 'react';
 import { renderMetaTags, useQuerySubscription } from 'react-datocms';
 
-import { PostCard } from '@/components/screens/blog/PostCard';
+import { Categories } from '@/components/screens/blog/CategoryHeader';
+import { PostsList } from '@/components/screens/blog/PostsList';
 import { Divider } from '@/components/ui/Divider';
 import { PageLayout } from '@/layouts';
 import { request } from '@/utils/datocms';
@@ -26,6 +27,11 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
           seo: _seoMetaTags {
             ...metaTagsFragment
           }
+        }
+        allCategories {
+          id
+          name
+          slug
         }
         posts: allPosts {
           id
@@ -67,22 +73,17 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
 
 const BlogPage = ({ subscription }: any) => {
   const {
-    data: { posts, blogPage, site },
+    data: { posts, blogPage, allCategories, site },
   } = useQuerySubscription(subscription);
   const metaTags = blogPage.seo.concat(site.favicon);
   return (
     <>
       <Head>{renderMetaTags(metaTags)}</Head>
       <main>
-        <h1 className="my-20 text-center text-6xl">Blog</h1>
-        <section className="mx-auto max-w-flat px-8 sm:px-12">
+        <section className="mx-auto max-w-flat px-8 pb-24 sm:px-12">
+          <Categories categories={allCategories} />
           <Divider />
-          {posts.map((post: any) => (
-            <div key={post.id}>
-              <PostCard key={post.id} {...post} />
-              <Divider />
-            </div>
-          ))}
+          <PostsList posts={posts} />
         </section>
       </main>
     </>

@@ -26,7 +26,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const data = await request({ query: `{ allServices { slug } }` });
 
   return {
-    paths: data.allServices?.map((post: any) => `/services/${post.slug}`),
+    paths: data.allServices?.map((service: any) => `/services/${service.slug}`),
     fallback: false,
   };
 };
@@ -288,7 +288,7 @@ const ServicesDetail = ({
               }}
               viewport={{ amount: 0.8, once: true }}
             >
-              <Image data={formSideImage?.responsiveImage} />
+              <Image data={formSideImage.responsiveImage} objectFit="cover" />
             </motion.div>
           </div>
         </section>

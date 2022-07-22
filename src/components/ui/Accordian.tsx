@@ -1,6 +1,4 @@
-import * as AccordionPrimitive from '@radix-ui/react-accordion';
-import cx from 'classnames';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
 import styles from '@/styles/faqs.module.css';
@@ -14,54 +12,56 @@ type IAccordian = {
   data: IData[];
 };
 
-const Item = ({ content, header, i }: IData & { i: number }) => {
+const Item = ({ content, header }: IData) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <AccordionPrimitive.Item
-      key={`header-${i}`}
-      value={`item-${i + 1}`}
-      className="transition-all duration-1000"
-      asChild
-    >
-      <motion.div
-        initial={{ opacity: 0, translateY: 80 }}
-        whileInView={{ opacity: 1, translateY: 0 }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
-        viewport={{ once: true }}
+    <>
+      <div
+        className="grid grid-cols-[5fr,1fr] items-start gap-1 border-b border-gray-300/80 bg-body py-6 sm:gap-3"
+        onClick={() => setIsOpen(!isOpen)}
       >
-        <AccordionPrimitive.Header
-          className="w-full border-b border-neutral-300/80"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <AccordionPrimitive.Trigger
-            className={cx(
-              'group',
-              'radix-state-open:rounded-t-lg radix-state-closed:rounded-lg',
-              'focus:outline-none',
-              'w-full text-start py-6 grid grid-cols-[4fr,max-content] gap-3 sm:gap-5'
-            )}
-          >
-            <span className="text-lg">{header}</span>
-            <span className="mr-2 justify-self-end">+</span>
-          </AccordionPrimitive.Trigger>
-        </AccordionPrimitive.Header>
-        <AccordionPrimitive.Content className="transition-all duration-1000 radix-state-open:h-radix-collapsible-content radix-state-closed:h-0">
-          <div
-            className={styles.container}
-            dangerouslySetInnerHTML={{ __html: content }}
+        <p>{header}</p>
+        <div className="relative flex h-5 w-5 items-center justify-center self-center justify-self-end overflow-hidden">
+          <motion.span
+            className="block  h-3.5 w-0.5 bg-black"
+            initial={{ translateY: '0%' }}
+            animate={{ translateY: isOpen ? '200%' : '0%' }}
+            transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
           />
-        </AccordionPrimitive.Content>
-      </motion.div>
-    </AccordionPrimitive.Item>
+          <span className="absolute block h-3.5 w-0.5 rotate-90 bg-black" />
+        </div>
+      </div>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            key="content"
+            initial="collapsed"
+            animate="open"
+            exit="collapsed"
+            variants={{
+              open: { opacity: 1, height: 'auto' },
+              collapsed: { opacity: 0, height: 0 },
+            }}
+            transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
+            className="overflow-hidden"
+          >
+            <div
+              className={styles.container}
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
 export const Accordion = ({ data }: IAccordian) => {
   return (
-    <AccordionPrimitive.Root type="multiple">
+    <div className="bg-body">
       {data.map(({ header, content }, i) => (
-        <Item header={header} content={content} key={i} i={i} />
+        <Item header={header} content={content} key={i} />
       ))}
-    </AccordionPrimitive.Root>
+    </div>
   );
 };

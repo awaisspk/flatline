@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import { motion } from 'framer-motion';
 import React from 'react';
 import { Image } from 'react-datocms';
@@ -17,45 +18,26 @@ export const OurCulture = ({ culture }: IOurCulture) => {
           Our culture
         </h2>
         <div className="mt-10 grid h-[300px] grid-cols-2 grid-rows-2  gap-2 sm:mt-16 sm:gap-4 md:mt-24 md:h-[630px]">
-          <motion.div
-            className="relative col-span-1 row-span-2"
-            variants={bottomReveal}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ margin: '400px 0px 0px 0px' }}
-          >
-            <Image
-              data={culture[0].responsiveImage}
-              layout="fill"
-              objectFit="cover"
-            />
-          </motion.div>
-          <motion.div
-            className="relative"
-            variants={bottomReveal}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ margin: '400px 0px 0px 0px' }}
-          >
-            <Image
-              data={culture[1].responsiveImage}
-              layout="fill"
-              objectFit="cover"
-            />
-          </motion.div>
-          <motion.div
-            className="relative"
-            variants={bottomReveal}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ margin: '400px 0px 0px 0px' }}
-          >
-            <Image
-              data={culture[2].responsiveImage}
-              layout="fill"
-              objectFit="cover"
-            />
-          </motion.div>
+          {culture.map((item, i) => (
+            <motion.div
+              key={i}
+              className={cx('relative', {
+                'col-span-1 row-span-2': i === 0,
+                'col-start-2 row-span-1': i === 1,
+                'col-start-2 row-start-2': i === 2,
+              })}
+              variants={bottomReveal}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ amount: 0.3, once: true }}
+            >
+              <Image
+                data={item.responsiveImage}
+                layout="fill"
+                objectFit="cover"
+              />
+            </motion.div>
+          ))}
         </div>
       </div>
       <div className="mt-20 px-8 sm:px-12">

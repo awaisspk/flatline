@@ -1,0 +1,26 @@
+.companyInfo {
+  /* @apply bg-orange-300 */
+}
+.companyInfo h2 {
+  @apply text-4xl leading-[50px] mb-10
+}
+
+.companyInfo p {
+  @apply text-[16px] sm:text-lg
+}
+
+.companyInfo > p  {
+  @apply w-full mb-5 md:mb-0 md:w-[48%] inline-block 
+}
+
+.companyInfo p:nth-child(2)  {
+  @apply w-full md:w-[48%] inline-block float-right
+}
+
+.companyInfo blockquote p {
+  @apply w-full before:content-['\201C'] after:content-['\201D'] text-4xl sm:text-[56px] leading-[50px] sm:leading-[76px] max-w-5xl my-5 sm:my-10
+}
+
+.companyInfo blockquote footer {
+  @apply before:content-['—'] whitespace-pre text-[#6c757d] 
+}

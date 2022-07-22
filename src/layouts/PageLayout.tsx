@@ -15,14 +15,16 @@ type IPageLayout = {
 export const PageLayout = ({ children }: IPageLayout) => {
   const router = useRouter();
 
-  const darkPath = '/services/[slug]' || '/blog/[slug]';
+  const darkPaths = ['/services/[slug]', '/blog/[slug]'];
 
   return (
     <CursorProvider>
       <motion.div
         initial={{ backgroundColor: '#f4f4f4' }}
         animate={{
-          backgroundColor: router.pathname === darkPath ? '#000000' : '#f4f4f4',
+          backgroundColor: darkPaths.includes(router.pathname)
+            ? '#000000'
+            : '#f4f4f4',
         }}
       >
         <Header />

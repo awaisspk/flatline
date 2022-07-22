@@ -11,7 +11,8 @@ type IWorkCard = {
   href: string;
   title: string;
   subtitle: string;
-  creation: string[];
+  tagName: string;
+  tagList: string[];
   videoUrl?: string;
   imageUrl: ResponsiveImageType;
 };
@@ -19,7 +20,8 @@ type IWorkCard = {
 export const WorkCard = ({
   title,
   subtitle,
-  creation,
+  tagList,
+  tagName,
   href,
   videoUrl,
   imageUrl,
@@ -144,10 +146,10 @@ export const WorkCard = ({
         <h3 className="text-2xl sm:text-3xl">{subtitle}</h3>
         <p className="flex items-start space-x-2">
           <span className="flex items-center space-x-2">
-            <span>Creation</span>
+            <span>{tagName}</span>
             <span className="block h-2 w-2 rounded-full bg-black" />
           </span>
-          <span>{creation.join(', ')}</span>
+          <span>{tagList.join(', ')}</span>
         </p>
       </div>
     </div>

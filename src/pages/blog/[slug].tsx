@@ -64,7 +64,16 @@ export const getStaticProps: GetStaticProps = async ({
                       responsiveImage(
                         imgixParams: { fm: jpg, fit: crop, w: 2000, h: 1000 }
                       ) {
-                        ...responsiveImageFragment
+                        srcSet # cannot use fragments inside blocks :(
+                        webpSrcSet
+                        sizes
+                        src
+                        width
+                        height
+                        aspectRatio
+                        alt
+                        title
+                        base64
                       }
                     }
                   }

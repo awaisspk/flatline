@@ -23,11 +23,13 @@ export const NextCase = ({ cases }: Props) => {
   const isInView = useInView(ref);
 
   return (
-    <div>
+    <div ref={ref}>
+      <div className="mx-auto max-w-flat px-8 py-20 sm:px-12">
+        <h2 className="text-4xl text-white sm:text-6xl">Next Case</h2>
+      </div>
       {cases.length > 0 && (
         <Carousal hideBtn loop={false}>
           <div
-            ref={ref}
             className="ml-10 flex cursor-pointer select-none md:ml-[calc((100vw-1200px)/2)]"
             onMouseEnter={() => setCursorVariant('carousal')}
             onMouseLeave={() => setCursorVariant('default')}

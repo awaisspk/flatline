@@ -39,7 +39,9 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
             }
           }
         }
-        allCases(filter: { slug: { in: ["just-eat-takeaway"] } }) {
+        allCases(
+          filter: { slug: { in: ["just-eat-takeaway", "budweiser", "mystic"] } }
+        ) {
           slug
           brandSlogan
           cardPreviewImage {

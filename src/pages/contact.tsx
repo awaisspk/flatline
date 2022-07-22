@@ -91,7 +91,9 @@ const Contact = ({
             transition={{ delay: 0.3, duration: 0.6 }}
             className="grid auto-rows-auto"
           >
-            <h1 className="text-5xl">Ready to scale?</h1>
+            <h1 className="text-4xl leading-[50px] sm:text-5xl">
+              Ready to scale?
+            </h1>
             <p className="max-w-xl leading-7">
               Ready to build something real together with your favorite
               creatives and tech leads? Get into contact or fill out an inquiry
@@ -139,11 +141,11 @@ const Contact = ({
           <div className="w-[430px] max-w-full">
             {offices.map((office, i) => (
               <div key={i}>
-                <h2 className="text-3xl md:text-4xl">
+                <h2 className="text-[28px] md:text-4xl">
                   {office.city}
-                  <span className="ml-6">{office.time}</span>
+                  <span className="ml-3">{office.time}</span>
                 </h2>
-                <p className="my-10 flex flex-col text-sm leading-7 text-neutral-500">
+                <p className="my-8 flex flex-col text-sm leading-7 text-neutral-500 sm:my-10">
                   <span>{office.location[0]}</span>
                   <span>{office.location[1]}</span>
                   <span>{office.email}</span>

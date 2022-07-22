@@ -1,5 +1,5 @@
 .container {
-  @apply pt-10 space-y-8 text-neutral-400;
+  @apply pt-10 space-y-8 text-neutral-400 bg-body;
 }
 
 .container h2 {

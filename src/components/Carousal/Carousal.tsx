@@ -7,6 +7,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 type ICarousal = {
   children: ReactNode;
   btnPosition?: 'top' | 'bottom';
+  align?: 'end' | 'start' | 'center';
   hideBtn?: boolean;
   loop?: boolean;
 };
@@ -16,11 +17,12 @@ export const Carousal = ({
   btnPosition = 'top',
   hideBtn = false,
   loop = false,
+  align = 'start',
 }: ICarousal) => {
   const [viewportRef, embla] = useEmblaCarousel(
     {
       slidesToScroll: 1,
-      align: 'start',
+      align,
       loop,
       containScroll: 'trimSnaps',
     },

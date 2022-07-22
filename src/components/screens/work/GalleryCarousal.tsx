@@ -1,10 +1,10 @@
-import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { Carousal } from '@/components/Carousal/Carousal';
 import { useCursorVariant } from '@/hooks/useCursorVariant';
-import { bottomReveal } from '@/utils/animations';
 
 type IGalleryCarousal = {
   url: string;
@@ -17,14 +17,24 @@ type Props = {
 
 export const GalleryCarousal = ({ images }: Props) => {
   const { setCursorVariant } = useCursorVariant();
+  const ref = useRef(null);
+  const inView = useInView(ref);
+
+  const variants: Variants = {
+    initial: {
+      translateY: 150,
+      translateX: -150,
+      opacity: 0,
+    },
+    animate: {
+      translateY: 0,
+      translateX: 0,
+      opacity: 1,
+    },
+  };
 
   return (
-    <motion.div
-      variants={bottomReveal}
-      initial="initial"
-      animate="animate"
-      transition={{ duration: 0.6, ease: 'easeInOut' }}
-    >
+    <div ref={ref}>
       <Carousal>
         <div
           className="relative ml-10 flex select-none items-start md:ml-[calc((100vw-1200px)/2)]"
@@ -32,8 +42,12 @@ export const GalleryCarousal = ({ images }: Props) => {
           onMouseLeave={() => setCursorVariant('default')}
         >
           {images.map((image, index) => (
-            <div
-              className="grow-1 relative mr-3 shrink-0 basis-[360px] sm:mr-10 "
+            <motion.div
+              className="grow-1 relative mr-3 max-w-[350px] shrink-0 basis-[90%] sm:mr-10 "
+              variants={variants}
+              initial="initial"
+              animate={inView ? 'animate' : 'initial'}
+              transition={{ delay: 0.1 + index / 10 }}
               key={index}
             >
               <div className="relative overflow-hidden">
@@ -58,10 +72,10 @@ export const GalleryCarousal = ({ images }: Props) => {
                   )}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </Carousal>
-    </motion.div>
+    </div>
   );
 };

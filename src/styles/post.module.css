@@ -10,5 +10,5 @@
 }
 
 .post blockquote footer {
-  @apply before:content-['--']
+  @apply before:content-['—']
 }

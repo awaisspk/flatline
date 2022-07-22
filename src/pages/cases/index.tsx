@@ -34,7 +34,8 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
           cardTitle
           brandSlogan
           cardTitle
-          creationList
+          cardTagName
+          cardTagList
           cardVideo {
             url
           }
@@ -111,7 +112,8 @@ const Cases = ({ subscription }: any) => {
                 <WorkCard
                   title={item.brandSlogan}
                   subtitle={item.cardTitle}
-                  creation={item.creationList}
+                  tagName={item.cardTagName}
+                  tagList={item.cardTagList}
                   imageUrl={item.cardPreviewImage.responsiveImage}
                   videoUrl={item.cardVideo.url}
                   href={`/cases/${item.slug}`}

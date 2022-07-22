@@ -49,7 +49,7 @@ export const MobileNavigation = () => {
     <>
       <MotionConfig transition={{ ease: [0.16, 1, 0.3, 1], duration: 1 }}>
         <button
-          className="fixed top-[50px] right-[30px] z-50 h-10 w-10 -translate-y-1/4 overflow-hidden rounded-full bg-white p-2"
+          className="fixed top-[50px] right-[30px] z-[100] h-10 w-10 -translate-y-1/4 overflow-hidden rounded-full bg-white p-2"
           onClick={() => setIsOpen(!isOpen)}
         >
           <motion.div
@@ -82,7 +82,7 @@ export const MobileNavigation = () => {
         </button>
         <motion.div
           className={cx(
-            'flex flex-col px-8 bg-white fixed z-40 top-0 left-0 w-full h-[100vh]'
+            'flex flex-col px-8 bg-white fixed z-[99] top-0 left-0 w-full h-[100vh]'
           )}
           initial={{ translateY: '-100%' }}
           animate={{
@@ -92,7 +92,11 @@ export const MobileNavigation = () => {
           <motion.nav className="flex grow items-center justify-center sm:justify-start">
             <ul className="flex flex-col items-center space-y-7 sm:items-start">
               {mainNavigation.map((link, i) => (
-                <motion.li key={i} className="overflow-hidden">
+                <motion.li
+                  key={i}
+                  className="cursor-pointer overflow-hidden"
+                  onClick={() => setIsOpen(false)}
+                >
                   <Link href={link.url}>
                     <motion.a
                       className="relative block text-center text-3xl"
