@@ -3,7 +3,7 @@ import React from 'react';
 import { Image, StructuredText } from 'react-datocms';
 
 import { Button } from '@/components/ui/Button';
-import styles from '@/styles/post.module.css';
+import { PostStylesProvider } from '@/components/ui/PostStylesProvider';
 import { bottomReveal } from '@/utils/animations';
 
 type IPost = {
@@ -35,24 +35,25 @@ export const SmallPost = ({ content, post }: ISmallPost) => {
           </div>
         </div>
       </section>
-      <motion.section
-        className={styles.post}
-        variants={bottomReveal}
-        initial="initial"
-        whileInView="animate"
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-      >
-        <StructuredText
-          data={content.structuredContent}
-          renderBlock={({ record }: any) => {
-            if (record.type === 'ImageRecord') {
-              return <Image data={record.image.responsiveImage} />;
-            }
-            return null;
-          }}
-        />
-      </motion.section>
+      <PostStylesProvider>
+        <motion.section
+          variants={bottomReveal}
+          initial="initial"
+          whileInView="animate"
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <StructuredText
+            data={content.structuredContent}
+            renderBlock={({ record }: any) => {
+              if (record.type === 'ImageRecord') {
+                return <Image data={record.image.responsiveImage} />;
+              }
+              return null;
+            }}
+          />
+        </motion.section>
+      </PostStylesProvider>
     </>
   );
 };

@@ -65,7 +65,7 @@ export const getStaticProps: GetStaticProps = async ({ preview }) => {
             }
           }
         }
-        allPosts {
+        allPosts(first: 10) {
           title
           slug
           coverImage {

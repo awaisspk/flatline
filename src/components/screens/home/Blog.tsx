@@ -23,13 +23,13 @@ const BlogCarousal = ({ posts }: Props) => {
   const inView = useInView(ref);
 
   return (
-    <div ref={ref}>
+    <div
+      ref={ref}
+      onMouseEnter={() => setCursorVariant('carousal')}
+      onMouseLeave={() => setCursorVariant('default')}
+    >
       <Carousal hideBtn={true}>
-        <div
-          className="ml-4 flex cursor-pointer select-none items-start md:ml-[calc((100vw-1200px)/2)]"
-          onMouseEnter={() => setCursorVariant('carousal')}
-          onMouseLeave={() => setCursorVariant('default')}
-        >
+        <div className="ml-4 flex cursor-pointer select-none items-start md:ml-[calc((100vw-1200px)/2)]">
           {posts.map((post, index) => (
             <motion.div
               className="relative mr-4 shrink-0 grow-0 basis-[90vw] sm:mr-8 sm:basis-[560px]"
@@ -55,11 +55,9 @@ const BlogCarousal = ({ posts }: Props) => {
                   </figure>
                   <figcaption className="mt-5">
                     <h3 className="text-lg">{post.title}</h3>
-                    <Link href="blog">
-                      <a className="text-sm text-[#888] underline hover:text-black hover:no-underline">
-                        Read more
-                      </a>
-                    </Link>
+                    <p className="text-sm text-[#888] underline hover:text-black hover:no-underline">
+                      Read more
+                    </p>
                   </figcaption>
                 </a>
               </Link>
