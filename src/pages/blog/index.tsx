@@ -1,12 +1,13 @@
 import { gql } from 'graphql-request';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { renderMetaTags, useQuerySubscription } from 'react-datocms';
 
+import { PaginatePosts } from '@/components/pagination';
 import { Categories } from '@/components/screens/blog/CategoryHeader';
 import { PostsList } from '@/components/screens/blog/PostsList';
+import { Button } from '@/components/ui/Button';
 import { Divider } from '@/components/ui/Divider';
 import { PageLayout } from '@/layouts';
 import { request } from '@/utils/datocms';
@@ -14,7 +15,6 @@ import {
   metaTagsFragment,
   responsiveImageFragment,
 } from '@/utils/datocms/fragments';
-import { getPostsByCategories } from '@/utils/queries/blog';
 
 export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
   const graphqlRequest = {
@@ -34,7 +34,7 @@ export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
           id
           name
         }
-        posts: allPosts {
+        posts: allPosts(first: 10) {
           id
           title
           excerpt
@@ -49,6 +49,9 @@ export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
               ...responsiveImageFragment
             }
           }
+        }
+        totalPosts: _allPostsMeta {
+          count
         }
       }
       ${responsiveImageFragment}
@@ -78,32 +81,11 @@ export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
 
 const BlogPage = ({ subscription, preview }: any) => {
   const {
-    data: { blogPage, site, posts, allCategories },
+    data: { blogPage, site, posts, allCategories, totalPosts },
   } = useQuerySubscription(subscription);
+  const [postsData, setPostsData] = useState(posts);
 
-  const router = useRouter();
-  const { category } = router.query;
-
-  const [postsData, setpostsData] = useState(posts);
   const metaTags = blogPage.seo.concat(site.favicon);
-
-  useEffect(() => {
-    if (category) {
-      const { id } = allCategories.find((item: any) => item.name === category);
-      const graphqlRequest = {
-        query: getPostsByCategories,
-        variables: {
-          category: id,
-        },
-        preview,
-      };
-      const fetchPostsByCategory = async () => {
-        const res = await request(graphqlRequest);
-        setpostsData(res.posts);
-      };
-      fetchPostsByCategory();
-    }
-  }, [category]);
 
   return (
     <>
@@ -114,6 +96,22 @@ const BlogPage = ({ subscription, preview }: any) => {
           <Divider />
           <PostsList posts={postsData} />
         </section>
+        <div className="flex w-full justify-center space-x-4">
+          <PaginatePosts
+            initialData={postsData}
+            allCategories={allCategories}
+            setPostsData={setPostsData}
+            preview={preview}
+            totalPosts={totalPosts.count}
+          />
+        </div>
+
+        <div className="my-20 flex flex-col items-center space-y-10">
+          <p className="sm:leading-1 text-5xl leading-[60px] underline">
+            So, Challenge us.
+          </p>
+          <Button style={{ maxWidth: '32rem' }}>Schedule a meeting</Button>
+        </div>
       </main>
     </>
   );

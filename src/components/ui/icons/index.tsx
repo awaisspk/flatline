@@ -1,3 +1,5 @@
+export * from './ChevronLeft';
+export * from './ChevronRight';
 export * from './Copy';
 export * from './Cross';
 export * from './Expand';
