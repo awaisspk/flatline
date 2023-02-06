@@ -1,8 +1,7 @@
-import cx from 'classnames';
 import AutoHeight from 'embla-carousel-auto-height';
 import useEmblaCarousel from 'embla-carousel-react';
 import type { ReactNode } from 'react';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 type ICarousal = {
   children: ReactNode;
@@ -29,16 +28,10 @@ export const Carousal = ({
     [AutoHeight()]
   );
 
-  const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
-  const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
-
-  const scrollPrev = useCallback(() => embla && embla.scrollPrev(), [embla]);
-  const scrollNext = useCallback(() => embla && embla.scrollNext(), [embla]);
+  console.log(hideBtn);
 
   const onSelect = useCallback(() => {
     if (!embla) return;
-    setPrevBtnEnabled(embla.canScrollPrev());
-    setNextBtnEnabled(embla.canScrollNext());
   }, [embla]);
 
   useEffect(() => {
@@ -58,30 +51,6 @@ export const Carousal = ({
       >
         {children}
       </div>
-      {!hideBtn && (
-        <div className="relative right-[calc((100vw-1200px)/2)] mb-6 flex justify-end space-x-10 text-sm text-white">
-          <button
-            onClick={scrollPrev}
-            disabled={!prevBtnEnabled}
-            className={cx({
-              'opacity-0 transition-opacity duration-300': !prevBtnEnabled,
-              'opacity-100 transition-opacity duration-300': prevBtnEnabled,
-            })}
-          >
-            Prev
-          </button>
-          <button
-            onClick={scrollNext}
-            disabled={!nextBtnEnabled}
-            className={cx({
-              'opacity-0 transition-opacity duration-300': !nextBtnEnabled,
-              'opacity-100 transition-opacity duration-300': nextBtnEnabled,
-            })}
-          >
-            Next
-          </button>
-        </div>
-      )}
     </div>
   );
 };
